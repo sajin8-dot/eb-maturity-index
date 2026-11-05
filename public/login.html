@@ -30,14 +30,14 @@ button:disabled{opacity:.6;cursor:wait}
 <main>
   <div class="eyebrow">Zinnov employer brand practice</div>
   <h1>Employer brand maturity index</h1>
-  <p>Enter the password you were given to open your workspace.</p>
+  <p>Welcome. Please type the password you were given, and we will open your workspace, where you can read the framework, audit a client and see the report.</p>
   <form id="f" autocomplete="off">
-    <label for="pw">Password</label>
+    <label for="pw">Your password</label>
     <input id="pw" name="pw" type="password" autocomplete="current-password" autofocus spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX">
     <button id="go" type="submit">Open workspace</button>
     <div id="err" role="alert"></div>
   </form>
-  <div class="foot">Each password opens one client's workspace. If yours does not work, ask the person who sent it.</div>
+  <div class="foot">Each password opens one client's workspace only. Spaces and capital letters do not matter. If yours does not work, please check it for typing mistakes, and if it still fails, ask the person who sent it to you.</div>
 </main>
 <script>
 const f=document.getElementById('f'),pw=document.getElementById('pw'),err=document.getElementById('err'),go=document.getElementById('go');
@@ -47,8 +47,8 @@ f.addEventListener('submit',async e=>{
     const r=await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:pw.value}),credentials:'same-origin'});
     const j=await r.json().catch(()=>({}));
     if(r.ok){location.href='/';return}
-    err.textContent=j.error||'Sign in failed.';
-  }catch(x){err.textContent='Could not reach the server. Try again.'}
+    err.textContent=j.error||'We could not sign you in. Please check your password and try again.';
+  }catch(x){err.textContent='We could not reach the server. Please check your internet connection and try again.'}
   go.disabled=false;pw.select();
 });
 </script>

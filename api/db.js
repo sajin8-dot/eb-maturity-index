@@ -17,6 +17,6 @@ export default async function handler(req, res) {
     res.status(r.status).setHeader('content-type', 'application/json');
     return res.send(text);
   } catch {
-    return res.status(502).json({ error: 'Could not reach the server.' });
+    return res.status(502).json({ error: 'We could not reach the server. Please try again in a moment.' });
   }
 }
