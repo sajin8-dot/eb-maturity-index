@@ -411,22 +411,39 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const cl=()=>S&&(S.clients.find(c=>c.id===S.c)||S.clients[0]);
 const ch=()=>{const c=cl();return c&&(c.cohorts.find(h=>h.id===S.h)||c.cohorts[0])};
 const A=id=>{const h=ch();return h.a[id]||(h.a[id]={in:false,sc:0,vd:'',ev:'',pr:'n'})};
-const FRIENDLY={'unauthorised':'You are not signed in. Please sign in again.','forbidden':'Your password does not allow this action. Ask the admin if you need it.','not found':'We could not find that item. It may have been removed, so please refresh the page.','client not found':'We could not find that client. It may have been removed, so please refresh the page.','server error':'Something went wrong on our side. Please wait a moment and try again.','bad path':'Something went wrong on our side. Please wait a moment and try again.','client required':'Please choose a client first.'};
+const FRIENDLY={'conflict':'This cohort was changed somewhere else after you opened it.','unauthorised':'You are not signed in. Please sign in again.','forbidden':'Your password does not allow this action. Ask the admin if you need it.','not found':'We could not find that item. It may have been removed, so please refresh the page.','client not found':'We could not find that client. It may have been removed, so please refresh the page.','server error':'Something went wrong on our side. Please wait a moment and try again.','bad path':'Something went wrong on our side. Please wait a moment and try again.','client required':'Please choose a client first.'};
 const friendly=m=>FRIENDLY[m]||m||'Something went wrong while talking to the server. Please try again in a moment.';
 async function api(method,path,body){
  const r=await fetch('/api/db?p='+encodeURIComponent(path),{method,headers:{'content-type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),credentials:'same-origin'});
  if(r.status===401){location.href='/login.html';throw new Error('You have been signed out. Please sign in again.')}
  const j=await r.json().catch(()=>({}));
- if(!r.ok)throw new Error(friendly(j.error));
+ if(!r.ok){const e=new Error(friendly(j.error));e.status=r.status;throw e}
  return j;
 }
 function setStat(t){const e=document.getElementById('stat');if(e)e.textContent=t}
 function dirty(h){clearTimeout(PEND[h.id]);setStat('Saving your changes...');PEND[h.id]=setTimeout(()=>flush(h),700)}
-async function flush(h){
+async function flush(h,force){
  clearTimeout(PEND[h.id]);
- try{await api('PATCH','/cohort',{id:h.id,answers:h.a});delete PEND[h.id];setStat(Object.keys(PEND).length?'Saving your changes...':'All changes saved')}
- catch(e){setStat('Not saved yet. '+e.message+' Your changes will be sent again with your next edit.')}
+ if(h.conflict&&!force)return;
+ if(h.sav){h.again=true;return}
+ h.sav=true;
+ try{
+  const r=await api('PATCH','/cohort',{id:h.id,answers:h.a,base:h.u,force:force?true:undefined});
+  if(r.u)h.u=r.u;
+  h.conflict=false;delete PEND[h.id];setStat(Object.keys(PEND).length?'Saving your changes...':'All changes saved');
+ }catch(e){
+  if(e.status===409){h.conflict=true;delete PEND[h.id];setStat('Not saved. This cohort was changed somewhere else, so please choose what to do at the top of the page.');if(S&&S.clients)render(true)}
+  else setStat('Not saved yet. '+e.message+' Your changes will be sent again with your next edit.');
+ }
+ h.sav=false;
+ if(h.again){h.again=false;if(!h.conflict)await flush(h)}
 }
+async function reloadState(){
+ Object.keys(PEND).forEach(k=>{clearTimeout(PEND[k]);delete PEND[k]});
+ const st=await api('GET','/state');
+ S.clients=st.clients;S.archived=st.archived||[];pickDefaults();BM={};LG=null;setStat('All changes saved');
+}
+function conflictBox(h){return h&&h.conflict?`<div class="pwbox" role="alert"><b>This cohort was changed somewhere else.</b><p class="mute" style="margin:6px 0 10px">Someone else, or another tab of yours, saved changes to this cohort after you opened it. Your latest edits have not been saved, so that nobody's work is overwritten by accident. Choose Load the latest to discard your unsaved edits and see the newer version, or choose Keep my version to replace the newer version with yours.</p><button class="btn pri" data-a="reloadstate">Load the latest</button> <button class="btn" data-a="overwrite">Keep my version</button></div>`:''}
 async function flushAll(){
  const ids=Object.keys(PEND);
  for(const id of ids){for(const c of S.clients){const h=c.cohorts.find(x=>x.id===id);if(h)await flush(h)}}
@@ -440,7 +457,7 @@ function pickDefaults(){
 async function boot(){
  try{
   const st=await api('GET','/state');
-  S={tab:st.role==='admin'?'clients':'audit',pil:0,role:st.role,clients:st.clients,c:null,h:null};
+  S={tab:st.role==='admin'?'clients':'audit',pil:0,role:st.role,clients:st.clients,archived:st.archived||[],c:null,h:null};
   pickDefaults();
   render();
  }catch(e){
@@ -529,7 +546,7 @@ function ctxBar(){
   ?`<div class="ctx"><div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
    <div class="f"><label for="wv">GCC wave</label>${waveSel(c,'wv')}</div></div>${waveConfirm(c)}`
   :`<div class="ctx"><div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>GCC wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div></div>`;
- return top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="ib" data-a="newcohort" aria-label="Add a cohort" title="Add a cohort, which is a separate talent segment you will score on its own">${ic('plus')}</button>
+ return conflictBox(h)+top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="ib" data-a="newcohort" aria-label="Add a cohort" title="Add a cohort, which is a separate talent segment you will score on its own">${ic('plus')}</button>
  <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:12px;width:200px">
  ${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
 }
@@ -608,7 +625,7 @@ function vReport(){
  ${cmp}
  ${benchBlock(h)}
  <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data, so you can track how this cohort moves over time. A snapshot is a dated copy of the current scores. Saved snapshots also join the anonymised benchmark pool, which means the client\'s name is never shown to other clients.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
- <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
+ <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="export" data-id="${c.id}">Download all client data</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
  <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory and are not measured benchmarks.</p>`;
 }
 function reportText(c,h,R){
@@ -744,8 +761,8 @@ function vClients(){
  const panel=sel?`<section><h2>${esc(sel.name)}</h2>
   <div class="ctx" style="margin-top:12px"><div class="f"><label for="rn">Client name</label><input id="rn" data-i="rename" value="${esc(sel.name)}"></div>
   <div class="f"><label for="cw">GCC wave</label>${waveSel(sel,'cw')}</div>
-  <button class="ib ${ARM==='c'+sel.id?'arm':''}" data-a="delclient" data-id="${sel.id}" aria-label="${ARM==='c'+sel.id?'Click again to confirm. This permanently deletes the client and all of its data.':'Delete this client'}" title="${ARM==='c'+sel.id?'Click again to confirm. This permanently deletes the client and all of its data.':'Delete this client'}">${ic('trash')}</button></div>
-  <p class="mute" style="margin-top:8px">The name saves as soon as you change it. If the centre has moved to a different wave, for example from Satellite to Portfolio Hub, choose the new wave and you will be asked to confirm. Reclassifying never deletes any scores or evidence.</p>
+  <button class="btn" data-a="archclient" data-id="${sel.id}" title="Hide this client from the app and from benchmarks. You can restore it later.">Archive client</button> <button class="btn" data-a="export" data-id="${sel.id}" title="Download every cohort, score, note and snapshot for this client as one file">Download all data</button></div>
+  <p class="mute" style="margin-top:8px">Archiving hides the client from the app and from the benchmark pool without deleting anything, and you can restore it below. Download all data saves a JSON file with every cohort, score, note and snapshot, which is useful as a backup or when a client asks for its data. The name saves as soon as you change it. If the centre has moved to a different wave, for example from Satellite to Portfolio Hub, choose the new wave and you will be asked to confirm. Reclassifying never deletes any scores or evidence.</p>
   ${waveConfirm(sel)}
   ${cohortManager(sel)}
   <h3 style="margin-top:32px">Passwords</h3><p class="lede" style="margin-top:6px">Each password opens this client\'s workspace and nothing else. Issue a separate password for each person or team, so that you can switch one off later without affecting the others.</p>
@@ -757,6 +774,7 @@ function vClients(){
  <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button></div>
  <div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th>Cohorts</th><th>Last snapshot saved</th></tr>${rows||'<tr><td colspan="4" class="mute">No clients have been added yet. Use the form above to add the first one.</td></tr>'}</table></div>
  ${panel}
+ ${(S.archived||[]).length?`<section><h2>Archived clients</h2><p class="lede" style="margin-top:6px">These clients are hidden everywhere else and are left out of benchmarks. Restore one to bring it back exactly as it was. Deleting permanently removes the client, its cohorts, its snapshots and its passwords, and it cannot be undone.</p><div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th></th></tr>${S.archived.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${x.wave} ${WNAME(x.wave)}</td><td><button class="btn" data-a="restoreclient" data-id="${x.id}">Restore</button> <button class="btn ${ARM==='x'+x.id?'arm':''}" data-a="purgeclient" data-id="${x.id}">${ARM==='x'+x.id?'Click again to delete permanently':'Delete permanently'}</button></td></tr>`).join('')}</table></div></section>`:''}
  <section><h2>Your admin password</h2><p class="lede" style="margin-top:6px">Use this form to change the password you use to sign in as admin. Spaces and capital letters are ignored when the password is checked. Please choose at least 12 characters, and a few unrelated words strung together is an easy way to get there. Your clients\' passwords are not affected.</p>
  <form class="pwform" id="apf" autocomplete="off"><div class="f"><label for="apc">Current password</label><input id="apc" type="password" autocomplete="current-password" spellcheck="false"></div>
  <div class="f"><label for="apn">New password</label><input id="apn" type="password" autocomplete="new-password" spellcheck="false"></div>
@@ -816,6 +834,15 @@ document.addEventListener('click',async e=>{
    else ARM='h'+h.id;
   }
   else if(a==='snap'){await flush(h);const r=await api('POST','/snapshot',{cohort_id:h.id});h.hist.push(r);BM={};toast('Snapshot saved. You can now see it under History.');if(S.tab==='bench')loadBench();else loadBench(true)}
+  else if(a==='reloadstate'){await reloadState();toast('The latest version has been loaded.')}
+  else if(a==='overwrite'){await flush(h,true);toast('Your version has been saved over the newer one.')}
+  else if(a==='archclient'){await api('PATCH','/client',{id,archived:true});await reloadState();toast('The client has been archived. It is hidden from the app and from benchmarks, and you can restore it from the Archived clients list on this tab.')}
+  else if(a==='restoreclient'){await api('PATCH','/client',{id,archived:false});await reloadState();toast('The client has been restored.')}
+  else if(a==='purgeclient'){
+   if(wasArm==='x'+id){await api('DELETE','/client?id='+id);S.archived=S.archived.filter(x=>x.id!==id);toast('The client and all of its data have been permanently deleted.')}
+   else ARM='x'+id;
+  }
+  else if(a==='export'){const r=await api('GET','/export?client='+encodeURIComponent(id));dl(((r.client&&r.client.name)||'client').replace(/[^A-Za-z0-9]+/g,'-').toLowerCase()+'-all-data-'+new Date().toISOString().slice(0,10)+'.json','application/json',JSON.stringify(r,null,2));return}
   else if(a==='addlink'){const x=A(id);x.lk=x.lk||[];if(x.lk.length<5)x.lk.push({t:'',u:'',d:''});dirty(h)}
   else if(a==='dellink'){const x=A(id);(x.lk||[]).splice(+v,1);dirty(h)}
   else if(a==='print'){window.print();return}
