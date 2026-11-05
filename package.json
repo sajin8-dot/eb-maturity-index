@@ -6,5 +6,11 @@
   "description": "Employer brand maturity index: per-client audits, benchmarking and consulting reports.",
   "dependencies": {
     "@vercel/edge": "^1.2.1"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

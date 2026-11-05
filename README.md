@@ -22,9 +22,13 @@ browser -> Vercel (middleware gate, /api/db proxy) -> Supabase edge function ebm
 |---|---|
 | `public/index.html` | The app (framework, audit, report, benchmark, clients) |
 | `public/login.html` | Sign-in page |
-| `middleware.js` | Session gate (Vercel Routing Middleware) |
+| `middleware.js`, `lib/session.js` | Session gate (Vercel Routing Middleware) and its token check |
+| `api/_lib.js` | Same-origin (CSRF) check, client IP, proxy headers |
 | `api/login.js`, `api/logout.js`, `api/db.js` | Cookie issue/clear and authenticated proxy |
-| `supabase/functions/ebmi-api/index.ts` | API, scoring and benchmark maths |
+| `supabase/functions/ebmi-api/index.ts` | API handlers and auth |
+| `supabase/functions/ebmi-api/scoring.js` | Scoring and benchmark maths (pure, unit-tested) |
+| `test/` | `npm test` (Node's built-in runner) |
+| `.github/workflows/` | CI, and auto-deploy of the edge function from `main` |
 | `supabase/migrations/001_ebmi_schema.sql` | Tables (server-only, RLS on) |
 
 ## Configuration
@@ -32,7 +36,12 @@ browser -> Vercel (middleware gate, /api/db proxy) -> Supabase edge function ebm
 Vercel environment variables:
 
 - `FN_URL`: `https://<project-ref>.supabase.co/functions/v1/ebmi-api`
-- `SESSION_SECRET`: must equal `sign_key` in the `ebmi_config` table
+- `SESSION_SECRET`: must equal the edge function's signing key (`EBMI_SIGN_KEY` secret, or `sign_key` in `ebmi_config`)
+- `PROXY_SECRET` (recommended): a random string, also set as the edge function secret `EBMI_PROXY_SECRET`. The function only trusts the forwarded client IP, and so only applies the per-IP login throttle properly, on calls that carry it. Set it on both sides at the same time, or every login shares one throttle bucket.
+
+Edge function secrets (optional but recommended): `EBMI_SIGN_KEY` and `EBMI_PEPPER` override the `ebmi_config` rows, which keeps them out of the database so a read-only database leak cannot forge sessions. `EBMI_PEPPER` must equal the pepper the existing hashes were made with.
+
+Deployment: pushes to `main` that touch `supabase/functions/` run tests and deploy `ebmi-api` (repo secrets `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`). Migrations are still applied by hand.
 
 Database: run the migration, then seed `ebmi_config` (`sign_key`, `pepper`) and one admin row in `ebmi_access`. See the comment at the bottom of the migration.
 

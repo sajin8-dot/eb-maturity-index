@@ -1,9 +1,12 @@
+import { sameOrigin } from './_lib.js';
+
 // Authenticated proxy to the Supabase edge function. The browser never sees the token:
 // it lives in an HttpOnly cookie and is attached here, server side.
 const ALLOWED = /^\/(me|state|client|cohort|snapshot|benchmark|league|access|access\/revoke|admin\/password)(\?[A-Za-z0-9=&_.%-]*)?$/;
 
 export default async function handler(req, res) {
   res.setHeader('cache-control', 'no-store');
+  if (!sameOrigin(req)) return res.status(403).json({ error: 'forbidden' });
   const cookie = String(req.headers.cookie || '').split(/;\s*/).find((c) => c.startsWith('ebmi_s='));
   const token = cookie ? cookie.slice(7) : '';
   if (!token) return res.status(401).json({ error: 'unauthorised' });

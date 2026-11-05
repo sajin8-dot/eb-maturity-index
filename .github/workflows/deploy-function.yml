@@ -1,0 +1,27 @@
+# Deploys the edge function when it changes on main, so the repo and the live function cannot drift.
+# Needs repository secrets SUPABASE_ACCESS_TOKEN and SUPABASE_PROJECT_REF.
+name: deploy-function
+on:
+  push:
+    branches: [main]
+    paths: ['supabase/functions/**']
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # The function does its own auth (session token), so the gateway JWT check stays off.
+      - run: supabase functions deploy ebmi-api --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}

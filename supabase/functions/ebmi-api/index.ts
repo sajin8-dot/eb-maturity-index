@@ -1,9 +1,10 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { benchmark, buildPool, clean, leagueRows, summarize } from "./scoring.js";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const enc = new TextEncoder();
-const PCOUNT = [7, 8, 9, 8, 8];
 const SESSION_SECONDS = 12 * 3600;
+const PROXY_SECRET = Deno.env.get("EBMI_PROXY_SECRET") || "";
 
 const json = (o: unknown, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "content-type": "application/json", "cache-control": "no-store" } });
 const err = (m: string, s = 400) => json({ error: m }, s);
@@ -16,7 +17,9 @@ async function cfg() {
     if (error) throw error;
     const m: Record<string, string> = {};
     (data || []).forEach((r) => (m[r.k] = r.v));
-    CFG = { sign_key: m.sign_key, pepper: m.pepper };
+    // Secrets set as edge function secrets win over the table, so they can be kept out of the database.
+    CFG = { sign_key: Deno.env.get("EBMI_SIGN_KEY") || m.sign_key, pepper: Deno.env.get("EBMI_PEPPER") || m.pepper };
+    if (!CFG.sign_key || !CFG.pepper) { CFG = null; throw new Error("ebmi_config is missing sign_key or pepper"); }
   }
   return CFG!;
 }
@@ -48,131 +51,24 @@ function newPassword() {
   return ch.match(/.{4}/g)!.join("-");
 }
 
-// ---------- scoring (mirrors the app; unweighted so scores are comparable across clients) ----------
-const validId = (id: string) => { const m = /^([1-5])\.(\d{1,2})$/.exec(id); return !!m && +m[2] >= 1 && +m[2] <= PCOUNT[+m[1] - 1]; };
-function clean(ans: any) {
-  const out: any = {};
-  if (!ans || typeof ans !== "object") return out;
-  for (const [id, a0] of Object.entries(ans)) {
-    if (!validId(id)) continue;
-    const a: any = a0 || {};
-    out[id] = { in: !!a.in, sc: Math.max(0, Math.min(5, (a.sc | 0))), vd: ["b", "m", "a"].includes(a.vd) ? a.vd : "", ev: String(a.ev || "").slice(0, 2000), pr: a.pr === "f" ? "f" : "n" };
-  }
-  return out;
-}
-const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
-const toIdx = (v: number | null) => (v == null ? null : Math.round(((v - 1) / 4) * 100));
-function summarize(ans: any) {
-  const rows: any[] = [];
-  for (const [id, a] of Object.entries<any>(ans || {})) {
-    if (!validId(id) || !a || !a.in) continue;
-    const sc = a.sc | 0;
-    rows.push({ p: +id.split(".")[0] - 1, sc, ok: sc > 0 && String(a.ev || "").trim().length > 0, vd: a.vd });
-  }
-  const scored = rows.filter((r) => r.sc > 0), valid = scored.filter((r) => r.ok);
-  const avg = mean(scored.map((r) => r.sc)), avgV = mean(valid.map((r) => r.sc));
-  const pillars = [0, 1, 2, 3, 4].map((p) => ({
-    p,
-    avg: mean(scored.filter((r) => r.p === p).map((r) => r.sc)),
-    avg_v: mean(valid.filter((r) => r.p === p).map((r) => r.sc)),
-    n: scored.filter((r) => r.p === p).length,
-    nv: valid.filter((r) => r.p === p).length,
-  }));
-  return { n_scope: rows.length, n_scored: scored.length, n_valid: valid.length, n_below: scored.filter((r) => r.vd === "b").length, avg, avg_v: avgV, idx: toIdx(avg), idx_v: toIdx(avgV), pillars };
-}
-
-// ---------- benchmark maths ----------
-const pctOf = (vals: number[], v: number) => Math.round(((vals.filter((x) => x < v).length + 0.5 * vals.filter((x) => x === v).length) / vals.length) * 100);
-const rankOf = (vals: number[], v: number) => 1 + vals.filter((x) => x > v).length;
-function quant(sorted: number[], p: number) { const i = (sorted.length - 1) * p, lo = Math.floor(i), hi = Math.ceil(i); return sorted[lo] + (sorted[hi] - sorted[lo]) * (i - lo); }
-const r1 = (x: number) => Math.round(x * 10) / 10;
-const label = (p: number) => (p >= 75 ? "Top quartile" : p >= 50 ? "Upper half" : p >= 25 ? "Lower half" : "Bottom quartile");
-
+// ---------- scoring and benchmark maths live in scoring.js (pure, unit-tested) ----------
 async function poolRows(basis: string) {
   const { data: snaps, error } = await db.from("ebmi_snapshots").select("id,cohort_id,client_id,taken_on,wave,answers,idx,idx_v,avg,avg_v,n_valid,n_scored,pillars,created_at").order("created_at", { ascending: false });
   if (error) throw error;
   const { data: clients } = await db.from("ebmi_clients").select("id,name,archived");
   const { data: cohorts } = await db.from("ebmi_cohorts").select("id,name");
-  const cm = new Map((clients || []).map((c) => [c.id, c])), hm = new Map((cohorts || []).map((c) => [c.id, c]));
-  const seen = new Set<string>(), out: any[] = [];
-  for (const s of snaps || []) {
-    if (seen.has(s.cohort_id)) continue;
-    seen.add(s.cohort_id);
-    const c = cm.get(s.client_id), h = hm.get(s.cohort_id);
-    if (!c || c.archived || !h) continue;
-    const ev = basis !== "provisional";
-    const subs: Record<string, number> = {};
-    for (const [id, a] of Object.entries<any>(s.answers || {})) {
-      if (a && a.in && a.sc > 0 && (!ev || String(a.ev || "").trim())) subs[id] = a.sc;
-    }
-    out.push({
-      snapshot_id: s.id, cohort_id: s.cohort_id, client_id: s.client_id, client: c.name, cohort: h.name, wave: s.wave, taken_on: s.taken_on,
-      n: ev ? s.n_valid : s.n_scored,
-      idx: ev ? s.idx_v : s.idx,
-      pillars: (s.pillars || []).map((p: any) => ev ? p.avg_v : p.avg),
-      subs,
-    });
-  }
-  return out;
+  return buildPool(snaps || [], clients || [], cohorts || [], basis);
 }
-function applyPool(rows: any[], pool: string, wave: number, min: number) {
-  return rows.filter((r) => r.idx != null && r.n >= min && (pool !== "wave" || r.wave === wave));
-}
-
-async function benchmarkFor(cohortId: string, pool: string, basis: string, min: number) {
-  const all = await poolRows(basis);
-  const me = all.find((r) => r.cohort_id === cohortId);
-  if (!me) return { eligible: false, reason: "no_snapshot" };
-  if (me.idx == null || me.n < min) return { eligible: false, reason: "too_few", have: me.n, need: min };
-  const rows = applyPool(all, pool, me.wave, min);
-  const vals = rows.map((r) => r.idx as number);
-  const n = vals.length, thin = n < 5;
-  const sorted = [...vals].sort((a, b) => a - b);
-  const stat = (list: number[], v: number) => {
-    const s = [...list].sort((a, b) => a - b);
-    return { v, pct: pctOf(list, v), rank: rankOf(list, v), of: list.length, med: list.length ? r1(quant(s, 0.5)) : null };
-  };
-  const idx = { ...stat(vals, me.idx), ...(thin ? {} : { p25: r1(quant(sorted, 0.25)), p75: r1(quant(sorted, 0.75)) }) };
-  const pillars = [0, 1, 2, 3, 4].map((p) => {
-    const list = rows.map((r) => r.pillars[p]).filter((x: any) => x != null) as number[];
-    const v = me.pillars[p];
-    if (v == null) return { p, v: null, n: list.length };
-    const o: any = { p, v: r1(v), n: list.length };
-    if (list.length >= 3) { Object.assign(o, { pct: pctOf(list, v), med: r1(quant([...list].sort((a, b) => a - b), 0.5)) }); }
-    return o;
-  });
-  const subs = Object.entries<number>(me.subs).map(([id, v]) => {
-    const list = rows.map((r) => r.subs[id]).filter((x: any) => x != null) as number[];
-    const o: any = { id, v, n: list.length };
-    if (list.length >= 3) Object.assign(o, { pct: pctOf(list, v), med: r1(quant([...list].sort((a, b) => a - b), 0.5)) });
-    return o;
-  }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-  return { eligible: true, pool: { n, thin, mode: pool, basis, min, wave: me.wave }, idx, position: n >= 3 ? label(idx.pct) : null, pillars, subs, taken_on: me.taken_on };
-}
-
-async function league(pool: string, basis: string, min: number) {
-  const all = await poolRows(basis);
-  return all.map((r) => {
-    const ok = r.idx != null && r.n >= min;
-    const peers = ok ? applyPool(all, pool, r.wave, min) : [];
-    const vals = peers.map((x) => x.idx as number);
-    const row: any = { client_id: r.client_id, cohort_id: r.cohort_id, client: r.client, cohort: r.cohort, wave: r.wave, taken_on: r.taken_on, n: r.n, idx: r.idx, eligible: ok };
-    if (ok) {
-      row.pct = pctOf(vals, r.idx); row.rank = rankOf(vals, r.idx); row.of = vals.length;
-      row.pillars = [0, 1, 2, 3, 4].map((p) => {
-        const list = peers.map((x) => x.pillars[p]).filter((x: any) => x != null) as number[];
-        const v = r.pillars[p];
-        return v == null ? null : { v: r1(v), pct: list.length >= 3 ? pctOf(list, v) : null };
-      });
-    }
-    return row;
-  }).sort((a, b) => (b.pct ?? -1) - (a.pct ?? -1) || (b.idx ?? -1) - (a.idx ?? -1));
-}
+const benchmarkFor = async (cohortId: string, pool: string, basis: string, min: number) => benchmark(await poolRows(basis), cohortId, pool, basis, min);
+const league = async (pool: string, basis: string, min: number) => leagueRows(await poolRows(basis), pool, min);
 
 // ---------- handlers ----------
 async function login(req: Request) {
   const b = await req.json().catch(() => ({}));
-  const ip = (req.headers.get("x-ebmi-ip") || "unknown").slice(0, 64);
+  // x-ebmi-ip is only believed when the call carries the shared proxy secret. Without this a caller
+  // hitting the function URL directly could rotate the header and dodge the per-IP throttle.
+  const proxied = !PROXY_SECRET || same(req.headers.get("x-ebmi-proxy") || "", PROXY_SECRET);
+  const ip = proxied ? (req.headers.get("x-ebmi-ip") || "unknown").slice(0, 64) : "direct";
   const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
   const { count } = await db.from("ebmi_attempts").select("id", { count: "exact", head: true }).eq("ip", ip).gt("at", since);
   if ((count || 0) >= 8) return err("Too many attempts. Wait ten minutes and try again.", 429);
