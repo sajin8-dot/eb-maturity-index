@@ -50,14 +50,21 @@ function newPassword() {
 
 // ---------- scoring (mirrors the app; unweighted so scores are comparable across clients) ----------
 const validId = (id: string) => { const m = /^([1-5])\.(\d{1,2})$/.exec(id); return !!m && +m[2] >= 1 && +m[2] <= PCOUNT[+m[1] - 1]; };
+const isDate = (v: unknown) => /^\d{4}-\d{2}-\d{2}$/.test(String(v || ""));
 function clean(ans: any) {
   const out: any = {};
   if (!ans || typeof ans !== "object") return out;
   for (const [id, a0] of Object.entries(ans)) {
-    if (id === "_x") { out._x = { sum: String((a0 as any)?.sum || "").slice(0, 4000) }; continue; }
+    if (id === "_x") {
+      const x: any = a0 || {};
+      out._x = { sum: String(x.sum || "").slice(0, 4000), au: String(x.au || "").slice(0, 120), ad: isDate(x.ad) ? x.ad : "", iw: String(x.iw || "").slice(0, 1000) };
+      continue;
+    }
     if (!validId(id)) continue;
     const a: any = a0 || {};
     out[id] = { in: !!a.in, sc: Math.max(0, Math.min(5, (a.sc | 0))), vd: ["b", "m", "a"].includes(a.vd) ? a.vd : "", ev: String(a.ev || "").slice(0, 2000), pr: a.pr === "f" ? "f" : "n",
+      iv: String(a.iv || "").slice(0, 200),
+      ivd: isDate(a.ivd) ? a.ivd : "",
       nt: String(a.nt || "").slice(0, 2000),
       lk: (Array.isArray(a.lk) ? a.lk : []).slice(0, 5).map((l: any) => ({ t: String(l?.t || "").slice(0, 120), u: String(l?.u || "").slice(0, 500), d: /^\d{4}-\d{2}-\d{2}$/.test(String(l?.d || "")) ? l.d : "" })) };
   }
@@ -320,6 +327,11 @@ Deno.serve(async (req) => {
       const { data: row, error } = await db.from("ebmi_snapshots").insert({ cohort_id: h.id, client_id: h.client_id, wave: c!.wave, answers: ans, ...s }).select("id,taken_on").single();
       if (error) throw error;
       return json({ id: row.id, d: row.taken_on, idx: s.idx, idxv: s.idx_v, avg: s.avg, n: s.n_scope, s: s.n_scored, v: s.n_valid });
+    }
+    if (path === "/snapshot" && m === "GET") {
+      const { data: sn } = await db.from("ebmi_snapshots").select("id,client_id,taken_on,wave,answers,idx,idx_v").eq("id", q.get("id") || "").maybeSingle();
+      if (!sn || (!admin && sn.client_id !== me.client_id)) return err("not found", 404);
+      return json({ id: sn.id, taken_on: sn.taken_on, wave: sn.wave, answers: sn.answers || {}, idx: sn.idx, idx_v: sn.idx_v });
     }
     if (path === "/snapshot" && m === "DELETE") {
       if (!admin) return err("forbidden", 403);

@@ -570,6 +570,7 @@ function vAudit(){
   ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
   <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
   <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
+  <label>Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 4px">Record the actual number the client gave you, such as "18 per cent of target candidates know the brand", with the date. Next cycle you can compare the new number with this one, and the compare view on the Report tab shows both.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
   <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Write anything you want to remember or say to the client about this sub-outcome, for example what you heard in the interviews or what the sponsor cares about. These notes appear in the report under the priorities and in the downloads.">${esc(a.nt||'')}</textarea>
   <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 4px">Add a link for each source you relied on, such as a careers page or a survey result, with the date you saw it. Links appear in the report as clickable entries.</p>
   ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, for example Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
@@ -602,13 +603,18 @@ function vReport(){
  const hist=h.hist.slice().reverse().map((x,i,arr)=>{const prev=arr[i+1];const d=prev&&x.idx!=null&&prev.idx!=null?x.idx-prev.idx:null;return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope, ${x.s} scored, avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <small>${d>0?'+':''}${d}</small>`}</div></div>`}).join('');
  const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available. Use this table to compare them.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td>${q.idx==null?'n/a':q.idx}</td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
  const xrows=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
+ const cmpSec=cmpSection(c,h);
  const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">These are the notes and sources you recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
- const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small></li>`).join('');
+ const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small>${(r.a.iv||'').trim()?`<br><small>Last recorded: ${esc(r.a.iv.trim())}${r.a.ivd?' ('+esc(r.a.ivd)+')':''}</small>`:''}</li>`).join('');
  const txt=reportText(c,h,R);
- const xs=((h.a._x||{}).sum)||'';
+ const xm=h.a._x||{},xs=xm.sum||'';
  return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
  <div class="noprint">${ctxBar()}</div>
- <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor, such as the main finding and what you recommend. It saves automatically, and it appears at the top of the printed report and the downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div></section>
+ <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor, such as the main finding and what you recommend. It saves automatically, and it appears at the top of the printed report and the downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
+ <h3 class="noprint" style="margin-top:20px">About this audit</h3><p class="lede noprint" style="margin-top:6px">These details are printed on the report, so that anyone reading it later knows who did the audit, when, and who was spoken to.</p>
+ <div class="ctx noprint" style="margin-top:8px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
+ <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:70px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
+ ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="printonly"><small>${xm.au?'Auditor: '+esc(xm.au)+'. ':''}${xm.ad?'Audit date: '+esc(xm.ad)+'. ':''}${(xm.iw||'').trim()?'Interviewed or sources: '+esc(xm.iw.trim())+'.':''}</small></div>`:''}</section>
  <div class="verdict">${esc(verdict)}</div>
  <div class="big"><div><div class="m">${R.idx==null?'n/a':R.idx}</div><div class="l">Provisional index (0 to 100), counting every score</div></div><div><div class="m">${R.idxV==null?'n/a':R.idxV}</div><div class="l">Evidenced index, counting only the ${R.valid.length} of ${R.scored.length} scores that have an artefact</div></div><div><div class="m">${R.avg==null?'n/a':R.avg.toFixed(1)}</div><div class="l">Average rung, out of 5</div></div><div><div class="m">${R.below.length}</div><div class="l">Below what a ${esc(W)} centre should show</div></div></div>
  <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
@@ -625,6 +631,7 @@ function vReport(){
  ${cmp}
  ${benchBlock(h)}
  <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data, so you can track how this cohort moves over time. A snapshot is a dated copy of the current scores. Saved snapshots also join the anonymised benchmark pool, which means the client\'s name is never shown to other clients.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
+ ${cmpSec}
  <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="export" data-id="${c.id}">Download all client data</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
  <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory and are not measured benchmarks.</p>`;
 }
@@ -633,12 +640,14 @@ function reportText(c,h,R){
  L.push(`EMPLOYER BRAND MATURITY AUDIT`);
  L.push(`${c.name||'Client'} | Cohort: ${h.name||'n/a'} | Wave: ${W} | ${new Date().toISOString().slice(0,10)}`);L.push('');
   const xs=((h.a._x||{}).sum||'').trim();
+ const xm=h.a._x||{};
+ if(xm.au||xm.ad||(xm.iw||'').trim()){L.push(`Auditor: ${xm.au||'n/a'} | Audit date: ${xm.ad||'n/a'}`);if((xm.iw||'').trim())L.push(`Interviewed or sources: ${xm.iw.trim()}`);L.push('')}
  if(xs){L.push('Executive summary');L.push(xs);L.push('')}
  L.push(`Where the brand stands today`);
  L.push(`Provisional index ${R.idx==null?'n/a':R.idx}/100, evidenced index ${R.idxV==null?'n/a':R.idxV}/100, average rung ${R.avg==null?'n/a':R.avg.toFixed(1)} of 5, across ${R.scored.length} scored sub-outcomes (${R.valid.length} of them backed by an artefact).`);
  L.push(waveLine(c,R));L.push('');benchText(h).forEach(x=>L.push(x));
  L.push('Profile');
- R.rows.forEach(r=>L.push(`- ${r.s.name} (${r.s.owner}): ${r.sc?`rung ${r.sc} ${RUNG[r.sc]}`:'not scored yet'}${r.a.vd?`, ${{b:'below',m:'meets',a:'above'}[r.a.vd]} wave expectation`:''}${r.sc&&!r.ok?', needs an artefact':''}${r.a.ev?`. Evidence: ${r.a.ev.trim()}`:''}`));
+ R.rows.forEach(r=>L.push(`- ${r.s.name} (${r.s.owner}): ${r.sc?`rung ${r.sc} ${RUNG[r.sc]}`:'not scored yet'}${r.a.vd?`, ${{b:'below',m:'meets',a:'above'}[r.a.vd]} wave expectation`:''}${r.sc&&!r.ok?', needs an artefact':''}${r.a.ev?`. Evidence: ${r.a.ev.trim()}`:''}${(r.a.iv||'').trim()?`. Measured: ${r.a.iv.trim()}${r.a.ivd?' ('+r.a.ivd+')':''}`:''}`));
  const xr=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
  if(xr.length){L.push('');L.push('Consultant notes and evidence links');xr.forEach(r=>{L.push(`- ${r.s.name}`);if((r.a.nt||'').trim())L.push(`  Notes: ${r.a.nt.trim()}`);(r.a.lk||[]).forEach(l=>L.push(`  Link: ${l.t||''} ${l.u||''}${l.d?' (seen '+l.d+')':''}`.replace('Link:  ','Link: ')))})}
  L.push('');L.push('What to do next, in priority order');
@@ -798,9 +807,32 @@ function dl(name,mime,text){const b=new Blob([text],{type:mime+';charset=utf-8'}
 const fname=(c,h,ext)=>((c.name||'client')+'-'+(h.name||'cohort')+'-'+new Date().toISOString().slice(0,10)).replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()+'.'+ext;
 function csvCell(v){let t=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(t))t="'"+t;return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
 function reportCsv(c,h,R){
- const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Notes','Evidence links']];
- R.rows.forEach(r=>rows.push([c.name,h.name,WNAME(c.wave),r.s.id,r.s.name,PIL[r.s.p],r.s.owner,r.sc||'',r.sc?RUNG[r.sc]:'',{b:'Below',m:'Meets',a:'Above'}[r.a.vd]||'',r.sc?(r.ok?'Yes':'No'):'',r.a.pr==='f'?'Focus':'Normal',(r.a.ev||'').trim(),(r.a.nt||'').trim(),(r.a.lk||[]).map(l=>`${l.t||''} ${l.u||''}${l.d?' (seen '+l.d+')':''}`.trim()).join('; ')]));
+ const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
+ R.rows.forEach(r=>rows.push([c.name,h.name,WNAME(c.wave),r.s.id,r.s.name,PIL[r.s.p],r.s.owner,r.sc||'',r.sc?RUNG[r.sc]:'',{b:'Below',m:'Meets',a:'Above'}[r.a.vd]||'',r.sc?(r.ok?'Yes':'No'):'',r.a.pr==='f'?'Focus':'Normal',(r.a.ev||'').trim(),(r.a.iv||'').trim(),r.a.ivd||'',(r.a.nt||'').trim(),(r.a.lk||[]).map(l=>`${l.t||''} ${l.u||''}${l.d?' (seen '+l.d+')':''}`.trim()).join('; ')]));
  return '﻿'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+}
+
+const CMP={},SNAPC={};
+async function getSnap(id){if(id&&id!=='cur'&&!SNAPC[id])SNAPC[id]=await api('GET','/snapshot?id='+encodeURIComponent(id))}
+function cmpSection(c,h){
+ if(!h.hist.length)return'';
+ const cs=CMP[h.id]||(CMP[h.id]={a:'',b:'cur'});
+ const opts=sel=>h.hist.slice().reverse().map(x=>`<option value="${x.id}" ${sel===x.id?'selected':''}>Snapshot of ${esc(x.d)} (index ${x.idx==null?'n/a':x.idx})</option>`).join('');
+ const sa=cs.a?SNAPC[cs.a]:null,sb=cs.b==='cur'?{answers:h.a}:SNAPC[cs.b];
+ let tbl='';
+ if(sa&&sb){
+  const st=(ans,id)=>{const x=ans[id];return x&&x.in?(x.sc||0):null};
+  const show=v=>v==null?'<span class="mute">Not audited</span>':v?`${v} ${RUNG[v]}`:'<span class="mute">Not scored</span>';
+  const rows=SUBS.filter(x=>st(sa.answers,x.id)!=null||st(sb.answers,x.id)!=null).map(x=>{
+   const p=st(sa.answers,x.id),q=st(sb.answers,x.id);
+   const d=p>0&&q>0?(q>p?`<span class="ok">Up ${q-p}</span>`:q<p?`<span class="warn">Down ${p-q}</span>`:'<span class="mute">No change</span>'):(p==null?'<span class="mute">Added</span>':q==null?'<span class="mute">Removed</span>':'');
+   const iv=o=>{const y=o[x.id];return y&&(y.iv||'').trim()?esc(y.iv.trim())+(y.ivd?' <small>('+esc(y.ivd)+')</small>':''):'<span class="mute">none</span>'};
+   return`<tr><td><b>${esc(x.name)}</b></td><td>${show(p)}</td><td>${show(q)}</td><td>${d}</td><td>${iv(sa.answers)}</td><td>${iv(sb.answers)}</td></tr>`}).join('');
+  const ra=compute(c,{a:sa.answers}),rb=compute(c,{a:sb.answers}),f=v=>v==null?'n/a':v;
+  tbl=`<p class="lede">Provisional index ${f(ra.idx)} then, ${f(rb.idx)} now. Evidenced index ${f(ra.idxV)} then, ${f(rb.idxV)} now. Rungs compared: ${ra.scored.length} then, ${rb.scored.length} now.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
+ }else tbl='<p class="mute">Choose an earlier snapshot to see how each sub-outcome has moved.</p>';
+ return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Pick an earlier snapshot and a later one, or compare a snapshot with the scores as they stand now. Each row shows the rung on both dates and whether it moved, along with the measured indicator values you recorded. This is the clearest way to show a client what changed between cycles.</p>
+ <div class="ctx"><div class="f"><label for="cmpa">Earlier</label><select id="cmpa" data-c="cmpa"><option value="">Choose a snapshot</option>${opts(cs.a)}</select></div><div class="f"><label for="cmpb">Later</label><select id="cmpb" data-c="cmpb"><option value="cur" ${cs.b==='cur'?'selected':''}>Current scores, not yet saved as a snapshot</option>${opts(cs.b)}</select></div></div>${tbl}</section>`;
 }
 /* ---------- events ---------- */
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),4500)}
@@ -882,6 +914,9 @@ document.addEventListener('click',async e=>{
 document.addEventListener('input',e=>{
  const t=e.target,i=t.dataset.i;if(!i)return;
  if(i==='hname'){const h=ch();if(h)h.name=t.value}
+ else if(i==='iv'){A(t.dataset.id).iv=t.value;dirty(ch())}
+ else if(i==='ivd'){A(t.dataset.id).ivd=t.value;dirty(ch())}
+ else if(i==='xau'||i==='xad'||i==='xiw'){const h=ch();h.a._x=h.a._x||{};h.a._x[{xau:'au',xad:'ad',xiw:'iw'}[i]]=t.value;dirty(h)}
  else if(i==='nt'){A(t.dataset.id).nt=t.value;dirty(ch())}
  else if(i==='xsum'){const h=ch();h.a._x=h.a._x||{};h.a._x.sum=t.value;dirty(h);const pp=document.getElementById('xsum-p');if(pp)pp.textContent=t.value}
  else if(i==='lkt'||i==='lku'||i==='lkd'){const x=A(t.dataset.id),l=(x.lk||[])[+t.dataset.k];if(l){l[{lkt:'t',lku:'u',lkd:'d'}[i]]=t.value;dirty(ch())}}
@@ -896,6 +931,7 @@ document.addEventListener('change',async e=>{
   if(!k)return;
   if(k==='client'){WCH=null;S.c=t.value;S.h=cl().cohorts[0].id;BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
   else if(k==='wavepick'){const c=cl();WCH=+t.value===c.wave?null:{client:c.id,to:+t.value}}
+  else if(k==='cmpa'||k==='cmpb'){const h=ch(),cs=CMP[h.id]||(CMP[h.id]={a:'',b:'cur'});cs[k==='cmpa'?'a':'b']=t.value;await getSnap(cs.a);await getSnap(cs.b)}
   else if(k==='bpool'){BO.pool=t.value;loadBench()}
   else if(k==='bbasis'){BO.basis=t.value;loadBench()}
   else if(k==='bmin'){BO.min=+t.value;loadBench()}
