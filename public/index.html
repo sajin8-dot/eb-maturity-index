@@ -118,6 +118,19 @@ small{font-size:12px;color:var(--mut)}
 .rg{border:2px solid transparent;border-radius:10px;padding:10px 6px;text-align:center;font-size:12px;font-weight:500;opacity:.55}
 .rg b{display:block;font-family:'Playfair Display',serif;font-size:20px}
 .rg:hover{opacity:.9}
+.rungs{position:relative}
+.rgw{display:block}
+.rgw .rg{width:100%}
+.tip{display:none;position:absolute;bottom:calc(100% + 8px);left:0;width:min(100%,420px);z-index:20;background:var(--ink);color:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.45;font-weight:400;text-align:left;box-shadow:0 6px 20px rgba(0,0,0,.2);pointer-events:none}
+.tip b{display:block;font-family:Inter,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;opacity:.8}
+.tip i{display:block;font-style:normal;margin-top:6px;opacity:.7;font-size:11px}
+.rgw:hover .tip,.rgw:focus-within .tip{display:block}
+.lnk{border:0;background:none;padding:0;margin-top:8px;color:var(--acc);font-weight:500;font-size:12px;text-decoration:underline;cursor:pointer}
+.rdef{margin:8px 0 0;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--tint);font-size:12px}
+.rdef p{margin:4px 0}
+.hid{border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:16px 0;background:var(--tint);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hid p{margin:0;flex:1;min-width:240px}
+.rnote{font-size:12px;color:var(--mut);margin:0 0 10px}
 .rg.on{opacity:1;border-color:var(--ink)}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden}
 .seg button{border:0;background:#fff;padding:6px 16px;font-weight:500}
@@ -279,10 +292,97 @@ Crisis and restructuring credibility|Comms with leadership|Trust survives a bad 
 Ecosystem credibility|Centre leader|Universities, government and industry bodies want the centre in the room|University partnerships, government MoUs and advisory seats held|Partnership tracker|None|One relationship|A portfolio of relationships|The centre is sought out to advise|Sought out = category; one MoU = consistency`];
 const SUBS=[];
 RAW.forEach((blk,pi)=>blk.split('\n').forEach((ln,i)=>{const f=ln.split('|');SUBS.push({id:(pi+1)+'.'+(i+1),p:pi,name:f[0],owner:f[1],means:f[2],ind:f[3],src:f[4],w:[f[5],f[6],f[7],f[8]],read:f[9]})}));
+/* Relevance by wave. One line per sub-outcome: id, then one digit per wave (Outpost, Satellite, Portfolio Hub, Transformation Hub). 1 = shown in the audit, 0 = hidden as not relevant at that wave.
+   Derived from the per-wave expectation text above: a 0 means the expectation for that wave is an absence (None, Nothing, No ..., Not asked, Not measured, Not tracked). Edit a digit to change it. */
+const REL=`1.1 1111
+1.2 1111
+1.3 0111
+1.4 0111
+1.5 0111
+1.6 0111
+1.7 1111
+2.1 1111
+2.2 0111
+2.3 0111
+2.4 0111
+2.5 0111
+2.6 0111
+2.7 0111
+2.8 0111
+3.1 0011
+3.2 1111
+3.3 0011
+3.4 0111
+3.5 0111
+3.6 0111
+3.7 0111
+3.8 1111
+3.9 0111
+4.1 1111
+4.2 0111
+4.3 1111
+4.4 0111
+4.5 0111
+4.6 0111
+4.7 1111
+4.8 0011
+5.1 0111
+5.2 0111
+5.3 0111
+5.4 0111
+5.5 0111
+5.6 0111
+5.7 0111
+5.8 0111`;
+/* Rung thresholds. id | basis | rung 1 | rung 2 | rung 3 | rung 4 | rung 5. Basis g = anchored in the reading guide above, p = proposed wording and numbers awaiting review. */
+const THR=`1.1|g|The careers page or profile exists and was last updated within the past twelve months.|One named owner updates it on a fixed cadence, for example twice a year.|It is refreshed at least every quarter against a content plan.|It is always current, because updating it is part of the team's normal rhythm.|It is current within days, every channel profile is complete, and other centres copy how it is kept.
+1.2|g|Fewer than 10 per cent of target talent name the centre when asked without prompting.|Between 10 and 25 per cent name the centre unaided.|Between 25 and 50 per cent name the centre unaided.|More than 50 per cent name the centre unaided.|More than 50 per cent name it unaided, and it is the first name given when talent describes the domain.
+1.3|g|Recall is not measured at all.|Recall has been measured at least once, even if the share is small.|Recall is tracked regularly and broken down by talent segment.|A third or more of applicants say they considered the centre before they saw the advertisement.|Half or more consider the centre first, and inbound candidates arrive already aware of it.
+1.4|g|No attributes are claimed that set the centre apart from rival centres.|Attributes are stated, for example in the employer value proposition, but nothing backs them up yet.|At least three attributes are evidenced and compared against rival centres.|The comparison is repeated each year and the centre stays ahead on most attributes.|Rival centres copy the attributes, and others use the centre as the benchmark.
+1.5|g|The question of whether talent would consider the centre has not been asked.|About a quarter of the target pool would consider an offer.|About half of the target pool would consider an offer.|Around three quarters would consider an offer, so the centre is the default option.|The centre is the default option for most of the pool, and rival centres position themselves against it.
+1.6|p|The centre is not mentioned in coverage of its domain.|It is mentioned occasionally, for example once or twice a year.|It is mentioned in a systematic way, at least once a quarter, and the mentions are tracked.|It is the cited source on its domain, with several mentions every quarter.|It is named in more than half of the coverage on its domain and is treated as the reference.
+1.7|g|The parent company treats the centre as a cost line and nothing more.|The centre is mentioned in the parent's operational review.|The centre is named as a capability or centre of excellence in the parent's reporting.|The centre appears in the strategy narrative in the parent's annual report or earnings material.|The parent names the centre as the model for its other centres.
+2.1|g|Fewer than five qualified applications arrive for each open role.|Between five and fifteen qualified applications arrive for each open role.|Between fifteen and thirty arrive, and a quality filter shows how many are qualified.|More than thirty qualified applications arrive for each role.|Inbound applications consistently exceed what openings need, and recruiters can close roles early.
+2.2|g|Recruiters have no kit, deck or collateral for selling the centre.|A single standard deck exists.|Kits exist for at least half of the practices, and they are used and refreshed.|Kits cover nearly every open role, and recruiter use is measured.|Recruiters help to write the positioning, and the kits are updated from what they hear in the market.
+2.3|p|Candidate experience is not measured.|Candidate NPS is measured once, at the end of the process.|Candidate NPS is measured at every stage and each stage has an owner.|Candidate NPS is above the market benchmark at every stage.|Candidate NPS is in the top quartile at every stage, and other centres copy the process.
+2.4|g|Drop-off at the assessment stage is not measured.|Drop-off is measured, and it is above 25 per cent.|Drop-off is below 25 per cent and candidates get feedback at this stage.|Drop-off is below 10 per cent and every rejection comes with feedback.|Drop-off is below 5 per cent, and candidates praise the assessment in public reviews.
+2.5|p|Offer acceptance is not tracked.|Offer acceptance is tracked, whatever the number.|Offer acceptance is above the sector median.|Acceptance is above the market and the pay logic is published for candidates.|Acceptance is above 90 per cent and counteroffers are rare.
+2.6|g|Offer-to-join rate and ninety-day retention are not tracked.|Both are tracked, but are not yet at target.|Both are above the target the centre has set.|Ninety-day retention is above 95 per cent and offer-to-join is above target.|Ninety-day retention is above 95 per cent and offer-to-join is above 90 per cent, year after year.
+2.7|p|There are no talent pools.|There is one generic pool, such as a single talent community.|There is a pool for each critical role, and each is refreshed at least twice a year.|Each pool is tracked, and pools fill a measurable share of hires, for example 15 per cent.|Pools convert into hires without a vacancy being open, and this happens every quarter.
+2.8|g|Hiring manager capability is not measured.|It is measured, for example the share of managers trained to interview.|More than half of the managers are trained, and first-year attrition is below the centre's own benchmark.|All managers are certified, and first-year attrition is below the market.|Certification is renewed each year, and first-year attrition is in the best quartile of the market.
+3.1|g|New joiners are not asked whether the story they heard in the interview matches day one.|The story is aligned by design between interview and day one, but nobody has measured it yet.|It is measured, and half or more of new joiners recall the value proposition in the interview's own words.|More than 80 per cent recall it in the interview's own words.|Nearly all new joiners recall it and can explain it to someone else in their own words.
+3.2|p|Internal communication is ad hoc emails with no defined channels.|Channels are defined, each with a purpose and a cadence.|Each channel has an owner, carries one core message, and its reach is measured against business outcomes.|Reach is above 80 per cent of employees and the channel mix is adjusted using the data.|The channel model is copied by other centres or by the parent.
+3.3|g|Managers are not asked whether they can state the centre's promise.|Managers have been briefed on the promise, but it is not measured.|It is measured, and half of the managers can state the promise without prompting.|More than 80 per cent can state it and give an example from their own team.|Managers carry the promise into hiring and team life, and employees quote them back.
+3.4|p|The growth story lives only on the careers page.|Career paths are published inside the centre as well as on the careers page.|Half of employees can name a career path open to them.|More than 75 per cent can name a path and a recent example of someone who took it.|Those stories are used in hiring, and candidates mention them in interviews.
+3.5|p|There are no formal rituals or recognition moments.|There is one annual event.|A recurring programme runs through the year and participation is measured.|More than 60 per cent of employees take part and the moments have names people use.|Employees describe and repeat the rituals unprompted, and they are part of how the centre is known.
+3.6|g|Messaging around change is not measured.|Trust is measured only after the change event.|Trust is measured before, during and after the change event.|Trust holds through the change, with a drop of no more than a few points.|Trust recovers above its earlier level, and the way the change was handled is held up as an example.
+3.7|p|No employee-written content is published about the centre.|Employees publish occasionally, fewer than two pieces a month.|A programme runs, and the monthly number of pieces and their reach are tracked.|Employees publish eight or more pieces a month and the reach grows quarter on quarter.|Employees publish without being asked, and applications visibly follow.
+3.8|g|Values appear only on posters.|Values are published, for example on the website and in the handbook.|Half of employees can give a real example of a value in action.|More than 75 per cent can give an example and cite a decision where the values mattered.|Employees and outsiders describe the values in the same words, and examples are easy to find.
+3.9|g|Leavers are not asked how they felt about the centre.|Leavers are asked, for example in exit surveys.|The share of leavers who would recommend the centre is above the review-platform score.|An alumni network is active, with regular contact and events.|Alumni source hires and referrals for the centre every quarter.
+4.1|g|Under 5 per cent of hires come from referrals.|Between 5 and 15 per cent of hires come from referrals.|Between 15 and 30 per cent of hires come from referrals.|Above 30 per cent of hires come from referrals.|Above 45 per cent of hires come from referrals, and the share has held for a year.
+4.2|p|Employees do not publish about the centre.|A few enthusiasts post now and then.|A programme runs, with volume and reach tracked.|Posts are tracked to applications, with a clear number of applications each quarter.|Employees post with their own judgement and drive about 10 per cent of applications.
+4.3|g|The review-site profile has not been claimed.|The centre responds to reviews.|The rating and the spread between reviews are both tracked.|The rating is above 4.2, the spread is tight and more than 90 per cent of reviews get a response.|The centre is in the top quartile of its sector on both rating and spread, and the position has held for a year.
+4.4|g|Willingness to recommend the centre is not measured.|It is measured, at the overall level.|It is measured by segment and is above the market.|Advocacy holds through a bad quarter, for example a restructure.|More than 80 per cent would recommend the centre, even after a bad quarter.
+4.5|g|There is no alumni advocacy.|There is an informal list of alumni, for example a LinkedIn group.|There is a managed alumni network with a named owner.|Alumni source hires, for example at least 2 per cent of hires each year.|Alumni recruit for the centre routinely, and they account for at least 5 per cent of hires.
+4.6|g|Leaders do not speak about the centre in public.|Leaders post occasionally, with no schedule.|Each leader has a cadence, for example one appearance a quarter, and it is measured.|Leaders are the cited voices in their domain.|Leaders set the agenda on their domain and are invited by default.
+4.7|g|The centre makes ad hoc donations.|Community programmes run.|Programmes run, and their outcomes are measured and published.|Local bodies or media recognise the programmes.|The community names the centre as a local asset.
+4.8|g|Candidate NPS after a rejection is not measured.|Rejected candidates are asked informally, but nothing is tracked.|Candidate NPS after rejection is measured at all, which is rare.|Candidate NPS after rejection is above zero.|It is positive, and reapplications from rejected candidates are tracked and growing.
+5.1|g|Fewer than one article is published each quarter.|One or two articles are published each quarter on a steady cadence.|Three or more articles are published each quarter with a clear point of view, and readership is tracked.|At least three third parties cite the centre's articles each quarter.|Ten or more third parties cite the articles each quarter, and others adopt the centre's terms.
+5.2|g|The centre has no awards or certifications.|It enters awards as they come, for example one or two a year.|A targeted programme enters at least four relevant awards a year, spread across the pillars.|Wins are used as the centre's positioning on the website and in hiring material.|Repeated wins are cited by others, and the awards are seen as the benchmark of the category.
+5.3|g|No analyst or media mentions are tracked.|Analysts and media receive briefings from the centre now and then.|Briefings run on a schedule, and at least 80 per cent of the mentions describe the centre accurately.|Analysts quote the centre's own data.|Analysts use the centre's data as the reference for the category.
+5.4|g|No leader has a public profile.|One leader is visible and quoted.|A bench of leaders, at least half of the leadership team, has current profiles and is quoted every quarter.|Leaders are invited by default to speak or contribute.|Leaders are sought out to set the agenda on their domain.
+5.5|g|The centre has not published any data of its own.|Data was published once.|Data is published every year.|Third parties cite the data at least once a year.|Several third parties cite the data each year, and it is the market's reference.
+5.6|g|Nothing is published on hiring, AI use or candidate data.|A privacy notice is published.|Disclosure of AI use in screening is published.|Published practice is backed by an annual audit.|Audit results are published, and others use the centre's approach as a model.
+5.7|g|Trust is not measured around a restructure.|Trust is measured after the event.|Trust is measured before and after the event.|Trust is measured and managed throughout the event.|Trust recovers within two quarters of the event, and others learn from how it was managed.
+5.8|g|The centre has no relationships with universities, government or industry bodies.|The centre has one relationship, such as a single MoU.|The centre has a handful of active relationships, for example three or more.|The centre has a portfolio of five or more relationships across universities, government and industry bodies.|Others seek out the centre to advise them.`;
+const RELM={},THRM={};
+REL.split("\n").forEach(l=>{const[a,b]=l.split(" ");RELM[a]=b});
+THR.split("\n").forEach(l=>{const f=l.split("|");THRM[f[0]]={basis:f[1],r:f.slice(2)}});
+SUBS.forEach(s=>{s.rel=RELM[s.id].split("").map(x=>x==="1");s.thr=THRM[s.id]});
 const LOW=/^(none|not (measured|asked|tracked)|no (pools|attributes|measurement)|nothing|unclaimed|ad hoc|posters only|cost line only)/i;
 
 /* ---------- state and server sync ---------- */
-let S=null,OPEN={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
+let SHOWREL=false,S=null,OPEN={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
 const PEND={};
 const BO={pool:'all',basis:'evidenced',min:5};
 const WNAME=i=>WAVES[i-1].name;
@@ -415,24 +515,32 @@ function ctxBar(){
 function badge(a){return a.sc?((a.ev||'').trim()?'<span class="ok">Evidenced</span>':'<span class="warn">Needs an artefact</span>'):'<span class="mute">Not scored yet</span>'}
 function vAudit(){
  const c=cl(),h=ch(),R=compute(c,h),wave=c.wave;
- const list=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
+ const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
+ const isHid=s=>!s.rel[wave-1]&&!A(s.id).in;
+ const hidN=inPil.filter(isHid).length,hidAll=SUBS.filter(isHid).length;
+ const list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
+ const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the 40 sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. A centre at this wave is not expected to show anything for them, so they are left out of the audit and out of the index. Nothing has been deleted.`}</p><button class="btn" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
  const body=list.map(s=>{const a=A(s.id);
-  if(!a.in){const t=s.w[wave-1];return`<div class="off"><div class="t"><b>${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span><small>At the ${WAVES[wave-1].name} wave, this is expected: ${esc(t)}${LOW.test(t)?' (little is expected of a centre at this wave)':''}</small></div><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div>`}
+  const irrel=!s.rel[wave-1];
+  if(!a.in){const t=s.w[wave-1];return`<div class="off"><div class="t"><b>${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span><small>${irrel?`Hidden by default because it is not relevant at the ${WAVES[wave-1].name} wave. `:''}At the ${WAVES[wave-1].name} wave, this is expected: ${esc(t)}${LOW.test(t)?' (little is expected of a centre at this wave)':''}</small></div><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div>`}
   return`<article class="card"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
-  <p class="means">${esc(s.means)}</p>
+  <p class="means">${esc(s.means)}</p>${irrel?`<p class="rnote">This sub-outcome is not normally relevant at the ${WAVES[wave-1].name} wave. It is shown because you added it, and it counts towards the index while it stays in the audit.</p>`:''}
   <div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>
   <div class="two"><div><label>Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
-  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" aria-label="Rung ${n} ${RUNG[n]}"><b>${n}</b>${RUNG[n]}</button>`).join('')}</div>
+  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}" aria-describedby="tp-${s.id}-${n}"><b>${n}</b>${RUNG[n]}</button><span class="tip" role="tooltip" id="tp-${s.id}-${n}"><b>Rung ${n} · ${RUNG[n]}</b>${esc(s.thr.r[n-1])}${s.thr.basis==='p'?'<i>Proposed threshold, not yet confirmed.</i>':''}</span></div>`).join('')}</div>
+  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} what each rung means for this sub-outcome</button>
+  ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
   <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
   <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
   <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. It moves the sub-outcome up the priority list in the report, and it does not change the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join('');
  const n=R.n,warn=n<9?'This is below the recommended nine to fifteen sub-outcomes, so the audit may be too thin to be useful.':n>15?'This is above the recommended nine to fifteen sub-outcomes. Consider removing some, because a sharp profile is more useful than a long one.':'This is within the recommended nine to fifteen sub-outcomes.';
  return`<div class="eyebrow">Audit</div><h1 style="margin-top:8px">Place the brand on the curve</h1>
  <p class="lede">This is where you audit a client. Work through the four steps below in order. Your answers save automatically as you go, so you can leave and come back at any time. When you have scored enough, open the Report tab to see the result.</p>
- <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave using the boxes below. Then add a cohort for each talent segment you want to score separately, such as engineers and support staff, because each segment competes in a different talent market.</div><div><b>2 Choose what to audit</b>Use the plus button to add the nine to fifteen sub-outcomes the client genuinely has a stake in. A hatched expectation means little is expected of a centre at this wave, so you can usually leave it out.</div><div><b>3 Score the indicator</b>Look at the indicator and pick the rung that the evidence supports, and not the rung the client hopes for. Then say whether the result is below, meets or is above what this wave expects.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you can point to something you saw. Write down what it was and when you saw it, so the score can be checked later.</div></div>
+ <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave using the boxes below. Then add a cohort for each talent segment you want to score separately, such as engineers and support staff, because each segment competes in a different talent market.</div><div><b>2 Choose what to audit</b>Use the plus button to add the nine to fifteen sub-outcomes the client genuinely has a stake in. Sub-outcomes that are not relevant at the client's wave are hidden for you automatically, and you can reveal them from the note below the summary if you ever need one.</div><div><b>3 Score the indicator</b>Look at the indicator and pick the rung that the evidence supports, and not the rung the client hopes for. Hover over a rung, or use the link under the rungs on a touch screen, to see what would define it. Then say whether the result is below, meets or is above what this wave expects.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you can point to something you saw. Write down what it was and when you saw it, so the score can be checked later.</div></div>
  ${ctxBar()}
  <div class="sum" id="sum">${sumInner(R,warn)}</div>
  <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}</button>`).join('')}</div>
+ ${hidBox}
  ${body}`;
 }
 function sumInner(R,warn){return`<div><b>${R.n}</b> <span>being audited</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>provisional index (0 to 100)</span></div><span>${warn||''}</span><button class="btn pri sp" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button>`}
@@ -609,6 +717,7 @@ document.addEventListener('click',async e=>{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
   else if(a==='pil'){S.pil=+v}
   else if(a==='open'){OPEN[id]=!OPEN[id]}
+  else if(a==='showrel'){SHOWREL=!SHOWREL}
   else if(a==='scope'){const x=A(id);x.in=!x.in;dirty(h)}
   else if(a==='pick'){const x=A(id);x.sc=x.sc===+v?0:+v;dirty(h)}
   else if(a==='vd'){const x=A(id);x.vd=x.vd===v?'':v;dirty(h)}
