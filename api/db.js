@@ -1,6 +1,6 @@
 // Authenticated proxy to the Supabase edge function. The browser never sees the token:
 // it lives in an HttpOnly cookie and is attached here, server side.
-const ALLOWED = /^\/(me|state|client|cohort|snapshot|benchmark|league|access|access\/revoke)(\?[A-Za-z0-9=&_.%-]*)?$/;
+const ALLOWED = /^\/(me|state|client|cohort|snapshot|benchmark|league|access|access\/revoke|admin\/password)(\?[A-Za-z0-9=&_.%-]*)?$/;
 
 export default async function handler(req, res) {
   res.setHeader('cache-control', 'no-store');

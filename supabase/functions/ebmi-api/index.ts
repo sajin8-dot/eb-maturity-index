@@ -337,6 +337,27 @@ Deno.serve(async (req) => {
       if (error) throw error;
       return json({ id: data.id, password });
     }
+    if (path === "/admin/password" && m === "POST") {
+      if (!admin) return err("forbidden", 403);
+      const key = "pw:" + me.access;
+      const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const { count } = await db.from("ebmi_attempts").select("id", { count: "exact", head: true }).eq("ip", key).gt("at", since);
+      if ((count || 0) >= 5) return err("Too many attempts. Wait ten minutes and try again.", 429);
+      const { data: row } = await db.from("ebmi_access").select("id,pw_hash").eq("id", me.access).maybeSingle();
+      if (!row || !same(row.pw_hash, await pwHash(body.current))) {
+        await db.from("ebmi_attempts").insert({ ip: key });
+        return err("Your current password is not right.", 403);
+      }
+      const next = normPw(body.next);
+      if (next.length < 12) return err("Use at least 12 characters (spaces do not count).");
+      if (new Set(next).size < 5) return err("That password is too repetitive.");
+      const h = await pwHash(next);
+      if (same(h, row.pw_hash)) return err("The new password is the same as the current one.");
+      const { data: clash } = await db.from("ebmi_access").select("id").eq("pw_hash", h).maybeSingle();
+      if (clash) return err("Choose a different password.");
+      await db.from("ebmi_access").update({ pw_hash: h }).eq("id", me.access);
+      return json({ ok: true });
+    }
     if (path === "/access/revoke" && m === "POST") {
       if (!admin) return err("forbidden", 403);
       await db.from("ebmi_access").update({ revoked: body.revoked !== false }).eq("id", body.id).eq("role", "client");
