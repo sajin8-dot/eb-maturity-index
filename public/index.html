@@ -46,6 +46,7 @@ input,select,textarea{font:inherit;color:inherit;border:1px solid var(--line);bo
 input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0}
 textarea{width:100%;min-height:64px;resize:vertical}
 /* framework */
+.signs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;margin-top:24px}
 .axes{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:32px}
 .axes h3{margin-bottom:8px}
 .waves{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:24px;border-top:1px solid var(--line)}
@@ -166,7 +167,7 @@ ul.pl{margin:8px 0;padding-left:18px}
 .pwform{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;margin-top:12px}
 .pwform .f{min-width:220px}
 .pwbox .pw{font:600 26px/1.3 ui-monospace,Menlo,monospace;letter-spacing:.06em}
-@media(max-width:1000px){.waves{grid-template-columns:1fr 1fr}.wave{border-right:0;margin-right:0}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
+@media(max-width:1000px){.signs{grid-template-columns:1fr;gap:24px}.waves{grid-template-columns:1fr 1fr}.wave{border-right:0;margin-right:0}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
 @media(max-width:760px){
 body{display:block}
 aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:0;z-index:30;border-top:1px solid var(--line)}
@@ -215,6 +216,29 @@ const WAVES=[
  fn:[['Communications','Narrative tied to the centre\'s own mandate, not the parent\'s','Published point of view with a named owner'],['Marketing','Brand-led demand, careers site as source material for machines','Inbound applications without paid push'],['Talent acquisition','Internal mobility and returner channels open','Internal fill rate, referral share of hires'],['Engagement and HR','Recognition designed, managers developed, career paths named','Manager engagement and regretted attrition'],['Leadership','Leaders quoted in their domain','Conference and analyst presence']]},
 {name:'Transformation Hub',pc:5,mandate:'Frontier work, global mandates held from India, influence on the parent\'s direction. Only about a hundred centres in the country are genuinely here.',must:'Be the reason talent chooses the centre over the parent itself, and make the centre\'s own numbers the ones the market quotes. Advocacy becomes structural: employees publish with judgement, alumni recruit, review corpora stay healthy under pressure.',fail:'A level 5 ambition run with level 2 habits. Trust damage after restructures lands on leadership and management commentary, so a hub that cannot communicate bad news well loses the credibility it spent years building.',
  fn:[['Communications','Owns the narrative, including through a restructure','Crisis communication practised, not improvised'],['Marketing','Brand generates demand; spend follows strategy','Applications per rupee, unaided awareness'],['Talent acquisition','Talent intelligence and channel creation, not channel use','Channels the market does not have yet'],['Engagement and HR','Culture survives a bad quarter','High-performer retention without pay intervention'],['Leadership','Is the brand, visible and quoted','Third parties cite the centre\'s own data']]}
+];
+
+/* ---------- wave-deciding questions (proposed working questions, not Zinnov-published; answers are phrased to match the WAVES text above) ---------- */
+const WAVEQ=[
+{g:'Scope of mandate',qs:[
+['What does the centre own: a task list, a process, or an outcome?',['A defined function or task list set by the parent','Several functions, mostly executing agreed work','Practices that own the work end to end','Global mandates, including work that sets direction']],
+['Who defines the work: does the parent send the spec, or does the centre propose it?',['The parent specifies','The parent specifies, the centre improves delivery','The centre shapes scope with global stakeholders','The centre proposes and often leads frontier work']]]},
+{g:'Decision rights',qs:[
+['Where are decisions on hiring, budget and roadmap actually made?',['At the parent; the local leader executes','Mostly at the parent, with local approval for volume hiring','Largely in India, with global stakeholders consulted','In India, and they also shape decisions at the parent']],
+['Does the India leadership have a seat where the parent\'s direction is set?',['No','Rarely, and for reporting','Yes, on the practices it owns','Yes, and the centre influences the parent\'s direction']]]},
+{g:'Ownership of talent and brand',qs:[
+['Does the centre have a name, a careers presence and a value proposition of its own?',['No, it hires under a service brand or the parent\'s name','Starting to; usually unowned or improvised','Yes, tied to the centre\'s own mandate','Yes, and candidates choose it over the parent']],
+['Who owns employer brand, and with what budget?',['Nobody; the question has not been asked','Unclear or shared; no named budget owner','A named owner and budget','An owner who also advises the parent']]]},
+{g:'Integration with the enterprise',qs:[
+['Is the centre treated as a delivery vendor, a stakeholder, or a shaper of strategy?',['A delivery vendor','A reliable delivery partner','A stakeholder with its own agenda','A shaper of enterprise strategy']],
+['Do global teams route work to the centre because of capability, or because of cost and capacity?',['Cost and capacity','Cost and capacity','Capability in named practices','Capability the parent cannot get elsewhere']]]},
+{g:'Value contribution',qs:[
+['What would the parent lose if the centre closed tomorrow?',['A cost advantage on one function','Delivery capacity across several functions','Ownership of practices and products','Capability and direction it could not rebuild quickly']],
+['Why would a strong candidate choose this centre over the parent or a competitor?',['The role and the parent\'s name','Stability, growth and a clearer role','Work they will own and a visible career path','The frontier work itself']]]}
+];
+const WAVE_SIGNS=[
+{w:'Outpost',lead:'Think Outpost when most of these are true.',items:['The centre is small, usually a single function, and often goes by a service or shared-services name.','The parent\'s name and the local leader\'s reputation are the only things a candidate can point to.','Hiring is the whole conversation, and nobody has asked who owns the brand.','Decisions on roles, budget and scope sit at the parent.']},
+{w:'Transformation Hub',lead:'Think Transformation Hub only when most of these are true, and expect to be sceptical: the framework says only about a hundred centres in the country are genuinely here.',items:['The centre holds global mandates and frontier work from India.','Its leaders influence the parent\'s direction, not just their own roadmap.','Candidates choose it over the parent itself, and others quote its own numbers.','It can show the above without leaning on the parent\'s brand.']}
 ];
 const RUNG=['','Presence','Consistency','Evidence','Authority','Category'];
 const RGLOSS=['','It exists and can be found.','One owner, one voice, on a cadence.','Measured, and linked to an outcome.','Others carry it, and it leads demand.','Sets the language others copy.'];
@@ -363,6 +387,8 @@ function vFrame(){
  const waves=WAVES.map((w,i)=>`<div class="wave"><div class="n">${i+1}</div><div class="pc">${w.pc} per cent of 2,117 centres, FY26</div><h3>${w.name}</h3>
  <p><b>Mandate.</b> ${esc(w.mandate)}</p><p><b>What employer brand must do.</b> ${esc(w.must)}</p><p><b>Failure mode.</b> ${esc(w.fail)}</p>
  <details><summary>Function by function</summary><div class="fn">${w.fn.map(f=>`<div><b>${esc(f[0])}</b>${esc(f[1])}<br><small>Evidence: ${esc(f[2])}</small></div>`).join('')}</div></details></div>`).join('');
+
+ const wq=`<div class="signs">${WAVE_SIGNS.map(x=>`<div><h3>Recognising ${x.w==='Outpost'?'an':'a'} ${esc(x.w)}</h3><p class="lede" style="margin-top:0">${esc(x.lead)}</p><ul class="pl">${x.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`).join('')}</div>`+WAVEQ.map((g,gi)=>`<div class="pillar"><h3><span>Group ${gi+1}</span>${esc(g.g)}</h3><div class="scroll"><table class="tbl"><tr><th style="min-width:200px">Ask</th>${WAVES.map((w,i)=>`<th>${i+1} ${esc(w.name)} sounds like</th>`).join('')}</tr>${g.qs.map(q=>`<tr><td><b>${esc(q[0])}</b></td>${q[1].map(a=>`<td>${esc(a)}</td>`).join('')}</tr>`).join('')}</table></div></div>`).join('')+`<ul class="pl notes"><li>Ask for evidence, not description: an org chart, a mandate letter, a careers page, a recent decision the centre made alone.</li><li>Tally which wave each answer sounds like. Pick the wave where most answers sit.</li><li>If answers split across two waves, start with the lower one and note what would move it up.</li><li>Decide on the mandate, not on the brand. A strong employer brand does not make a satellite a hub, and a weak one does not make a hub a satellite.</li><li>The wave is still your choice in the client wave dropdown. These questions guide it and change no score.</li></ul>`;
  const rungs=`<div class="rungh">${[1,2,3,4,5].map(n=>`<div class="r${n}"><b>${n} ${RUNG[n]}</b>${RGLOSS[n]}</div>`).join('')}</div>`;
  const curve=`<div class="scroll"><table class="tbl"><tr><th>Function</th>${RUNG.slice(1).map(r=>`<th>${r}</th>`).join('')}</tr>${CURVE.map(r=>`<tr><td><b>${esc(r[0])}</b></td>${r.slice(1).map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
  const wcur=cl()?cl().wave:0;
@@ -375,6 +401,7 @@ function vFrame(){
  <div class="axes"><div><h3>Wave is the mandate</h3><p class="lede" style="margin-top:0">Outpost, Satellite, Portfolio Hub, Transformation Hub. What the centre has been given to do, and so what it must promise.</p></div>
  <div><h3>Maturity is the capability</h3><p class="lede" style="margin-top:0">Five rungs: presence, consistency, evidence, authority, category. What the brand has actually built. The two rarely move together, and a hub with a satellite-era brand is the sale.</p></div></div>
  <section><h2>The four waves</h2><p class="lede">Read left to right. Each wave sets what employer brand must deliver.</p><div class="waves">${waves}</div></section>
+ <section><h2>Deciding the wave</h2><p class="lede">Which wave is this centre in? Wave is the mandate, so ask about what the centre has been given to do. These are working questions to put to the client before you set the wave. The phrasing follows the four wave definitions above and is a guide to judgement, not a Zinnov scoring rule.</p>${wq}</section>
  <section><h2>The five rungs</h2><p class="lede">Working glosses for the rung scale. The function curve below shows what each rung looks like in each function.</p>${rungs}${curve}</section>
  <section><h2>Forty sub-outcomes across the waves</h2><p class="lede">Each row shows the expectation at each wave. Hatched cells mean little is expected at that wave, so an outpost is not marked down for a missing alumni network. Select a row for its meaning, indicator, source and reading. The wave of the active client is highlighted.</p>${exp}</section>
  <section><h2>Using it in a client room</h2><ul class="pl notes"><li>Ask for the wave first, then the evidence level per track. The mismatch is the story.</li><li>Score by wave: an outpost is not a failure at rung 1, and a transformation hub at rung 2 is the real problem.</li><li>Score the nine to fifteen sub-outcomes the client has a stake in, never all forty. A spiky profile is the finding, and an average hides it.</li><li>Never present a score without the artefact behind it. The missing artefact is what the client is buying.</li><li>Sell one rung per track per year, priced against one number the CFO knows: cost per hire, offer acceptance, regretted attrition, referral share, applications per rupee.</li><li>Never sell rung 5. It is an outcome of years plus the city and the practice.</li><li>Limits: the instrument is newly built and no centre has been scored with it. Wave expectations are advisory reasoning from Zinnov's wave definitions, not measured benchmarks. Sub-outcomes interact, so scoring them as independent overstates what any single programme did.</li></ul></section>`;
