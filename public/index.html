@@ -382,7 +382,7 @@ SUBS.forEach(s=>{s.rel=RELM[s.id].split("").map(x=>x==="1");s.thr=THRM[s.id]});
 const LOW=/^(none|not (measured|asked|tracked)|no (pools|attributes|measurement)|nothing|unclaimed|ad hoc|posters only|cost line only)/i;
 
 /* ---------- state and server sync ---------- */
-let SHOWREL=false,S=null,OPEN={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
+let WCH=null,SHOWREL=false,S=null,OPEN={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
 const PEND={};
 const BO={pool:'all',basis:'evidenced',min:5};
 const WNAME=i=>WAVES[i-1].name;
@@ -506,7 +506,7 @@ function ctxBar(){
  const c=cl(),h=ch(),adm=S.role==='admin';
  const top=adm
   ?`<div class="ctx"><div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
-   <div class="f"><label for="wv">GCC wave</label><select id="wv" data-c="wave">${WAVES.map((w,i)=>`<option value="${i+1}" ${c.wave===i+1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div></div>`
+   <div class="f"><label for="wv">GCC wave</label>${waveSel(c,'wv')}</div></div>${waveConfirm(c)}`
   :`<div class="ctx"><div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>GCC wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div></div>`;
  return top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="ib" data-a="newcohort" aria-label="Add a cohort" title="Add a cohort, which is a separate talent segment you will score on its own">${ic('plus')}</button>
  <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:12px;width:200px">
@@ -663,13 +663,57 @@ function vBench(){
 }
 async function loadAcc(){try{const r=await api('GET','/access');ACC=r.access;}catch(e){ACC=[]}render(true)}
 const dshort=x=>x?String(x).slice(0,10):'never';
+/* ---------- changing a client's wave, and managing cohorts ---------- */
+function waveImpact(c,to){
+ const from=c.wave,r={added:0,scored:0,judged:0,newHide:[],newShow:[],keptOdd:0,snaps:0};
+ c.cohorts.forEach(h=>{r.snaps+=h.hist.length;Object.values(h.a||{}).forEach(a=>{if(a&&a.in){r.added++;if(a.sc)r.scored++;if(a.vd)r.judged++}})});
+ const inAny=id=>c.cohorts.some(h=>h.a&&h.a[id]&&h.a[id].in);
+ SUBS.forEach(x=>{
+  const was=x.rel[from-1],now=x.rel[to-1];
+  if(was&&!now){if(inAny(x.id))r.keptOdd++;else r.newHide.push(x)}
+  else if(!was&&now&&!inAny(x.id))r.newShow.push(x);
+ });
+ return r;
+}
+function waveConfirm(c){
+ if(!WCH||WCH.client!==c.id||WCH.to===c.wave)return'';
+ const to=WCH.to,F=WNAME(c.wave),T=WNAME(to),r=waveImpact(c,to);
+ const dir=to>c.wave?'higher':'lower';
+ return`<div class="pwbox" role="group" aria-label="Confirm the wave change"><div class="lab" style="margin-top:0">Please confirm: move ${esc(c.name)} from ${F} to ${T}</div>
+ <p style="margin:6px 0">Use this when the centre has outgrown its current wave, or was placed too high or too low at the start. ${T} is a ${dir} wave than ${F}, so this is what changes:</p>
+ <ul class="pl notes">
+ <li><b>What the centre is measured against.</b> Every sub-outcome will be compared with the ${T} expectation instead of the ${F} one. The expectation text on the Audit and Report tabs, and the wave line in the Report, will all switch over.</li>
+ <li><b>Which sub-outcomes are shown.</b> ${r.newHide.length?`${r.newHide.length} sub-outcome${r.newHide.length===1?' that you have not added becomes':'s that you have not added become'} hidden by default, because they are not relevant at ${T}.`:'No sub-outcomes become hidden.'} ${r.newShow.length?`${r.newShow.length} that ${r.newShow.length===1?'is':'are'} hidden today will appear, ready for you to add if they apply.`:'None that are hidden today will appear.'}${r.keptOdd?` ${r.keptOdd} that you have already added ${r.keptOdd===1?'is':'are'} not normally relevant at ${T}, but ${r.keptOdd===1?'stays':'stay'} visible with a note and still count towards the index.`:''}</li>
+ <li><b>Your Below, Meets and Above judgements.</b> ${r.judged?`The ${r.judged} judgement${r.judged===1?'':'s'} you have recorded ${r.judged===1?'is':'are'} kept exactly as they are, but each was made against ${F} expectations. Please review ${r.judged===1?'it':'them'}, because a centre that Meets a ${F} expectation may now fall Below or sit Above the ${T} one.`:'You have not recorded any judgements yet, so there is nothing to review.'}</li>
+ <li><b>What is kept.</b> Nothing is deleted. The ${r.added} sub-outcome${r.added===1?'':'s'} you have added, ${r.scored===1?'the 1 rung':`the ${r.scored} rungs`} you have scored, and all of your evidence and artefacts stay as they are, and so do the index scores. The index only counts the sub-outcomes you have added, so it does not move until you add or remove some.</li>
+ <li><b>Saved snapshots.</b> The ${r.snaps} snapshot${r.snaps===1?'':'s'} already saved ${r.snaps===1?'keeps':'keep'} the wave ${r.snaps===1?'it was':'they were'} taken at, so your history stays true to what was known then. Peer comparisons that use "the same wave" will place this client in ${T} from the next snapshot you save.</li>
+ </ul>
+ <button class="btn pri" data-a="wavego">Yes, move to ${T}</button> <button class="btn" data-a="wavecancel">Keep ${F}</button></div>`;
+}
+function waveSel(c,id){
+ const cur=WCH&&WCH.client===c.id?WCH.to:c.wave;
+ return`<select id="${id}" data-c="wavepick" aria-label="Choose the GCC wave">${WAVES.map((w,i)=>`<option value="${i+1}" ${cur===i+1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select>`;
+}
+function cohortManager(c){
+ const rows=c.cohorts.map(h=>{
+  const n=Object.values(h.a||{}).filter(a=>a&&a.in).length,sc=Object.values(h.a||{}).filter(a=>a&&a.in&&a.sc).length,arm=ARM==='k'+h.id;
+  const msg=arm?`Click again to confirm. This permanently deletes the cohort, its scores and its ${h.hist.length} saved snapshot${h.hist.length===1?'':'s'}.`:'Delete this cohort';
+  return`<tr><td><input data-i="cname" data-id="${h.id}" value="${esc(h.name)}" aria-label="Cohort name" placeholder="For example, Engineers"></td><td>${n} added, ${sc} scored</td><td>${h.hist.length}</td><td>${c.cohorts.length>1?`<button class="ib ${arm?'arm':''}" data-a="delcoh" data-id="${h.id}" aria-label="${msg}" title="${msg}">${ic('trash')}</button>`:'<span class="mute">The only cohort</span>'}</td></tr>`}).join('');
+ return`<h3 style="margin-top:32px">Cohorts</h3><p class="lede" style="margin-top:6px">A cohort is a talent segment that you score on its own, such as engineers or support staff, because each one competes in a different talent market. Rename a cohort by editing its name. Add one for each new segment you want to audit, and it starts empty, so nothing about the existing cohorts changes.</p>
+ <div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>Sub-outcomes</th><th>Snapshots</th><th></th></tr>${rows}</table></div>
+ <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nch">Name of the new cohort</label><input id="nch" placeholder="For example, Engineers"></div><button class="btn pri" data-a="addcoh">${ic('plus',16)} Add cohort</button></div>`;
+}
 function vClients(){
  const sel=cl();
  const rows=S.clients.map(c=>{const last=c.cohorts.flatMap(h=>h.hist).map(x=>x.d).sort().pop();return`<tr class="${sel&&c.id===sel.id?'sel':''}" data-a="selclient" data-id="${c.id}" style="cursor:pointer"><td><b>${esc(c.name)}</b></td><td>${c.wave} ${WNAME(c.wave)}</td><td>${c.cohorts.length}</td><td>${last||'none saved yet'}</td></tr>`}).join('');
  const acc=sel&&ACC?ACC.filter(a=>a.client_id===sel.id):[];
  const panel=sel?`<section><h2>${esc(sel.name)}</h2>
   <div class="ctx" style="margin-top:12px"><div class="f"><label for="rn">Client name</label><input id="rn" data-i="rename" value="${esc(sel.name)}"></div>
+  <div class="f"><label for="cw">GCC wave</label>${waveSel(sel,'cw')}</div>
   <button class="ib ${ARM==='c'+sel.id?'arm':''}" data-a="delclient" data-id="${sel.id}" aria-label="${ARM==='c'+sel.id?'Click again to confirm. This permanently deletes the client and all of its data.':'Delete this client'}" title="${ARM==='c'+sel.id?'Click again to confirm. This permanently deletes the client and all of its data.':'Delete this client'}">${ic('trash')}</button></div>
+  <p class="mute" style="margin-top:8px">The name saves as soon as you change it. If the centre has moved to a different wave, for example from Satellite to Portfolio Hub, choose the new wave and you will be asked to confirm. Reclassifying never deletes any scores or evidence.</p>
+  ${waveConfirm(sel)}
+  ${cohortManager(sel)}
   <h3 style="margin-top:32px">Passwords</h3><p class="lede" style="margin-top:6px">Each password opens this client\'s workspace and nothing else. Issue a separate password for each person or team, so that you can switch one off later without affecting the others.</p>
   ${NEWPW&&NEWPW.client===sel.id?`<div class="pwbox"><div class="lab" style="margin-top:0">New password. It is shown only this once</div><div class="pw">${esc(NEWPW.pw)}</div><p class="mute" style="margin:6px 0 10px">Send it to the person together with this address: ${esc(location.origin)}. We cannot show it again, so if it is lost you will need to create a new password and revoke this one.</p><button class="btn" data-a="pwcopy">${ic('copy',16)} Copy</button> <button class="btn" data-a="pwdone">Done</button></div>`:''}
   <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nal">Label for the new password</label><input id="nal" placeholder="Who is this password for? For example, Priya (CHRO)"></div><button class="btn pri" data-a="mkaccess" data-id="${sel.id}">${ic('key',16)} Create password</button></div>
@@ -734,7 +778,17 @@ document.addEventListener('click',async e=>{
    const name=($('#ncn').value||'').trim()||'New client',wave=+$('#ncw').value;
    const n=await api('POST','/client',{name,wave});S.clients.push(n);S.c=n.id;S.h=n.cohorts[0].id;toast('Client added. Choose it in the table to create a password.');
   }
-  else if(a==='selclient'){S.c=id;S.h=cl().cohorts[0].id;BM={};NEWPW=null}
+  else if(a==='wavego'){const to=WCH.to;WCH=null;await api('PATCH','/client',{id:c.id,wave:to});c.wave=to;BM={};LG=null;toast('The wave has been changed. Your scores and evidence are all still here.')}
+  else if(a==='wavecancel'){WCH=null}
+  else if(a==='addcoh'){
+   const name=($('#nch').value||'').trim()||'Cohort '+(c.cohorts.length+1);
+   const n=await api('POST','/cohort',{client_id:c.id,name});c.cohorts.push(n);BM={};toast('Cohort added. Open the Audit tab and choose it to start scoring.');
+  }
+  else if(a==='delcoh'){
+   if(wasArm==='k'+id){await api('DELETE','/cohort?id='+id);c.cohorts=c.cohorts.filter(x=>x.id!==id);if(!c.cohorts.find(x=>x.id===S.h))S.h=c.cohorts[0].id;BM={};LG=null;toast('The cohort has been deleted.')}
+   else ARM='k'+id;
+  }
+  else if(a==='selclient'){WCH=null;S.c=id;S.h=cl().cohorts[0].id;BM={};NEWPW=null}
   else if(a==='delclient'){
    if(wasArm==='c'+id){await api('DELETE','/client?id='+id);S.clients=S.clients.filter(x=>x.id!==id);pickDefaults();BM={};LG=null;toast('The client has been deleted.')}
    else ARM='c'+id;
@@ -759,10 +813,11 @@ document.addEventListener('change',async e=>{
  const t=e.target,k=t.dataset.c,i=t.dataset.i;
  try{
   if(i==='hname'){const h=ch();h.name=t.value;await api('PATCH','/cohort',{id:h.id,name:t.value});return}
+  if(i==='cname'){const x=cl().cohorts.find(y=>y.id===t.dataset.id);x.name=t.value;await api('PATCH','/cohort',{id:x.id,name:t.value});BM={};setStat('Saved');return}
   if(i==='rename'){const c=cl();c.name=t.value;await api('PATCH','/client',{id:c.id,name:t.value});setStat('Saved');return}
   if(!k)return;
-  if(k==='client'){S.c=t.value;S.h=cl().cohorts[0].id;BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
-  else if(k==='wave'){const c=cl();c.wave=+t.value;await api('PATCH','/client',{id:c.id,wave:+t.value});BM={}}
+  if(k==='client'){WCH=null;S.c=t.value;S.h=cl().cohorts[0].id;BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
+  else if(k==='wavepick'){const c=cl();WCH=+t.value===c.wave?null:{client:c.id,to:+t.value}}
   else if(k==='bpool'){BO.pool=t.value;loadBench()}
   else if(k==='bbasis'){BO.basis=t.value;loadBench()}
   else if(k==='bmin'){BO.min=+t.value;loadBench()}
