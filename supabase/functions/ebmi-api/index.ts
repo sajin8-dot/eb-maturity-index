@@ -54,9 +54,12 @@ function clean(ans: any) {
   const out: any = {};
   if (!ans || typeof ans !== "object") return out;
   for (const [id, a0] of Object.entries(ans)) {
+    if (id === "_x") { out._x = { sum: String((a0 as any)?.sum || "").slice(0, 4000) }; continue; }
     if (!validId(id)) continue;
     const a: any = a0 || {};
-    out[id] = { in: !!a.in, sc: Math.max(0, Math.min(5, (a.sc | 0))), vd: ["b", "m", "a"].includes(a.vd) ? a.vd : "", ev: String(a.ev || "").slice(0, 2000), pr: a.pr === "f" ? "f" : "n" };
+    out[id] = { in: !!a.in, sc: Math.max(0, Math.min(5, (a.sc | 0))), vd: ["b", "m", "a"].includes(a.vd) ? a.vd : "", ev: String(a.ev || "").slice(0, 2000), pr: a.pr === "f" ? "f" : "n",
+      nt: String(a.nt || "").slice(0, 2000),
+      lk: (Array.isArray(a.lk) ? a.lk : []).slice(0, 5).map((l: any) => ({ t: String(l?.t || "").slice(0, 120), u: String(l?.u || "").slice(0, 500), d: /^\d{4}-\d{2}-\d{2}$/.test(String(l?.d || "")) ? l.d : "" })) };
   }
   return out;
 }
