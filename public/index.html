@@ -628,12 +628,80 @@ function vReport(){
  ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Go back to the Audit tab and pick a rung for each of these, or remove them from the audit if the client does not need them.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
  <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review. A recurring engagement depends on re-measuring the same indicators each cycle.</p><ul class="pl">${feed}</ul></section>
  ${xsec}
+ <section><h2>All consultant inputs, by pillar</h2><p class="lede">This is the full record of what you captured for every sub-outcome, so you can write the final summary from it. Each entry shows the rung, the artefact behind the score, the latest measured value, your notes and your evidence links. A sub-outcome that is not part of this audit appears only when it has inputs, and it is marked as such.</p>${rawHtml(c,h)}</section>
  ${cmp}
  ${benchBlock(h)}
  <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data, so you can track how this cohort moves over time. A snapshot is a dated copy of the current scores. Saved snapshots also join the anonymised benchmark pool, which means the client\'s name is never shown to other clients.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
  ${cmpSec}
- <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="export" data-id="${c.id}">Download all client data</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
+ <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited. The raw inputs downloads are different, because they leave out the app's own scoring commentary and priorities. They list, pillar by pillar, every rung, artefact, measured value, note and evidence link you recorded, so you can write the final summary yourself from them. The Markdown, PDF and CSV exports also carry these inputs.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Download raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Download raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">Download all client data</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
  <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory and are not measured benchmarks.</p>`;
+}
+/* ---------- raw consultant inputs ---------- */
+const hasInputs=a=>!!(a&&((a.sc||0)>0||(a.ev||'').trim()||(a.nt||'').trim()||(a.iv||'').trim()||(a.ivd||'')||(a.lk||[]).length||a.vd||a.pr==='f'));
+function rawModel(c,h){
+ const wave=c.wave,pillars=PIL.map((n,p)=>({n,p,items:[]}));let hidden=0;
+ SUBS.forEach(s=>{
+  const a=h.a[s.id],inAudit=!!(a&&a.in),has=hasInputs(a);
+  if(!inAudit&&!has){hidden++;return}
+  const expected=!!s.rel[wave-1];
+  pillars[s.p].items.push({s,a:a||{},status:inAudit?'In this audit':(expected?'Not in this audit, but inputs were recorded':'Not expected at this wave, but inputs were recorded'),inAudit,expected});
+ });
+ return{pillars:pillars.filter(g=>g.items.length),hidden};
+}
+const vdWord=v=>({b:'Below the wave expectation',m:'Meets the wave expectation',a:'Above the wave expectation'}[v]||'Not judged against the wave');
+function rawItem(c,x){
+ const a=x.a,s=x.s,sc=a.sc||0;
+ return{id:s.id,name:s.name,pillar:PIL[s.p],owner:s.owner,status:x.status,rung:sc||null,rungName:sc?RUNG[sc]:'Not scored yet',
+  waveComparison:vdWord(a.vd),priority:a.pr==='f'?'Client focus':'Normal',
+  evidence:(a.ev||'').trim(),evidenceRecorded:!!(a.ev||'').trim(),notes:(a.nt||'').trim(),
+  evidenceLinks:(a.lk||[]).map(l=>({title:l.t||'',url:l.u||'',seen:l.d||''})),
+  measuredValue:{value:(a.iv||'').trim(),measuredOn:a.ivd||''},
+  indicator:s.ind,indicatorSource:s.src};
+}
+function rawJson(c,h){
+ const m=rawModel(c,h),xm=h.a._x||{};
+ return JSON.stringify({title:'Employer Brand Maturity Audit, raw consultant inputs',client:c.name||'',cohort:h.name||'',wave:WNAME(c.wave),exportedOn:new Date().toISOString().slice(0,10),
+  auditor:xm.au||'',auditDate:xm.ad||'',interviewedOrSources:(xm.iw||'').trim(),executiveSummary:(xm.sum||'').trim(),
+  note:'Everything the consultant recorded for each sub-outcome, grouped by pillar. Sub-outcomes that were never audited and have no inputs are left out ('+m.hidden+' of '+SUBS.length+').',
+  pillars:m.pillars.map(g=>({pillar:g.n,subOutcomes:g.items.map(x=>rawItem(c,x))}))},null,2);
+}
+function rawLines(c,h,md){
+ const m=rawModel(c,h),W=WNAME(c.wave),L=[],H=(n,t)=>md?'#'.repeat(n)+' '+t:t.toUpperCase();
+ const xm=h.a._x||{};
+ L.push(H(1,'Employer Brand Maturity Audit: raw consultant inputs'));
+ L.push(`${c.name||'Client'} | Cohort: ${h.name||'n/a'} | Wave: ${W} | ${new Date().toISOString().slice(0,10)}`);L.push('');
+ L.push('This is everything the consultant recorded on the Audit tab, sub-outcome by sub-outcome and grouped by pillar. It is meant to be read before writing the final summary, so nothing has been shortened or scored on your behalf.');
+ L.push(`Sub-outcomes that were never added to the audit and have no inputs are left out (${m.hidden} of ${SUBS.length}). Any sub-outcome that is not part of this audit but still has inputs is included and marked.`);L.push('');
+ if(xm.au||xm.ad||(xm.iw||'').trim()){L.push(`Auditor: ${xm.au||'n/a'} | Audit date: ${xm.ad||'n/a'}`);if((xm.iw||'').trim())L.push(`Interviewed or sources: ${xm.iw.trim()}`);L.push('')}
+ if(!m.pillars.length){L.push('No inputs have been recorded yet.');return L}
+ m.pillars.forEach(g=>{
+  L.push(H(2,`Pillar: ${g.n}`));L.push('');
+  g.items.forEach(x=>{const r=rawItem(c,x);
+   L.push(H(3,`${r.id} ${r.name}`));
+   L.push(`- Status: ${r.status}`);
+   L.push(`- Owner: ${r.owner}`);
+   L.push(`- Rung: ${r.rung?`${r.rung} of 5, ${r.rungName}`:'not scored yet'}. ${r.waveComparison}. Priority: ${r.priority}.`);
+   L.push(`- Artefact behind the score: ${r.evidence||'none recorded'}`);
+   L.push(`- Latest measured value: ${r.measuredValue.value?r.measuredValue.value+(r.measuredValue.measuredOn?' (measured '+r.measuredValue.measuredOn+')':''):'none recorded'}`);
+   L.push(`- Indicator to measure: ${r.indicator} (${r.indicatorSource})`);
+   L.push(`- Notes and commentary: ${r.notes||'none recorded'}`);
+   if(r.evidenceLinks.length){L.push('- Evidence links:');r.evidenceLinks.forEach(l=>L.push(`  - ${(l.title+' '+l.url).trim()||'Link'}${l.seen?' (seen '+l.seen+')':''}`))}else L.push('- Evidence links: none recorded');
+   L.push('');
+  });
+ });
+ return L;
+}
+const rawMd=(c,h)=>rawLines(c,h,true).join('\n');
+function rawHtml(c,h){
+ const m=rawModel(c,h);
+ if(!m.pillars.length)return'<p class="mute">No inputs have been recorded yet. Once you score a sub-outcome or add notes on the Audit tab, they will be collected here.</p>';
+ return m.pillars.map(g=>`<h3>${esc(g.n)}</h3>`+g.items.map(x=>{const r=rawItem(c,x);
+  return`<div class="pb"><h3>${esc(r.id)} ${esc(r.name)} <span class="chip ${x.inAudit?'hot':''}">${esc(r.status)}</span></h3><dl>
+  <dt>Rung</dt><dd>${r.rung?`${r.rung} of 5, ${esc(r.rungName)}. `:'Not scored yet. '}${esc(r.waveComparison)}.${r.priority==='Client focus'?' Client focus.':''}</dd>
+  <dt>Artefact behind the score</dt><dd>${r.evidence?esc(r.evidence):'<span class="mute">None recorded</span>'}</dd>
+  <dt>Latest measured value</dt><dd>${r.measuredValue.value?esc(r.measuredValue.value)+(r.measuredValue.measuredOn?` <small>(measured ${esc(r.measuredValue.measuredOn)})</small>`:''):'<span class="mute">None recorded</span>'}</dd>
+  <dt>Notes and commentary</dt><dd>${r.notes?esc(r.notes):'<span class="mute">None recorded</span>'}</dd>
+  <dt>Evidence links</dt><dd>${r.evidenceLinks.length?r.evidenceLinks.map(l=>`${/^https?:\/\//i.test(l.url)?`<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.title||l.url)}</a>`:esc(l.title||l.url||'Link')}${l.seen?` <small>(seen ${esc(l.seen)})</small>`:''}`).join('<br>'):'<span class="mute">None recorded</span>'}</dd></dl></div>`}).join('')).join('');
 }
 function reportText(c,h,R){
  const W=WAVES[c.wave-1].name,L=[];
@@ -660,6 +728,7 @@ function reportText(c,h,R){
  L.push('');L.push('Data to bring at the next review');
  R.rows.forEach(r=>L.push(`- ${r.s.name}: ${r.s.ind} (${r.s.src})`));
  L.push('');L.push('Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0. The instrument is newly built, and the wave expectations are advisory and are not measured benchmarks.');
+ L.push('');L.push('---');L.push('');rawLines(c,h,false).slice(0).forEach(x=>L.push(x));
  return L.join('\n');
 }
 
@@ -807,8 +876,9 @@ function dl(name,mime,text){const b=new Blob([text],{type:mime+';charset=utf-8'}
 const fname=(c,h,ext)=>((c.name||'client')+'-'+(h.name||'cohort')+'-'+new Date().toISOString().slice(0,10)).replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()+'.'+ext;
 function csvCell(v){let t=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(t))t="'"+t;return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
 function reportCsv(c,h,R){
- const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
- R.rows.forEach(r=>rows.push([c.name,h.name,WNAME(c.wave),r.s.id,r.s.name,PIL[r.s.p],r.s.owner,r.sc||'',r.sc?RUNG[r.sc]:'',{b:'Below',m:'Meets',a:'Above'}[r.a.vd]||'',r.sc?(r.ok?'Yes':'No'):'',r.a.pr==='f'?'Focus':'Normal',(r.a.ev||'').trim(),(r.a.iv||'').trim(),r.a.ivd||'',(r.a.nt||'').trim(),(r.a.lk||[]).map(l=>`${l.t||''} ${l.u||''}${l.d?' (seen '+l.d+')':''}`.trim()).join('; ')]));
+ const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Status','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
+ rawModel(c,h).pillars.forEach(g=>g.items.forEach(x=>{const r=rawItem(c,x),a=x.a,sc=a.sc||0;
+  rows.push([c.name,h.name,WNAME(c.wave),r.id,r.name,r.pillar,r.owner,r.status,sc||'',sc?RUNG[sc]:'',{b:'Below',m:'Meets',a:'Above'}[a.vd]||'',sc?(r.evidenceRecorded?'Yes':'No'):'',r.priority==='Client focus'?'Focus':'Normal',r.evidence,r.measuredValue.value,r.measuredValue.measuredOn,r.notes,r.evidenceLinks.map(l=>`${l.title} ${l.url}${l.seen?' (seen '+l.seen+')':''}`.trim()).join('; ')])}));
  return '﻿'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
 }
 
@@ -880,6 +950,8 @@ document.addEventListener('click',async e=>{
   else if(a==='print'){window.print();return}
   else if(a==='dlmd'){const R=compute(c,h);dl(fname(c,h,'md'),'text/markdown',reportText(c,h,R).replace(/^EMPLOYER BRAND MATURITY AUDIT/,'# Employer Brand Maturity Audit'));return}
   else if(a==='dlcsv'){const R=compute(c,h);dl(fname(c,h,'csv'),'text/csv',reportCsv(c,h,R));return}
+  else if(a==='dlraw'){dl(fname(c,h,'raw-inputs.md'),'text/markdown',rawMd(c,h));return}
+  else if(a==='dlrawjson'){dl(fname(c,h,'raw-inputs.json'),'application/json',rawJson(c,h));return}
   else if(a==='copy'){const tx=$('#rtxt');tx.select();try{const p=navigator.clipboard&&navigator.clipboard.writeText(tx.value);if(p&&p.catch)p.catch(()=>{})}catch(err){}toast('Report copied. If it does not paste, select the text in the box below and copy it yourself.');return}
   else if(a==='mkclient'){
    const name=($('#ncn').value||'').trim()||'New client',wave=+$('#ncw').value;
