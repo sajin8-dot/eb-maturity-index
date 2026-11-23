@@ -323,8 +323,11 @@ Deno.serve(async (req) => {
       const h = await cohortFor(me, body.cohort_id);
       if (!h) return err("not found", 404);
       const { data: c } = await db.from("ebmi_clients").select("wave").eq("id", h.client_id).single();
-      const ans = clean(h.answers), s = summarize(ans);
-      const { data: row, error } = await db.from("ebmi_snapshots").insert({ cohort_id: h.id, client_id: h.client_id, wave: c!.wave, answers: ans, ...s }).select("id,taken_on").single();
+      const rawAns = admin && body.answers && typeof body.answers === "object" ? body.answers : h.answers;
+      const ans = clean(rawAns), s = summarize(ans);
+      const ins: any = { cohort_id: h.id, client_id: h.client_id, wave: c!.wave, answers: ans, ...s };
+      if (admin && isDate(body.taken_on)) ins.taken_on = body.taken_on;
+      const { data: row, error } = await db.from("ebmi_snapshots").insert(ins).select("id,taken_on").single();
       if (error) throw error;
       return json({ id: row.id, d: row.taken_on, idx: s.idx, idxv: s.idx_v, avg: s.avg, n: s.n_scope, s: s.n_scored, v: s.n_valid });
     }

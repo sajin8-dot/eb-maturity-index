@@ -8,63 +8,90 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#1A1A24;--mut:#4D4D5C;--line:#DCDCE2;--paper:#F5F5F7;--acc:#D35400;--acch:#B94700;--gold:#E99A10;
---r1:#D6D6DD;--r2:#F3CF8F;--r3:#E99A10;--r4:#E0770C;--r5:#D35400;--tint:#FBEEE4}
+:root{
+  --ink:#1A1A24;--mut:#525263;--line:#E2E2E8;--paper:#F6F6F8;--bg:#FFFFFF;--surface:#FFFFFF;
+  --acc:#D35400;--acch:#B34500;--gold:#E99A10;--tint:#FDF2E9;--tint-line:#F4D3B8;
+  --ok:#1D6B3A;--ok-bg:#E8F5EC;
+  --r1:#D6D6DD;--r2:#F3CF8F;--r3:#E99A10;--r4:#E0770C;--r5:#D35400;
+  --sh-sm:0 1px 2px rgba(26,26,36,.04),0 1px 3px rgba(26,26,36,.03);
+  --sh-md:0 4px 14px rgba(26,26,36,.07),0 1px 3px rgba(26,26,36,.04);
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font:400 14px/1.6 Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:#fff;display:grid;grid-template-columns:232px 1fr;min-height:100vh}
-h1,h2,h3,h4{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-weight:700;margin:0;line-height:1.15}
-h1{font-size:36px}h2{font-size:21px}h3{font-size:18px}h4{font-size:15px}
+body{margin:0;font:400 14px/1.6 Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--bg);display:grid;grid-template-columns:248px 1fr;min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-weight:700;margin:0;line-height:1.18;letter-spacing:-.01em}
+h1{font-size:36px}h2{font-size:22px}h3{font-size:18px}h4{font-size:15px}
 p{margin:0 0 8px}
-button{font:inherit;color:inherit;cursor:pointer}
-aside{background:var(--paper);padding:28px 0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
-.logo{padding:0 24px 28px;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:17px;line-height:1.2}
-.logo small{display:block;font:500 10.5px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-top:6px}
-.nav{display:flex;flex-direction:column}
-.nav button{display:flex;align-items:center;gap:12px;background:none;border:0;border-left:2px solid transparent;padding:12px 24px;text-align:left;color:var(--mut);font-weight:500}
-.nav button.on{border-left-color:var(--acc);color:var(--ink);background:#fff}
-.nav button:hover{color:var(--acc)}
-.side-foot{margin-top:auto;padding:0 24px;font-size:11.5px;color:var(--mut)}
-main{padding:56px 64px 120px;max-width:1280px;width:100%}
+button{font:inherit;color:inherit;cursor:pointer;transition:background .15s,border-color .15s,color .15s,box-shadow .15s,transform .1s}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+aside{background:var(--paper);border-right:1px solid var(--line);padding:28px 0 20px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.logo{padding:0 24px 20px;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:17px;line-height:1.22}
+.logo small{display:block;font:600 10px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-top:6px}
+.side-ctx{margin:0 16px 18px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--sh-sm);font-size:12px}
+.side-ctx .sc-name{font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-ctx .sc-meta{color:var(--mut);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.side-ctx .sc-wave{display:inline-block;background:var(--tint);color:var(--acch);font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:99px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:12px;background:none;border:0;border-left:3px solid transparent;padding:11px 22px;text-align:left;color:var(--mut);font-weight:500}
+.nav button.on{border-left-color:var(--acc);color:var(--ink);background:#fff;font-weight:600;box-shadow:var(--sh-sm)}
+.nav button:hover:not(.on){color:var(--acc);background:rgba(255,255,255,.55)}
+.side-foot{margin-top:auto;padding:14px 22px 0;border-top:1px solid var(--line);font-size:11.5px;color:var(--mut)}
+.side-foot .stat-row{display:flex;align-items:center;gap:7px;margin-top:4px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
+.sdot.saving{background:var(--gold)}
+.sdot.err{background:var(--acc)}
+main{padding:48px 64px 120px;max-width:1280px;width:100%}
+.demo-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--tint);border:1px solid var(--tint-line);border-radius:12px;padding:11px 16px;margin-bottom:28px;font-size:13px}
+.demo-bar b{color:var(--acch)}
+.demo-bar .db-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ic{flex:none}
-.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600}
-.lede{max-width:70ch;color:var(--mut);font-size:15px;margin-top:12px}
-section{margin-top:56px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.lede{max-width:72ch;color:var(--mut);font-size:14.5px;margin-top:10px;line-height:1.65}
+section{margin-top:52px}
 section>h2{margin-bottom:6px}
 hr{border:0;border-top:1px solid var(--line);margin:0}
 .ib{width:34px;height:34px;border-radius:50%;border:0;background:none;color:var(--mut);display:inline-flex;align-items:center;justify-content:center}
 .ib:hover{background:var(--paper);color:var(--acc)}
 .ib.arm{background:var(--acc);color:#fff}
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px;border:1px solid var(--line);background:#fff;padding:8px 16px;font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:99px;border:1px solid var(--line);background:#fff;padding:8px 16px;font-weight:500;font-size:13.5px;box-shadow:var(--sh-sm)}
 .btn:hover{border-color:var(--acc);color:var(--acc)}
+.btn.sm{padding:5px 12px;font-size:12.5px}
 .btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
-.btn.pri:hover{background:var(--acch);color:#fff}
-.chip{display:inline-block;border-radius:99px;background:var(--paper);padding:2px 10px;font-size:11.5px;color:var(--mut);font-weight:500}
+.btn.pri:hover{background:var(--acch);border-color:var(--acch);color:#fff}
+.btn.ghost{background:transparent;border-color:transparent;box-shadow:none;color:var(--mut)}
+.btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:99px;background:var(--paper);padding:2px 10px;font-size:11.5px;color:var(--mut);font-weight:500}
 .chip.hot{background:var(--tint);color:var(--acch)}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
 label,.lab{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:18px 0 6px}
-input,select,textarea{font:inherit;color:inherit;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:#fff;max-width:100%}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0}
-textarea{width:100%;min-height:64px;resize:vertical}
+input,select,textarea{font:inherit;color:inherit;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:#fff;max-width:100%;transition:border-color .15s,box-shadow .15s}
+input:hover,select:hover,textarea:hover{border-color:#C6C6D2}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(233,154,16,.22)}
+textarea{width:100%;min-height:68px;resize:vertical}
 /* framework */
-.axes{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:32px}
+.axes{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:28px;padding:24px 28px;background:var(--paper);border-radius:14px;border:1px solid var(--line)}
 .axes h3{margin-bottom:8px}
-.waves{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:24px;border-top:1px solid var(--line)}
-.wave{padding:24px 24px 24px 0;border-right:1px solid var(--line);margin-right:24px}
-.wave:last-child{border-right:0;margin-right:0}
-.wave .n{font-family:'Playfair Display',serif;font-weight:700;font-size:52px;line-height:1;color:var(--acc)}
+.waves{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.wave{padding:22px 20px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--sh-sm);display:flex;flex-direction:column}
+.wave .n{font-family:'Playfair Display',serif;font-weight:700;font-size:44px;line-height:1;color:var(--acc)}
 .wave .pc{font-size:12px;color:var(--mut);margin:6px 0 12px}
 .wave h3{margin-bottom:10px}
-.wave details{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
-.wave summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--acch)}
-.fn{font-size:12.5px;margin-top:8px}.fn div{padding:6px 0;border-bottom:1px solid var(--line)}.fn b{display:block}
+.wave details{margin-top:auto;border-top:1px solid var(--line);padding-top:10px}
+.wave summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--acch)}
+.fn{font-size:12.5px;margin-top:8px}.fn div{padding:6px 0;border-bottom:1px solid var(--line)}.fn div:last-child{border-bottom:0}.fn b{display:block}
 .tbl{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px}
-.tbl th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-align:left;padding:8px 12px 8px 0;border-bottom:1px solid var(--line)}
-.tbl td{padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.rungh{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:20px}
-.rungh div{padding:12px;font-size:12.5px;border-radius:10px}
+.tbl th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-align:left;padding:10px 12px 10px 0;border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 12px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.wq-tbl td.wq-opt{cursor:pointer;border-radius:8px;padding:10px 12px;transition:background .15s,color .15s}
+.wq-tbl td.wq-opt:hover{background:var(--paper)}
+.wq-tbl td.wq-opt.picked{background:var(--tint);color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1.5px var(--acc)}
+.wq-res{margin-top:16px;padding:16px 20px;border-radius:12px;border:1px solid var(--tint-line);background:var(--tint);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.wq-res b{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink)}
+.rungh{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:20px}
+.rungh div{padding:14px;font-size:12.5px;border-radius:12px;box-shadow:var(--sh-sm)}
 .rungh b{display:block;font-family:'Playfair Display',serif;font-size:16px;margin-bottom:4px}
 .r1{background:var(--r1)}.r2{background:var(--r2)}.r3{background:var(--r3)}.r4{background:var(--r4);color:#fff}.r5{background:var(--r5);color:#fff}
-.pillar{margin-top:40px}
+.pillar{margin-top:36px}
 .pillar>h3{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
 .pillar>h3 span{font:600 11px Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
 .grid{display:grid;grid-template-columns:1.3fr repeat(4,1fr);gap:0 12px;min-width:960px}
@@ -77,48 +104,61 @@ textarea{width:100%;min-height:64px;resize:vertical}
 .xr .cell{font-size:12.5px;color:var(--ink);padding-right:8px}
 .xr .cell.low{color:#8a8a98;background:repeating-linear-gradient(135deg,transparent 0 6px,#f1f1f4 6px 7px)}
 .xr:hover>*{background-color:var(--paper)}
-.det{grid-column:1/-1;padding:18px 0 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;background:var(--paper);padding-left:20px;padding-right:20px;margin:0 -20px}
+.det{grid-column:1/-1;padding:18px 20px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:36px;background:var(--paper);border-radius:10px;margin:4px 0}
 .det p{margin:0 0 4px}
 .scroll{overflow-x:auto}
-.notes{columns:2;column-gap:64px;margin-top:16px}
-.notes li{break-inside:avoid;margin-bottom:8px}
+.notes{columns:2;column-gap:56px;margin-top:16px}
+.notes li{break-inside:avoid;margin-bottom:10px}
 /* ctx bar */
-.ctx{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;margin-top:28px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.ctx{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;margin-top:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
 .ctx .f{display:flex;flex-direction:column}
 .ctx .f label{margin:0 0 4px}
 .cohorts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:16px}
 .cohorts .pill{border-radius:99px;border:1px solid var(--line);background:#fff;padding:6px 14px;font-weight:500}
+.cohorts .pill:hover:not(.on){border-color:var(--acc);color:var(--acc)}
 .cohorts .pill.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.how{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:28px}
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:24px}
 .how div{border-top:2px solid var(--acc);padding-top:10px;font-size:13px;color:var(--mut)}
-.how b{display:block;color:var(--ink);font-family:'Playfair Display',serif;font-size:15px}
-.sum{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);display:flex;align-items:center;gap:28px;padding:12px 0;border-bottom:1px solid var(--line);margin-top:24px;flex-wrap:wrap}
+.how b{display:block;color:var(--ink);font-family:'Playfair Display',serif;font-size:15px;margin-bottom:4px}
+.sum{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);display:flex;align-items:center;gap:22px;padding:14px 0;border-bottom:1px solid var(--line);margin-top:20px;flex-wrap:wrap}
 .sum b{font-family:'Playfair Display',serif;font-size:22px}
 .sum span{color:var(--mut);font-size:12px}
-.sum .sp{margin-left:auto}
-.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 8px}
-.ptabs button{border-radius:99px;border:1px solid var(--line);background:#fff;padding:6px 14px;font-weight:500;font-size:13px}
+.sum .sp{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.atool{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:18px 0 8px;padding:12px 16px;background:var(--paper);border-radius:12px;border:1px solid var(--line)}
+.sbox{position:relative;flex:1;min-width:210px}
+.sbox svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mut);pointer-events:none}
+.sbox input{width:100%;padding-left:34px;background:#fff}
+.fpills{display:flex;flex-wrap:wrap;gap:6px}
+.fpills button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--mut)}
+.fpills button:hover{border-color:var(--acc);color:var(--acc)}
+.fpills button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
+.ptabs button{border-radius:99px;border:1px solid var(--line);background:#fff;padding:6px 14px;font-weight:500;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.ptabs button .cnt{font-size:11px;background:var(--paper);color:var(--mut);padding:1px 7px;border-radius:99px}
 .ptabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
-.mini{display:grid;grid-template-columns:2fr 1.4fr 40px;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.ptabs button.on .cnt{background:rgba(255,255,255,.22);color:#fff}
+.mini{display:grid;grid-template-columns:2fr 1.4fr 64px;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
 .mini small{display:block;color:var(--mut)}
-.card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0}
+.card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:16px 0;background:#fff;box-shadow:var(--sh-sm);transition:box-shadow .15s,border-color .15s}
+.card:hover{box-shadow:var(--sh-md)}
+.card.collapsed{padding:14px 20px}
 .card header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.card.collapsed header{align-items:center}
 .card header .id{font:600 11px Inter;letter-spacing:.12em;color:var(--acc)}
 .hrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .means{color:var(--mut);margin:6px 0 14px}
 .wv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.wv div{border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px}
+.wv div{border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:12px;background:#fff}
 .wv b{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:2px}
 .wv .cur{border-color:var(--acc);background:var(--tint)}
 .wv .low{color:#8a8a98}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 .two p{margin:0}
 small{font-size:12px;color:var(--mut)}
-.rungs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.rg{border:2px solid transparent;border-radius:10px;padding:10px 6px;text-align:center;font-size:12px;font-weight:500;opacity:.55}
+.rungs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;position:relative}
+.rg{border:2px solid transparent;border-radius:10px;padding:10px 6px;text-align:center;font-size:12px;font-weight:500;opacity:.58}
 .rg b{display:block;font-family:'Playfair Display',serif;font-size:20px}
-.rg:hover{opacity:.9}
-.rungs{position:relative}
+.rg:hover{opacity:.92;transform:translateY(-1px)}
 .rgw{display:block}
 .rgw .rg{width:100%}
 .tip{display:none;position:absolute;bottom:calc(100% + 8px);left:0;width:min(100%,420px);z-index:20;background:var(--ink);color:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.45;font-weight:400;text-align:left;box-shadow:0 6px 20px rgba(0,0,0,.2);pointer-events:none}
@@ -126,87 +166,107 @@ small{font-size:12px;color:var(--mut)}
 .tip i{display:block;font-style:normal;margin-top:6px;opacity:.7;font-size:11px}
 .rgw:hover .tip,.rgw:focus-within .tip{display:block}
 .lnk{border:0;background:none;padding:0;margin-top:8px;color:var(--acc);font-weight:500;font-size:12px;text-decoration:underline;cursor:pointer}
-.rdef{margin:8px 0 0;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--tint);font-size:12px}
+.rdef{margin:8px 0 0;padding:12px 14px;border:1px solid var(--tint-line);border-radius:10px;background:var(--tint);font-size:12px}
 .rdef p{margin:4px 0}
 .hid{border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:16px 0;background:var(--tint);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .hid p{margin:0;flex:1;min-width:240px}
 .rnote{font-size:12px;color:var(--mut);margin:0 0 10px}
-.rg.on{opacity:1;border-color:var(--ink)}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.rg.on{opacity:1;border-color:var(--ink);box-shadow:var(--sh-sm)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:#fff}
 .seg button{border:0;background:#fff;padding:6px 16px;font-weight:500}
+.seg button:hover:not(.on){background:var(--paper)}
 .seg button.on{background:var(--ink);color:#fff}
 .foot{display:flex;gap:32px;flex-wrap:wrap;align-items:end}
-.ok{color:#1d6b3a;font-size:12px;font-weight:600}.warn{color:var(--acch);font-size:12px;font-weight:600}.mute{color:var(--mut);font-size:12px}
-.off{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ok{color:var(--ok);font-size:12px;font-weight:600}.warn{color:var(--acch);font-size:12px;font-weight:600}.mute{color:var(--mut);font-size:12px}
+.off{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--line)}
 .off .t{flex:1}.off small{display:block}
 /* report */
-.big{display:flex;gap:64px;flex-wrap:wrap;margin-top:28px}
-.big .m{font-family:'Playfair Display',serif;font-weight:700;font-size:52px;line-height:1}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.kpi{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff;box-shadow:var(--sh-sm)}
+.kpi.hi{border-color:var(--tint-line);background:var(--tint)}
+.kpi .m{font-family:'Playfair Display',serif;font-weight:700;font-size:44px;line-height:1;color:var(--ink)}
+.kpi.hi .m{color:var(--acc)}
+.kpi .l{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600;margin-top:8px}
+.kpi .sub{font-size:12px;color:var(--mut);margin-top:4px}
+.ev-bar{height:5px;background:var(--line);border-radius:99px;margin-top:10px;overflow:hidden}
+.ev-bar i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.big{display:flex;gap:56px;flex-wrap:wrap;margin-top:24px}
+.big .m{font-family:'Playfair Display',serif;font-weight:700;font-size:48px;line-height:1}
 .big .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:600;margin-top:8px}
-.verdict{font-family:'Playfair Display',serif;font-size:24px;line-height:1.3;max-width:34ch;margin-top:28px}
-.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:80px}
+.verdict{font-family:'Playfair Display',serif;font-size:24px;line-height:1.32;max-width:38ch;margin-top:24px}
+.two-col{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:start}
+.radar-wrap{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff;box-shadow:var(--sh-sm);margin-bottom:24px}
+.radar-wrap h3{font-size:16px;margin-bottom:4px}
+.radar-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-top:8px}
+.radar-leg span{display:inline-flex;align-items:center;gap:6px}
+.radar-leg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.rdist{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--paper);gap:2px;margin:12px 0 8px}
+.rdist i{display:block;height:100%}
+.rdist-l{display:flex;gap:12px;flex-wrap:wrap;font-size:11.5px;color:var(--mut)}
+.rdist-l span{display:inline-flex;align-items:center;gap:5px}
+.rdist-l i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.trend-wrap{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff;box-shadow:var(--sh-sm);margin-top:16px}
 .lad{display:flex;gap:3px}
 .lad i{flex:1;height:8px;background:var(--line);border-radius:2px}
 .lad i.on1{background:var(--r1)}.lad i.on2{background:var(--r2)}.lad i.on3{background:var(--r3)}.lad i.on4{background:var(--r4)}.lad i.on5{background:var(--r5)}
-.meter{height:3px;background:var(--line);margin-top:6px}.meter i{display:block;height:3px;background:var(--acc)}
-.pb{padding:22px 0;border-bottom:1px solid var(--line)}
-.pb h3{display:flex;gap:14px;align-items:baseline}
-.pb .no{font-family:'Playfair Display',serif;font-size:32px;color:var(--acc)}
-.pb dl{display:grid;grid-template-columns:150px 1fr;gap:6px 20px;margin:12px 0 0}
+.meter{height:4px;background:var(--line);border-radius:99px;margin-top:6px;overflow:hidden}.meter i{display:block;height:4px;background:var(--acc);border-radius:99px}
+.pb{padding:20px 0;border-bottom:1px solid var(--line)}
+.pb h3{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.pb .no{font-family:'Playfair Display',serif;font-size:30px;color:var(--acc)}
+.pb dl{display:grid;grid-template-columns:160px 1fr;gap:6px 20px;margin:12px 0 0}
 .pb dt{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600;padding-top:3px}
 .pb dd{margin:0}
-.tag{display:inline-block;border-radius:99px;padding:1px 10px;font-size:11.5px;font-weight:600}
-.tag.b{background:var(--tint);color:var(--acch)}.tag.m{background:var(--paper);color:var(--mut)}.tag.a{background:#E3F2E8;color:#1d6b3a}
-.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:16px}
-.plan div{border-top:2px solid var(--acc);padding-top:10px}
-.plan b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:4px}
+.tag{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:600}
+.tag.b{background:var(--tint);color:var(--acch)}.tag.m{background:var(--paper);color:var(--mut)}.tag.a{background:var(--ok-bg);color:var(--ok)}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px}
+.plan div{border-top:2px solid var(--acc);padding:14px 16px;background:var(--paper);border-radius:0 0 12px 12px}
+.plan b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:6px}
 ul.pl{margin:8px 0;padding-left:18px}
-.empty{padding:48px 0;color:var(--mut)}
-.txt{width:100%;min-height:260px;font:12px/1.5 ui-monospace,Menlo,monospace}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:99px;font-size:13px;z-index:20}
-
+.empty{padding:40px 24px;color:var(--mut);background:var(--paper);border-radius:14px;border:1px dashed var(--line);margin-top:16px}
+.txt{width:100%;min-height:240px;font:12px/1.5 ui-monospace,Menlo,monospace}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 22px;border-radius:99px;font-size:13px;z-index:40;box-shadow:0 8px 24px rgba(0,0,0,.22)}
 .tbl tr.sel td{background:var(--tint)}
 .ctrl{display:flex;gap:24px;flex-wrap:wrap}
-.strip{position:relative;height:28px;margin-top:36px}
-.strip .axis{position:absolute;left:0;right:0;top:13px;height:2px;background:var(--line)}
-.strip .band{position:absolute;top:8px;height:12px;background:var(--r2);border-radius:6px}
-.strip .med{position:absolute;top:4px;height:20px;width:2px;background:var(--ink)}
-.strip .me{position:absolute;top:0;width:16px;height:28px;margin-left:-8px;border-radius:8px;background:var(--acc)}
-.strip-l{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-top:6px}
-.pbar{position:relative;height:3px;background:var(--line);margin:10px 0}
-.pbar i{position:absolute;top:-5px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--acc)}
+.strip{position:relative;height:36px;margin-top:32px}
+.strip .axis{position:absolute;left:0;right:0;top:17px;height:2px;background:var(--line)}
+.strip .band{position:absolute;top:11px;height:14px;background:var(--r2);border-radius:7px}
+.strip .med{position:absolute;top:6px;height:24px;width:2px;background:var(--ink)}
+.strip .me{position:absolute;top:2px;width:18px;height:32px;margin-left:-9px;border-radius:9px;background:var(--acc);box-shadow:0 2px 6px rgba(211,84,0,.35)}
+.strip-l{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-top:6px;gap:12px;flex-wrap:wrap}
+.pbar{position:relative;height:4px;background:var(--line);border-radius:99px;margin:10px 0}
+.pbar i{position:absolute;top:-4px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--acc);box-shadow:0 1px 4px rgba(211,84,0,.35)}
 .pwbox{border:1px solid var(--acc);background:var(--tint);border-radius:12px;padding:18px 22px;margin:16px 0}
 .pwform{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:end;margin-top:12px}
 .pwform .f{min-width:220px}
 .pwbox .pw{font:600 26px/1.3 ui-monospace,Menlo,monospace;letter-spacing:.06em}
-@media(max-width:1000px){.waves{grid-template-columns:1fr 1fr}.wave{border-right:0;margin-right:0}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
-@media(max-width:760px){
-body{display:block}
-aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:0;z-index:30;border-top:1px solid var(--line)}
-.logo,.side-foot{display:none}
-.nav{flex-direction:row;width:100%}.nav button{flex:1;flex-direction:column;gap:2px;font-size:11px;padding:10px 4px;border-left:0;border-top:2px solid transparent;align-items:center}
-.nav button.on{border-top-color:var(--acc)}
-main{padding:28px 20px 110px}h1{font-size:28px}
-.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
-.how{grid-template-columns:1fr}.big{gap:32px}.pb dl{grid-template-columns:1fr}
-}
-
 .printhead,.printonly{display:none}
 .lk{display:grid;grid-template-columns:1.2fr 2fr 150px auto;gap:8px;margin:6px 0;align-items:center}
 .lk input{width:100%}
 .note{white-space:pre-wrap}
 .xlist{list-style:none;padding:0;margin:8px 0}.xlist li{border-top:1px solid var(--line);padding:10px 0}
-.xrow{display:flex;gap:12px;flex-wrap:wrap}
-@media(max-width:760px){.lk{grid-template-columns:1fr}}
+.xrow{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:1100px){.kpis{grid-template-columns:1fr 1fr}.waves{grid-template-columns:1fr 1fr}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
+@media(max-width:760px){
+body{display:block}
+aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:0;z-index:30;border-top:1px solid var(--line);border-right:0}
+.logo,.side-foot,.side-ctx{display:none}
+.nav{flex-direction:row;width:100%;gap:0}.nav button{flex:1;flex-direction:column;gap:2px;font-size:11px;padding:10px 4px;border-left:0;border-top:2px solid transparent;align-items:center}
+.nav button.on{border-top-color:var(--acc);box-shadow:none}
+main{padding:24px 18px 110px}h1{font-size:28px}
+.kpis,.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
+.how{grid-template-columns:1fr}.big{gap:28px}.pb dl{grid-template-columns:1fr}.lk{grid-template-columns:1fr}
+}
 @media print{
 @page{margin:16mm 14mm}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{display:block;font-size:11.5px;color:#000}
-aside,.noprint,.toast,button,.ib{display:none!important}
+aside,.noprint,.demo-bar,.toast,button,.ib{display:none!important}
 main{padding:0;max-width:none}
 .printhead{display:block;border-bottom:2px solid var(--acc);padding-bottom:8px;margin-bottom:18px}
 .printhead b{font-family:'Playfair Display',Georgia,serif;font-size:20px}
 .printonly{display:block}
-section,.pb,.mini,.verdict{break-inside:avoid}
+.raw-body.is-collapsed{display:block!important}
+section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap{break-inside:avoid}
 h2,h3{break-after:avoid}
 a{color:inherit;text-decoration:none}
 .scroll{overflow:visible}
@@ -216,10 +276,12 @@ a{color:inherit;text-decoration:none}
 <body>
 <aside>
   <div class="logo">Employer Brand<br>Maturity Index<small>Zinnov EB practice</small></div>
+  <div id="sidectx"></div>
   <nav class="nav" id="nav"></nav>
   <div class="side-foot" id="sidefoot"></div>
 </aside>
 <main id="app"></main>
+<script src="sample-data.js"></script>
 <script>
 /* ---------- icons (Lucide style, inline) ---------- */
 const ICON={
@@ -235,7 +297,11 @@ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
 bench:'<path d="M3 3v18h18"/><path d="M7 15v3M12 9v9M17 5v13"/>',
 clients:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
 out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/>',
-key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/>'
+key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/>',
+search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+chev:'<path d="m6 9 6 6 6-6"/>',
+chevu:'<path d="m18 15-6-6-6 6"/>',
+spark:'<path d="M12 3 9.5 9.5 3 12l6.5 2.5L12 21l2.5-6.5L21 12l-6.5-2.5z"/>'
 };
 const ic=(n,sz=18)=>`<svg class="ic" width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
 
@@ -402,8 +468,9 @@ THR.split("\n").forEach(l=>{const f=l.split("|");THRM[f[0]]={basis:f[1],r:f.slic
 SUBS.forEach(s=>{s.rel=RELM[s.id].split("").map(x=>x==="1");s.thr=THRM[s.id]});
 const LOW=/^(none|not (measured|asked|tracked)|no (pools|attributes|measurement)|nothing|unclaimed|ad hoc|posters only|cost line only)/i;
 
-/* ---------- state and server sync ---------- */
-let WCH=null,SHOWREL=false,S=null,OPEN={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
+/* ---------- state, demo mode and server sync ---------- */
+let WCH=null,SHOWREL=false,S=null,OPEN={},COLL={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
+let DEMO=false,DEMO_DB=null,WQ=[0,0,0,0,0],AF={q:'',f:'all'},FQ='';
 const PEND={};
 const BO={pool:'all',basis:'evidenced',min:5};
 const WNAME=i=>WAVES[i-1].name;
@@ -411,17 +478,199 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const cl=()=>S&&(S.clients.find(c=>c.id===S.c)||S.clients[0]);
 const ch=()=>{const c=cl();return c&&(c.cohorts.find(h=>h.id===S.h)||c.cohorts[0])};
 const A=id=>{const h=ch();return h.a[id]||(h.a[id]={in:false,sc:0,vd:'',ev:'',pr:'n'})};
+const deepClone=o=>JSON.parse(JSON.stringify(o));
 const FRIENDLY={'conflict':'This cohort was changed somewhere else after you opened it.','unauthorised':'You are not signed in. Please sign in again.','forbidden':'Your password does not allow this action. Ask the admin if you need it.','not found':'We could not find that item. It may have been removed, so please refresh the page.','client not found':'We could not find that client. It may have been removed, so please refresh the page.','server error':'Something went wrong on our side. Please wait a moment and try again.','bad path':'Something went wrong on our side. Please wait a moment and try again.','client required':'Please choose a client first.'};
 const friendly=m=>FRIENDLY[m]||m||'Something went wrong while talking to the server. Please try again in a moment.';
+
+/* ---------- demo store (offline / preview mode with Moonshot Inc. + peer pool) ---------- */
+function demoSummarize(ans){
+ const rows=[];
+ for(const[id,a]of Object.entries(ans||{})){
+  if(id==='_x'||!a||!a.in)continue;
+  const sc=a.sc|0;
+  rows.push({p:+id.split('.')[0]-1,sc,ok:sc>0&&String(a.ev||'').trim().length>0,vd:a.vd});
+ }
+ const scored=rows.filter(r=>r.sc>0),valid=scored.filter(r=>r.ok);
+ const mean=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:null;
+ const toIdx=v=>v==null?null:Math.round(((v-1)/4)*100);
+ const avg=mean(scored.map(r=>r.sc)),avgV=mean(valid.map(r=>r.sc));
+ const pillars=[0,1,2,3,4].map(p=>({p,avg:mean(scored.filter(r=>r.p===p).map(r=>r.sc)),avg_v:mean(valid.filter(r=>r.p===p).map(r=>r.sc)),n:scored.filter(r=>r.p===p).length,nv:valid.filter(r=>r.p===p).length}));
+ return{n_scope:rows.length,n_scored:scored.length,n_valid:valid.length,n_below:scored.filter(r=>r.vd==='b').length,avg,avg_v:avgV,idx:toIdx(avg),idx_v:toIdx(avgV),pillars};
+}
+function initDemoDb(){
+ const sample=window.EBMI_SAMPLE;
+ const cid='demo-moonshot';
+ const cohorts=[],snaps={};
+ let snSeq=1;
+ (sample?sample.cohorts:[]).forEach((coh,ci)=>{
+  const hid='demo-coh-'+(ci+1);
+  const hist=[];
+  (coh.snapshots||[]).forEach(sn=>{
+   const sid='demo-sn-'+(snSeq++),s=demoSummarize(sn.answers);
+   hist.push({id:sid,d:sn.taken_on,idx:s.idx,idxv:s.idx_v,avg:s.avg,n:s.n_scope,s:s.n_scored,v:s.n_valid});
+   snaps[sid]={id:sid,cohort_id:hid,client_id:cid,taken_on:sn.taken_on,wave:sn.wave,answers:deepClone(sn.answers),...s};
+  });
+  cohorts.push({id:hid,name:coh.name,a:deepClone(coh.answers),u:new Date().toISOString(),hist});
+ });
+ DEMO_DB={
+  seq:100,
+  role:'admin',
+  clients:[{id:cid,name:sample?sample.client.name:'Moonshot Inc.',wave:sample?sample.client.wave:3,cohorts}],
+  archived:[],
+  snaps,
+  access:[{id:'demo-acc-1',client_id:cid,label:'Ananya Rao (VP Engineering)',revoked:false,last_login:'2026-10-14T09:15:00Z',created_at:'2026-04-01T08:00:00Z'}]
+ };
+}
+function demoPoolRows(basis){
+ const ev=basis!=='provisional',out=[];
+ // Live clients' latest snapshots
+ DEMO_DB.clients.forEach(c=>{
+  c.cohorts.forEach(h=>{
+   if(!h.hist.length)return;
+   const last=h.hist[h.hist.length-1],sn=DEMO_DB.snaps[last.id];
+   if(!sn)return;
+   const subs={};
+   for(const[id,a]of Object.entries(sn.answers||{})){if(id!=='_x'&&a&&a.in&&a.sc>0&&(!ev||String(a.ev||'').trim()))subs[id]=a.sc}
+   out.push({snapshot_id:sn.id,cohort_id:h.id,client_id:c.id,client:c.name,cohort:h.name,wave:sn.wave,taken_on:sn.taken_on,n:ev?sn.n_valid:sn.n_scored,idx:ev?sn.idx_v:sn.idx,pillars:(sn.pillars||[]).map(p=>ev?p.avg_v:p.avg),subs});
+  });
+ });
+ // Anonymised peer cohorts from sample-data.js
+ const mean=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:null;
+ const toIdx=v=>v==null?null:Math.round(((v-1)/4)*100);
+ ((window.EBMI_SAMPLE&&window.EBMI_SAMPLE.peers)||[]).forEach(p=>{
+  const entries=Object.entries(p.subs);
+  const avg=mean(entries.map(([,v])=>v));
+  const pillars=[0,1,2,3,4].map(pi=>mean(entries.filter(([id])=>+id.split('.')[0]-1===pi).map(([,v])=>v)));
+  out.push({snapshot_id:p.cohort_id,cohort_id:p.cohort_id,client_id:p.client_id,client:p.client,cohort:p.cohort,wave:p.wave,taken_on:p.taken_on,n:entries.length,idx:toIdx(avg),pillars,subs:p.subs});
+ });
+ return out;
+}
+function demoApi(method,path,body){
+ const u=new URL('http://local'+path),p=u.pathname,q=u.searchParams;
+ const pctOf=(vals,v)=>Math.round(((vals.filter(x=>x<v).length+0.5*vals.filter(x=>x===v).length)/vals.length)*100);
+ const rankOf=(vals,v)=>1+vals.filter(x=>x>v).length;
+ const quant=(sorted,pr)=>{const i=(sorted.length-1)*pr,lo=Math.floor(i),hi=Math.ceil(i);return sorted[lo]+(sorted[hi]-sorted[lo])*(i-lo)};
+ const r1=x=>Math.round(x*10)/10;
+ const lbl=pc=>pc>=75?'Top quartile':pc>=50?'Upper half':pc>=25?'Lower half':'Bottom quartile';
+ const applyPool=(rows,pool,wave,min)=>rows.filter(r=>r.idx!=null&&r.n>=min&&(pool!=='wave'||r.wave===wave));
+
+ if(p==='/state'&&method==='GET')return{role:DEMO_DB.role,clients:deepClone(DEMO_DB.clients),archived:deepClone(DEMO_DB.archived)};
+ if(p==='/client'&&method==='POST'){
+  const id='demo-cl-'+(++DEMO_DB.seq),hid='demo-coh-'+(++DEMO_DB.seq);
+  const c={id,name:String(body.name||'New client').trim(),wave:Math.max(1,Math.min(4,body.wave|0||2)),cohorts:[{id:hid,name:'Whole centre',a:{},u:new Date().toISOString(),hist:[]}]};
+  DEMO_DB.clients.push(c);return deepClone(c);
+ }
+ if(p==='/client'&&method==='PATCH'){
+  let c=DEMO_DB.clients.find(x=>x.id===body.id)||DEMO_DB.archived.find(x=>x.id===body.id);
+  if(!c)throw new Error('client not found');
+  if(typeof body.name==='string')c.name=body.name.trim()||'Unnamed client';
+  if(body.wave)c.wave=Math.max(1,Math.min(4,body.wave|0));
+  if(typeof body.archived==='boolean'){
+   if(body.archived){DEMO_DB.clients=DEMO_DB.clients.filter(x=>x.id!==c.id);if(!DEMO_DB.archived.find(x=>x.id===c.id))DEMO_DB.archived.push(c)}
+   else{DEMO_DB.archived=DEMO_DB.archived.filter(x=>x.id!==c.id);if(!DEMO_DB.clients.find(x=>x.id===c.id))DEMO_DB.clients.push(c)}
+  }
+  return{ok:true};
+ }
+ if(p==='/client'&&method==='DELETE'){DEMO_DB.archived=DEMO_DB.archived.filter(x=>x.id!==q.get('id'));return{ok:true}}
+ if(p==='/cohort'&&method==='POST'){
+  const c=DEMO_DB.clients.find(x=>x.id===body.client_id);if(!c)throw new Error('client not found');
+  const h={id:'demo-coh-'+(++DEMO_DB.seq),name:String(body.name||'New cohort').trim(),a:{},u:new Date().toISOString(),hist:[]};
+  c.cohorts.push(h);return deepClone(h);
+ }
+ if(p==='/cohort'&&method==='PATCH'){
+  for(const c of DEMO_DB.clients){const h=c.cohorts.find(x=>x.id===body.id);if(h){if(typeof body.name==='string')h.name=body.name;if(body.answers!==undefined){h.a=deepClone(body.answers);h.u=new Date().toISOString()}return{ok:true,u:h.u}}}
+  throw new Error('not found');
+ }
+ if(p==='/cohort'&&method==='DELETE'){
+  const id=q.get('id');DEMO_DB.clients.forEach(c=>c.cohorts=c.cohorts.filter(x=>x.id!==id));return{ok:true};
+ }
+ if(p==='/snapshot'&&method==='POST'){
+  for(const c of DEMO_DB.clients){
+   const h=c.cohorts.find(x=>x.id===body.cohort_id);
+   if(h){
+    const ans=deepClone(body.answers||h.a),s=demoSummarize(ans),sid='demo-sn-'+(++DEMO_DB.seq),d=body.taken_on||new Date().toISOString().slice(0,10);
+    const rec={id:sid,d,idx:s.idx,idxv:s.idx_v,avg:s.avg,n:s.n_scope,s:s.n_scored,v:s.n_valid};
+    h.hist.push(rec);
+    DEMO_DB.snaps[sid]={id:sid,cohort_id:h.id,client_id:c.id,taken_on:d,wave:c.wave,answers:ans,...s};
+    return rec;
+   }
+  }
+  throw new Error('not found');
+ }
+ if(p==='/snapshot'&&method==='GET'){
+  const sn=DEMO_DB.snaps[q.get('id')];if(!sn)throw new Error('not found');
+  return{id:sn.id,taken_on:sn.taken_on,wave:sn.wave,answers:deepClone(sn.answers),idx:sn.idx,idx_v:sn.idx_v};
+ }
+ if(p==='/snapshot'&&method==='DELETE'){
+  const sid=q.get('id');delete DEMO_DB.snaps[sid];
+  DEMO_DB.clients.forEach(c=>c.cohorts.forEach(h=>h.hist=h.hist.filter(x=>x.id!==sid)));
+  return{ok:true};
+ }
+ if(p==='/benchmark'&&method==='GET'){
+  const cid=q.get('cohort'),pool=q.get('pool')==='wave'?'wave':'all',basis=q.get('basis')==='provisional'?'provisional':'evidenced',min=Math.max(1,Math.min(15,+(q.get('min')||5)|0));
+  const all=demoPoolRows(basis),me=all.find(r=>r.cohort_id===cid);
+  if(!me)return{eligible:false,reason:'no_snapshot'};
+  if(me.idx==null||me.n<min)return{eligible:false,reason:'too_few',have:me.n,need:min};
+  const rows=applyPool(all,pool,me.wave,min),vals=rows.map(r=>r.idx),n=vals.length,thin=n<5,sorted=[...vals].sort((a,b)=>a-b);
+  const idx={v:me.idx,pct:pctOf(vals,me.idx),rank:rankOf(vals,me.idx),of:n,med:r1(quant(sorted,0.5)),...(thin?{}:{p25:r1(quant(sorted,0.25)),p75:r1(quant(sorted,0.75))})};
+  const pillars=[0,1,2,3,4].map(pi=>{
+   const list=rows.map(r=>r.pillars[pi]).filter(x=>x!=null),v=me.pillars[pi];
+   if(v==null)return{p:pi,v:null,n:list.length};
+   const o={p:pi,v:r1(v),n:list.length};
+   if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
+   return o;
+  });
+  const subs=Object.entries(me.subs).map(([id,v])=>{
+   const list=rows.map(r=>r.subs[id]).filter(x=>x!=null),o={id,v,n:list.length};
+   if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
+   return o;
+  }).sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
+  return{eligible:true,pool:{n,thin,mode:pool,basis,min,wave:me.wave},idx,position:n>=3?lbl(idx.pct):null,pillars,subs,taken_on:me.taken_on};
+ }
+ if(p==='/league'&&method==='GET'){
+  const pool=q.get('pool')==='wave'?'wave':'all',basis=q.get('basis')==='provisional'?'provisional':'evidenced',min=Math.max(1,Math.min(15,+(q.get('min')||5)|0));
+  const all=demoPoolRows(basis);
+  const rows=all.map(r=>{
+   const ok=r.idx!=null&&r.n>=min,peers=ok?applyPool(all,pool,r.wave,min):[],vals=peers.map(x=>x.idx);
+   const row={client_id:r.client_id,cohort_id:r.cohort_id,client:r.client,cohort:r.cohort,wave:r.wave,taken_on:r.taken_on,n:r.n,idx:r.idx,eligible:ok};
+   if(ok){
+    row.pct=pctOf(vals,r.idx);row.rank=rankOf(vals,r.idx);row.of=vals.length;
+    row.pillars=[0,1,2,3,4].map(pi=>{const list=peers.map(x=>x.pillars[pi]).filter(x=>x!=null),v=r.pillars[pi];return v==null?null:{v:r1(v),pct:list.length>=3?pctOf(list,v):null}});
+   }
+   return row;
+  }).sort((a,b)=>(b.pct??-1)-(a.pct??-1)||(b.idx??-1)-(a.idx??-1));
+  return{rows,pool,basis,min};
+ }
+ if(p==='/access'&&method==='GET')return{access:deepClone(DEMO_DB.access)};
+ if(p==='/access'&&method==='POST'){
+  const pw='DEMO-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  const row={id:'demo-acc-'+(++DEMO_DB.seq),client_id:body.client_id,label:body.label||'Client access',revoked:false,last_login:null,created_at:new Date().toISOString()};
+  DEMO_DB.access.push(row);return{id:row.id,password:pw};
+ }
+ if(p==='/access/revoke'&&method==='POST'){
+  const row=DEMO_DB.access.find(x=>x.id===body.id);if(row)row.revoked=body.revoked!==false;return{ok:true};
+ }
+ if(p==='/export'&&method==='GET'){
+  const c=DEMO_DB.clients.find(x=>x.id===q.get('client'));if(!c)throw new Error('client not found');
+  return{exported_at:new Date().toISOString(),client:{id:c.id,name:c.name,wave:c.wave},cohorts:c.cohorts,snapshots:Object.values(DEMO_DB.snaps).filter(s=>s.client_id===c.id)};
+ }
+ return{ok:true};
+}
+
 async function api(method,path,body){
+ if(DEMO)return demoApi(method,path,body);
  const r=await fetch('/api/db?p='+encodeURIComponent(path),{method,headers:{'content-type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),credentials:'same-origin'});
  if(r.status===401){location.href='/login.html';throw new Error('You have been signed out. Please sign in again.')}
  const j=await r.json().catch(()=>({}));
  if(!r.ok){const e=new Error(friendly(j.error));e.status=r.status;throw e}
  return j;
 }
-function setStat(t){const e=document.getElementById('stat');if(e)e.textContent=t}
-function dirty(h){clearTimeout(PEND[h.id]);setStat('Saving your changes...');PEND[h.id]=setTimeout(()=>flush(h),700)}
+function setStat(t,mode){
+ const e=document.getElementById('stat'),d=document.getElementById('sdot');
+ if(e)e.textContent=t;
+ if(d){d.className='sdot'+(mode?' '+mode:'')}
+}
+function dirty(h){clearTimeout(PEND[h.id]);setStat('Saving your changes...','saving');PEND[h.id]=setTimeout(()=>flush(h),650)}
 async function flush(h,force){
  clearTimeout(PEND[h.id]);
  if(h.conflict&&!force)return;
@@ -430,10 +679,10 @@ async function flush(h,force){
  try{
   const r=await api('PATCH','/cohort',{id:h.id,answers:h.a,base:h.u,force:force?true:undefined});
   if(r.u)h.u=r.u;
-  h.conflict=false;delete PEND[h.id];setStat(Object.keys(PEND).length?'Saving your changes...':'All changes saved');
+  h.conflict=false;delete PEND[h.id];setStat(Object.keys(PEND).length?'Saving your changes...':(DEMO?'Saved in demo session':'All changes saved'),Object.keys(PEND).length?'saving':'');
  }catch(e){
-  if(e.status===409){h.conflict=true;delete PEND[h.id];setStat('Not saved. This cohort was changed somewhere else, so please choose what to do at the top of the page.');if(S&&S.clients)render(true)}
-  else setStat('Not saved yet. '+e.message+' Your changes will be sent again with your next edit.');
+  if(e.status===409){h.conflict=true;delete PEND[h.id];setStat('Not saved — conflict','err');if(S&&S.clients)render(true)}
+  else setStat('Not saved yet. '+e.message,'err');
  }
  h.sav=false;
  if(h.again){h.again=false;if(!h.conflict)await flush(h)}
@@ -441,7 +690,7 @@ async function flush(h,force){
 async function reloadState(){
  Object.keys(PEND).forEach(k=>{clearTimeout(PEND[k]);delete PEND[k]});
  const st=await api('GET','/state');
- S.clients=st.clients;S.archived=st.archived||[];pickDefaults();BM={};LG=null;setStat('All changes saved');
+ S.clients=st.clients;S.archived=st.archived||[];pickDefaults();BM={};LG=null;setStat(DEMO?'Saved in demo session':'All changes saved');
 }
 function conflictBox(h){return h&&h.conflict?`<div class="pwbox" role="alert"><b>This cohort was changed somewhere else.</b><p class="mute" style="margin:6px 0 10px">Someone else, or another tab of yours, saved changes to this cohort after you opened it. Your latest edits have not been saved, so that nobody's work is overwritten by accident. Choose Load the latest to discard your unsaved edits and see the newer version, or choose Keep my version to replace the newer version with yours.</p><button class="btn pri" data-a="reloadstate">Load the latest</button> <button class="btn" data-a="overwrite">Keep my version</button></div>`:''}
 async function flushAll(){
@@ -454,14 +703,66 @@ function pickDefaults(){
   const c=cl();if(!c.cohorts.find(h=>h.id===S.h))S.h=c.cohorts[0].id;
  }else{S.c=null;S.h=null}
 }
+function startDemo(tab){
+ DEMO=true;initDemoDb();
+ const st=demoApi('GET','/state');
+ S={tab:tab||'report',pil:0,role:st.role,clients:st.clients,archived:st.archived||[],c:null,h:null};
+ pickDefaults();
+ Object.keys(SNAPC).forEach(k=>delete SNAPC[k]);
+ Object.keys(CMP).forEach(k=>delete CMP[k]);
+ BM={};LG=null;
+ render();
+ loadBench(true);
+}
+async function seedMoonshotLive(){
+ const sample=window.EBMI_SAMPLE;
+ if(!sample)return toast('Sample data is not loaded.');
+ if(S.clients.some(c=>c.name.toLowerCase()===sample.client.name.toLowerCase())){
+  const ex=S.clients.find(c=>c.name.toLowerCase()===sample.client.name.toLowerCase());
+  S.c=ex.id;S.h=ex.cohorts[0].id;S.tab='report';render();
+  return toast('Moonshot Inc. is already in your workspace.');
+ }
+ toast('Creating Moonshot Inc. with cohorts, scores and snapshots...');
+ const created=await api('POST','/client',{name:sample.client.name,wave:sample.client.wave});
+ const defaultCoh=created.cohorts[0];
+ const cohorts=[];
+ for(let i=0;i<sample.cohorts.length;i++){
+  const sc=sample.cohorts[i];
+  let coh;
+  if(i===0){
+   await api('PATCH','/cohort',{id:defaultCoh.id,name:sc.name});
+   coh={id:defaultCoh.id,name:sc.name,a:deepClone(sc.answers),hist:[]};
+  }else{
+   const nc=await api('POST','/cohort',{client_id:created.id,name:sc.name});
+   coh={id:nc.id,name:nc.name,a:deepClone(sc.answers),hist:[]};
+  }
+  const r=await api('PATCH','/cohort',{id:coh.id,answers:coh.a,force:true});
+  coh.u=r.u;
+  for(const sn of (sc.snapshots||[])){
+   const sr=await api('POST','/snapshot',{cohort_id:coh.id,taken_on:sn.taken_on,answers:sn.answers});
+   coh.hist.push(sr);
+  }
+  cohorts.push(coh);
+ }
+ created.cohorts=cohorts;
+ S.clients.push(created);S.c=created.id;S.h=cohorts[0].id;BM={};LG=null;
+ S.tab='report';
+ toast('Moonshot Inc. loaded with 2 cohorts and historical snapshots.');
+ render();
+ loadBench(true);
+}
 async function boot(){
+ const params=new URLSearchParams(location.search);
+ if(params.get('demo')==='1'){startDemo(params.get('tab')||'report');return}
  try{
   const st=await api('GET','/state');
   S={tab:st.role==='admin'?'clients':'audit',pil:0,role:st.role,clients:st.clients,archived:st.archived||[],c:null,h:null};
   pickDefaults();
   render();
  }catch(e){
-  document.getElementById('app').innerHTML='<h1>We could not open your workspace</h1><p class="lede">'+esc(e.message)+' Please check your internet connection and refresh the page. If this keeps happening, contact the person who gave you your password.</p>';
+  if(e.status===404){startDemo('report');return}
+  document.getElementById('app').innerHTML=`<div class="eyebrow">Workspace</div><h1 style="margin-top:8px">We could not open your workspace</h1><p class="lede">${esc(e.message)} If you are previewing this app locally without a Supabase backend, you can launch the interactive demo with Moonshot Inc. sample data.</p><div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap"><button class="btn pri" id="go-demo">${ic('spark',16)} Open Moonshot Inc. interactive demo</button><button class="btn" onclick="location.reload()">Try again</button></div>`;
+  const b=document.getElementById('go-demo');if(b)b.addEventListener('click',()=>startDemo('report'));
  }
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&S)flushAll()});
@@ -474,7 +775,7 @@ function compute(client,cohort){
  const wm=(arr,f)=>{const t=arr.reduce((x,r)=>x+r.w,0);return t?arr.reduce((x,r)=>x+f(r)*r.w,0)/t:null};
  const avg=wm(scored,r=>r.sc),avgV=wm(valid,r=>r.sc);
  const idx=v=>v==null?null:Math.round((v-1)/4*100);
- const pil=PIL.map((n,p)=>{const g=scored.filter(r=>r.s.p===p);return{n,p,cnt:g.length,avg:wm(g,r=>r.sc)}});
+ const pil=PIL.map((n,p)=>{const g=scored.filter(r=>r.s.p===p),gv=valid.filter(r=>r.s.p===p);return{n,p,cnt:g.length,avg:wm(g,r=>r.sc),avgV:wm(gv,r=>r.sc)}});
  const below=scored.filter(r=>r.a.vd==='b'),above=scored.filter(r=>r.a.vd==='a');
  const cand=scored.filter(r=>r.sc<5&&(r.a.vd!=='a'||r.a.pr==='f')).sort((x,y)=>((y.a.pr==='f')-(x.a.pr==='f'))||((y.a.vd==='b')-(x.a.vd==='b'))||(x.sc-y.sc));
  const top=[],used=new Set();
@@ -484,10 +785,13 @@ function compute(client,cohort){
  return{wave,rows,scored,valid,avg,avgV,idx:idx(avg),idxV:idx(avgV),pil,below,above,top,strengths,
   missing:scored.filter(r=>!r.ok),unscored:rows.filter(r=>!r.sc),n:rows.length};
 }
+function scopeWarn(n){
+ return n<9?'Below the recommended 9–15 sub-outcomes; the profile may be too thin.':n>15?'Above the recommended 9–15 sub-outcomes; consider trimming for a sharper profile.':'Within the recommended 9–15 sub-outcomes.';
+}
 function waveLine(client,R){
  const W=WAVES[R.wave-1].name;
  if(!R.scored.length)return'Score a few sub-outcomes on the Audit tab, and this line will tell you how the brand stands against what is expected at this wave.';
- if(R.wave>=3&&R.avg<=2.5)return`The centre\'s mandate has outgrown its employer brand story. A ${W} centre is still being judged on the kind of communication expected of a Satellite, with an average rung of ${R.avg.toFixed(1)} against a wave that asks for ownership language and proof.`;
+ if(R.wave>=3&&R.avg<=2.5)return`The centre's mandate has outgrown its employer brand story. A ${W} centre is still being judged on the kind of communication expected of a Satellite, with an average rung of ${R.avg.toFixed(1)} against a wave that asks for ownership language and proof.`;
  if(R.below.length/R.scored.length>=0.5)return`${R.below.length} of ${R.scored.length} scored sub-outcomes sit below what a ${W} centre is expected to show. That gap is the main work for this engagement.`;
  if(R.below.length===0&&R.above.length>0)return`No scored sub-outcome sits below the ${W} expectation, and ${R.above.length} sit above it. Say so plainly to the client, and then choose together where to aim next.`;
  return`${R.below.length} of ${R.scored.length} scored sub-outcomes sit below the ${W} expectation. The profile is uneven, and that unevenness is the most useful thing to show the client.`;
@@ -498,21 +802,91 @@ function nextMove(r){
  return`Move from ${RUNG[r.sc]} to ${RUNG[to]}. This is one rung only, which is the most a centre can realistically climb in a year.`;
 }
 
+/* ---------- charts (SVG: radar, rung distribution, snapshot trend) ---------- */
+function radarSvg(R){
+ const cx=160,cy=138,rmax=92,labels=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
+ const pt=(i,val)=>{const ang=-Math.PI/2+i*(2*Math.PI/5),r=(val/5)*rmax;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
+ const rings=[1,2,3,4,5].map(lv=>{
+  const pts=[0,1,2,3,4].map(i=>pt(i,lv).map(n=>n.toFixed(1)).join(',')).join(' ');
+  return`<polygon points="${pts}" fill="none" stroke="#E2E2E8" stroke-width="${lv===3?'1.2':'0.8'}" ${lv===3?'stroke-dasharray="3 3"':''}/>`;
+ }).join('');
+ const axes=[0,1,2,3,4].map(i=>{
+  const[x,y]=pt(i,5),[lx,ly]=pt(i,5.95);
+  const anc=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
+  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11" font-weight="600" fill="#525263">${labels[i]}</text>`;
+ }).join('');
+ const poly=(vals,fill,stroke,dash)=>{
+  if(!vals.some(v=>v>0))return'';
+  const pts=vals.map((v,i)=>pt(i,v||0).map(n=>n.toFixed(1)).join(',')).join(' ');
+  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${stroke}"/>`}).join('');
+  return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
+ };
+ const prov=R.pil.map(p=>p.avg||0),evid=R.pil.map(p=>p.avgV||0);
+ const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+4}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9" fill="#8A8A98">${lv}</text>`).join('');
+ return`<div class="radar-wrap"><h3>Pillar maturity radar</h3><small>Average rung (1 to 5) per pillar</small><svg viewBox="0 0 320 268" width="100%" style="max-width:340px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${poly(prov,'rgba(233,154,16,0.18)','#E99A10',true)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span></div></div>`;
+}
+function rungDist(R){
+ if(!R.scored.length)return'';
+ const counts=[1,2,3,4,5].map(n=>R.scored.filter(r=>r.sc===n).length);
+ const tot=R.scored.length,cols=['var(--r1)','var(--r2)','var(--r3)','var(--r4)','var(--r5)'];
+ return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" title="Rung ${i+1} ${RUNG[i+1]}: ${c}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
+}
+function trendSvg(hist){
+ if(!hist||hist.length<2)return'';
+ const W=560,H=150,padL=34,padR=24,padT=16,padB=28,pw=W-padL-padR,ph=H-padT-padB;
+ const xAt=i=>padL+(hist.length===1?pw/2:(i/(hist.length-1))*pw);
+ const yAt=v=>padT+ph-((Math.max(0,Math.min(100,v)))/100)*ph;
+ const grid=[0,25,50,75,100].map(v=>`<line x1="${padL}" y1="${yAt(v).toFixed(1)}" x2="${W-padR}" y2="${yAt(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${padL-6}" y="${(yAt(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A8A98">${v}</text>`).join('');
+ const line=(key,color,dash)=>{
+  const pts=hist.map((x,i)=>x[key]==null?null:[xAt(i),yAt(x[key]),x[key],x.d]).filter(Boolean);
+  if(pts.length<2)return'';
+  const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/><text x="${p[0].toFixed(1)}" y="${(p[1]-8).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
+  return`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
+ };
+ const xlabels=hist.map((x,i)=>`<text x="${xAt(i).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#525263">${esc(x.d)}</text>`).join('');
+ return`<div class="trend-wrap"><div class="lab" style="margin:0 0 8px">Index trajectory across saved snapshots</div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:600px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true)}${line('idxv','#D35400',false)}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
+}
+
 /* ---------- views ---------- */
 const $=s=>document.querySelector(s);
+function demoBanner(){
+ if(!DEMO)return'';
+ return`<div class="demo-bar noprint"><div><b>Interactive Demo</b> · Exploring <b>Moonshot Inc.</b> (Wave 3 Portfolio Hub) with 2 cohorts, historical snapshots &amp; 5 anonymised peer centres. Changes stay in this browser session.</div><div class="db-acts"><div class="seg"><button class="${S.role==='admin'?'on':''}" data-a="demorole" data-v="admin">Admin view</button><button class="${S.role==='client'?'on':''}" data-a="demorole" data-v="client">Client view</button></div><button class="btn sm" data-a="demoreset">Reset sample</button></div></div>`;
+}
 function nav(){
  const items=[['frame','Framework','frame'],['audit','Audit','audit'],['report','Report','report'],['bench','Benchmark','bench']];
  if(S.role==='admin')items.push(['clients','Clients','clients']);
- $('#nav').innerHTML=items.map(([k,l,i])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}" aria-label="${l}">${ic(i,20)}<span>${l}</span></button>`).join('')+`<button data-a="signout" aria-label="Sign out">${ic('out',20)}<span>Sign out</span></button>`;
- const f=$('#sidefoot');if(f&&!f.dataset.set){f.dataset.set=1;f.innerHTML=`<div>${S.role==='admin'?'Admin':'Client workspace'}</div><div id="stat">All changes saved</div>`}
+ $('#nav').innerHTML=items.map(([k,l,i])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}" aria-label="${l}">${ic(i,20)}<span>${l}</span></button>`).join('')+(DEMO?'':`<button data-a="signout" aria-label="Sign out">${ic('out',20)}<span>Sign out</span></button>`);
+ const sc=$('#sidectx'),c=cl(),h=ch();
+ if(sc){
+  sc.innerHTML=c?`<div class="side-ctx"><div class="sc-name">${esc(c.name)}</div><div class="sc-meta"><span class="sc-wave">W${c.wave} ${esc(WNAME(c.wave))}</span>${h?`<span>${esc(h.name)}</span>`:''}</div></div>`:'';
+ }
+ const f=$('#sidefoot');
+ if(f){
+  const curTxt=(document.getElementById('stat')||{}).textContent||(DEMO?'Saved in demo session':'All changes saved');
+  const curCls=(document.getElementById('sdot')||{}).className||'sdot';
+  f.innerHTML=`<div>${DEMO?'Demo workspace · ':''}${S.role==='admin'?'Admin':'Client workspace'}</div><div class="stat-row"><i id="sdot" class="${curCls}"></i><span id="stat">${esc(curTxt)}</span></div>`;
+ }
 }
 function render(keepScroll){
  const y=window.scrollY;nav();
  let v;
  if(['audit','report','bench'].includes(S.tab)&&!cl())v=vNoClient();
  else v=S.tab==='frame'?vFrame():S.tab==='audit'?vAudit():S.tab==='report'?vReport():S.tab==='bench'?vBench():vClients();
- $('#app').innerHTML=v;
+ $('#app').innerHTML=demoBanner()+v;
  window.scrollTo(0,keepScroll?y:0);
+}
+function waveClassifierResult(){
+ const picked=WQ.filter(Boolean);
+ if(!picked.length)return'';
+ // Zinnov rule: highest sustained level (highest wave with >=2 answers, or median/max if fewer)
+ const counts=[0,0,0,0,0];picked.forEach(w=>counts[w]++);
+ let rec=0;
+ for(let w=4;w>=1;w--){if(counts[w]>=2){rec=w;break}}
+ if(!rec)rec=Math.round(picked.reduce((a,b)=>a+b,0)/picked.length);
+ const c=cl(),canApply=c&&S.role==='admin'&&c.wave!==rec;
+ return`<div class="wq-res"><div><div class="lab" style="margin:0 0 2px">Suggested classification (${picked.length} of 5 answered)</div><b>Wave ${rec}: ${WNAME(rec)}</b><p class="mute" style="margin:4px 0 0">${picked.length<5?'Answer all five questions for the sharpest reading. ':''}Based on the highest sustained level of ownership and decision authority across your answers.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap">${canApply?`<button class="btn pri sm" data-a="applywq" data-v="${rec}">Set ${esc(c.name)} to ${WNAME(rec)}</button>`:''}<button class="btn sm" data-a="clearwq">Reset answers</button></div></div>`;
 }
 function vFrame(){
  const waves=WAVES.map((w,i)=>`<div class="wave"><div class="n">${i+1}</div><div class="pc">${w.pc} per cent of 2,117 centres, FY26</div><h3>${w.name}</h3>
@@ -520,24 +894,30 @@ function vFrame(){
  <details><summary>Function by function</summary><div class="fn">${w.fn.map(f=>`<div><b>${esc(f[0])}</b>${esc(f[1])}<br><small>Evidence: ${esc(f[2])}</small></div>`).join('')}</div></details></div>`).join('');
 
  const wq=`<div class="scroll"><table class="tbl"><tr><th>Stage</th><th>Zinnov working definition</th><th>Indicators that a GCC belongs here</th></tr>${WAVES.map((w,i)=>`<tr><td><b>${i+1} ${esc(w.name)}</b></td><td>${esc(WAVE_DEF[i].def)}</td><td><ul class="pl" style="margin:0">${WAVE_DEF[i].ind.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></td></tr>`).join('')}</table></div>
- <h3 style="margin-top:40px">Five questions to classify a GCC</h3><p class="lede" style="margin-top:6px">Put these five questions to the client rather than relying on headcount or how long the centre has existed. For each question, find the answer in the row that best matches what the client tells you, and see which stage that answer points to. If the answers point to different stages, go by the highest level the centre sustains, as the notes below explain.</p>
- <div class="scroll"><table class="tbl"><tr><th style="min-width:180px">Ask</th>${WAVES.map((w,i)=>`<th>${i+1} ${esc(w.name)}</th>`).join('')}</tr>${WAVEQ.map((r,n)=>`<tr><td><b>${n+1}. ${esc(r.q)}</b></td>${r.a.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table></div>
- <ul class="pl notes"><li>The stages are cumulative. A Portfolio Hub still carries Outpost and Satellite work inside individual functions, so a GCC need not show every indicator uniformly.</li><li>Classify by the highest sustained level of ownership, decision authority and measurable enterprise impact, not by the most advanced pilot or by total headcount.</li><li>Maturity is measured by enterprise outcomes delivered, not by the number of processes or capabilities located in India.</li><li>Ask for evidence rather than relying on what people tell you: an org chart, a mandate letter, a recent decision the centre made alone, and the metrics that leadership actually reviews.</li><li>You choose the wave yourself in the wave dropdown on the Audit tab or the Clients tab. These questions only guide that choice, and they do not change any score.</li></ul>`;
+ <h3 style="margin-top:40px">Interactive wave classifier: five questions</h3><p class="lede" style="margin-top:6px">Click the answer in each row that best matches what the client tells you. The tool computes the recommended GCC wave using Zinnov's "highest sustained level" rule.</p>
+ <div class="scroll"><table class="tbl wq-tbl"><tr><th style="min-width:180px">Ask</th>${WAVES.map((w,i)=>`<th>${i+1} ${esc(w.name)}</th>`).join('')}</tr>${WAVEQ.map((r,n)=>`<tr><td><b>${n+1}. ${esc(r.q)}</b></td>${r.a.map((cell,wi)=>`<td class="wq-opt ${WQ[n]===wi+1?'picked':''}" data-a="wq" data-id="${n}" data-v="${wi+1}" role="button" tabindex="0">${esc(cell)}</td>`).join('')}</tr>`).join('')}</table></div>
+ ${waveClassifierResult()}
+ <ul class="pl notes"><li>The stages are cumulative. A Portfolio Hub still carries Outpost and Satellite work inside individual functions, so a GCC need not show every indicator uniformly.</li><li>Classify by the highest sustained level of ownership, decision authority and measurable enterprise impact, not by the most advanced pilot or by total headcount.</li><li>Maturity is measured by enterprise outcomes delivered, not by the number of processes or capabilities located in India.</li><li>Ask for evidence rather than relying on what people tell you: an org chart, a mandate letter, a recent decision the centre made alone, and the metrics that leadership actually reviews.</li><li>You choose the wave yourself in the wave dropdown on the Audit tab or the Clients tab. These questions guide that choice, and they do not change any score.</li></ul>`;
  const rungs=`<div class="rungh">${[1,2,3,4,5].map(n=>`<div class="r${n}"><b>${n} ${RUNG[n]}</b>${RGLOSS[n]}</div>`).join('')}</div>`;
  const curve=`<div class="scroll"><table class="tbl"><tr><th>Function</th>${RUNG.slice(1).map(r=>`<th>${r}</th>`).join('')}</tr>${CURVE.map(r=>`<tr><td><b>${esc(r[0])}</b></td>${r.slice(1).map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
- const wcur=cl()?cl().wave:0;
- const exp=PIL.map((pn,p)=>`<div class="pillar"><h3><span>Pillar ${p+1}</span>${esc(pn)}</h3><div class="scroll"><div class="grid">
+ const wcur=cl()?cl().wave:0,fq=FQ.trim().toLowerCase();
+ const exp=PIL.map((pn,p)=>{
+  const list=SUBS.filter(s=>s.p===p&&(!fq||(s.name+' '+s.owner+' '+s.means+' '+s.ind).toLowerCase().includes(fq)));
+  if(!list.length)return'';
+  return`<div class="pillar"><h3><span>Pillar ${p+1}</span>${esc(pn)}</h3><div class="scroll"><div class="grid">
   <div class="hdr">Sub-outcome</div>${WAVES.map((w,i)=>`<div class="hdr ${i+1===wcur?'cur':''}">${i+1} ${w.name}</div>`).join('')}
-  ${SUBS.filter(s=>s.p===p).map(s=>`<div class="xr" data-a="open" data-id="${s.id}"><div class="nm"><b>${esc(s.name)}</b><small>${esc(s.owner)}</small></div>${s.w.map(t=>`<div class="cell ${LOW.test(t)?'low':''}">${esc(t)}</div>`).join('')}</div>${OPEN[s.id]?`<div class="det"><div><label style="margin-top:0">What it means for a GCC</label><p>${esc(s.means)}</p></div><div><label style="margin-top:0">Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label style="margin-top:0">Reading the indicator</label><p>${esc(s.read)}</p></div></div>`:''}`).join('')}
- </div></div></div>`).join('');
+  ${list.map(s=>`<div class="xr" data-a="open" data-id="${s.id}"><div class="nm"><b>${esc(s.name)}</b><small>${esc(s.owner)}</small></div>${s.w.map(t=>`<div class="cell ${LOW.test(t)?'low':''}">${esc(t)}</div>`).join('')}</div>${OPEN[s.id]?`<div class="det"><div><label style="margin-top:0">What it means for a GCC</label><p>${esc(s.means)}</p></div><div><label style="margin-top:0">Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label style="margin-top:0">Reading the indicator</label><p>${esc(s.read)}</p></div></div>`:''}`).join('')}
+ </div></div></div>`;
+ }).join('')||'<div class="empty">No sub-outcomes match that search.</div>';
  return`<div class="eyebrow">Zinnov employer brand practice</div><h1 style="margin-top:8px">Employer brand maturity index</h1>
  <p class="lede">This tool helps you audit the employer brand of a global capability centre (GCC). You place the centre on the employer brand maturity curve one sub-outcome at a time, and the tool then tells you what the centre should do next. It is built on Zinnov's four GCC waves and five brand rungs. If you are new to it, read this Framework page first, then move to the Audit tab to score a client.</p>
  <div class="axes"><div><h3>Wave is the mandate</h3><p class="lede" style="margin-top:0">There are four waves: Outpost, Satellite, Portfolio Hub and Transformation Hub. The wave describes what the centre has been given to do, and therefore what its employer brand needs to promise to candidates.</p></div>
  <div><h3>Maturity is the capability</h3><p class="lede" style="margin-top:0">There are five rungs: presence, consistency, evidence, authority and category. The rung describes what the employer brand has actually built so far. The wave and the rung rarely move together, and a centre whose mandate has grown while its brand has stayed behind is exactly where a consultant can help.</p></div></div>
  <section><h2>The four waves</h2><p class="lede">Read these from left to right, because each wave is a step up from the one before it. Each card explains what the centre does, what the employer brand has to deliver at that stage, and the mistake centres most often make there. Open "Function by function" to see what each function should be doing and what evidence to ask for.</p><div class="waves">${waves}</div></section>
- <section><h2>Deciding the wave</h2><p class="lede">Before you audit a client, you need to decide which wave its centre is in. The wave is set by hand, so this section is here to help you make that call with confidence. Classify the centre on what it actually owns and decides, not on how large or how old it is. The definitions, indicators and five questions below follow Zinnov's GCC maturity stages. Outpost, Satellite, Portfolio Hub and Transformation Hub are four separate stages. The older Wave 1.0 to 4.0 labels describe how the GCC ecosystem evolved over time, and they are a different thing.</p>${wq}</section>
+ <section><h2>Deciding the wave</h2><p class="lede">Before you audit a client, decide which wave its centre is in. Classify the centre on what it actually owns and decides, not on how large or how old it is. Outpost, Satellite, Portfolio Hub and Transformation Hub are four separate stages.</p>${wq}</section>
  <section><h2>The five rungs</h2><p class="lede">These short descriptions explain the five rungs you will use when you score. The table below them shows what each rung looks like in each function, which helps when you are deciding which rung the evidence supports.</p>${rungs}${curve}</section>
- <section><h2>Forty sub-outcomes across the waves</h2><p class="lede">Each row shows what is expected of a centre at each wave, so you know what "good" looks like for the client in front of you. Hatched cells mean little is expected at that wave, so an Outpost is not marked down for a missing alumni network. Select any row to see what the sub-outcome means for a GCC, the indicator to measure, where to find the data, and how to read it. The column for the wave of the client you have selected is highlighted.</p>${exp}</section>
+ <section><h2>Forty sub-outcomes across the waves</h2><p class="lede">Each row shows what is expected of a centre at each wave. Hatched cells mean little is expected at that wave. Click any row to expand its indicator, source, and reading guide. The column for the selected client's wave is highlighted.</p>
+ <div class="atool"><div class="sbox">${ic('search',15)}<input id="fq" data-i="fq" value="${esc(FQ)}" placeholder="Search 40 sub-outcomes by name, owner or indicator..." aria-label="Search sub-outcomes"></div><button class="btn sm" data-a="fexpand">Expand all</button><button class="btn sm" data-a="fcollapse">Collapse all</button></div>${exp}</section>
  <section><h2>Using it in a client conversation</h2><p class="lede">These are practical habits for running an audit with a client. They come from how the instrument is meant to be used.</p><ul class="pl notes"><li>Start by agreeing the wave with the client, and then ask what evidence they have for each function. The gap between what the wave expects and what the evidence shows is the story you will tell.</li><li>Always judge a score against the wave. An Outpost at rung 1 is not a failure, while a Transformation Hub at rung 2 is a real problem.</li><li>Score only the nine to fifteen sub-outcomes the client genuinely has a stake in, and not all forty. A spiky profile, with strong and weak areas side by side, is the finding, and an average would hide it.</li><li>Never present a score without the artefact behind it, meaning the page, report, dashboard or survey you actually saw. When the artefact is missing, that gap is often exactly what the client is paying you to fix.</li><li>Propose one rung of progress per function per year, and tie it to one number the CFO already knows, such as cost per hire, offer acceptance, regretted attrition, referral share or applications per rupee.</li><li>Do not promise rung 5 to a client. Category status takes years and depends on the city and the practice, so it cannot be delivered in a single engagement.</li><li>Be open with clients about the limits. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory reasoning from Zinnov's wave definitions, not measured benchmarks. Sub-outcomes also influence one another, so scoring them as if they were independent can overstate what any single programme achieved.</li></ul></section>`;
 }
 function ctxBar(){
@@ -546,22 +926,36 @@ function ctxBar(){
   ?`<div class="ctx"><div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
    <div class="f"><label for="wv">GCC wave</label>${waveSel(c,'wv')}</div></div>${waveConfirm(c)}`
   :`<div class="ctx"><div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>GCC wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div></div>`;
- return conflictBox(h)+top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',16)} Add another cohort</button>
- <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:12px;width:200px">
+ return conflictBox(h)+top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn sm" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',15)} Add cohort</button>
+ <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:8px;width:200px">
  ${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
 }
-function badge(a){return a.sc?((a.ev||'').trim()?'<span class="ok">Evidenced</span>':'<span class="warn">Needs an artefact</span>'):'<span class="mute">Not scored yet</span>'}
+function badge(a){return a.sc?((a.ev||'').trim()?'<span class="ok">Evidenced</span>':'<span class="warn">Needs artefact</span>'):'<span class="mute">Not scored yet</span>'}
 function vAudit(){
  const c=cl(),h=ch(),R=compute(c,h),wave=c.wave;
  const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
  const isHid=s=>!s.rel[wave-1]&&!A(s.id).in;
  const hidN=inPil.filter(isHid).length,hidAll=SUBS.filter(isHid).length;
- const list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
- const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the 40 sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. A centre at this wave is not expected to show anything for them, so they are left out of the audit and out of the index. Nothing has been deleted.`}</p><button class="btn" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
- const body=list.map(s=>{const a=A(s.id);
+ let list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
+ const q=AF.q.trim().toLowerCase();
+ if(q)list=list.filter(s=>(s.id+' '+s.name+' '+s.owner+' '+s.ind+' '+s.means).toLowerCase().includes(q));
+ if(AF.f==='in')list=list.filter(s=>A(s.id).in);
+ else if(AF.f==='missing')list=list.filter(s=>{const a=A(s.id);return a.in&&a.sc&&!(a.ev||'').trim()});
+ else if(AF.f==='unscored')list=list.filter(s=>{const a=A(s.id);return a.in&&!a.sc});
+ else if(AF.f==='below')list=list.filter(s=>{const a=A(s.id);return a.in&&a.vd==='b'});
+ else if(AF.f==='focus')list=list.filter(s=>{const a=A(s.id);return a.in&&a.pr==='f'});
+
+ const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the 40 sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. Nothing has been deleted.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
+ const body=list.length?list.map(s=>{const a=A(s.id);
   const irrel=!s.rel[wave-1];
-  if(!a.in){const t=s.w[wave-1];return`<div class="off"><div class="t"><b>${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span><small>${irrel?`Hidden by default because it is not relevant at the ${WAVES[wave-1].name} wave. `:''}At the ${WAVES[wave-1].name} wave, this is expected: ${esc(t)}${LOW.test(t)?' (little is expected of a centre at this wave)':''}</small></div><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div>`}
-  return`<article class="card"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
+  if(!a.in){const t=s.w[wave-1];return`<div class="off"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span><small>${irrel?`Hidden by default at ${WAVES[wave-1].name} wave. `:''}${WAVES[wave-1].name} expectation: ${esc(t)}${LOW.test(t)?' (little expected at this wave)':''}</small></div><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div>`}
+  const col=!!COLL[s.id];
+  const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below',m:'Meets',a:'Above'}[a.vd]}</span>`:'';
+  const rungChip=a.sc?`<span class="chip hot">Rung ${a.sc} · ${RUNG[a.sc]}</span>`:'';
+  if(col){
+   return`<article class="card collapsed" id="card-${s.id}"><header><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="id">${s.id}</span><h3 style="font-size:16px">${esc(s.name)}</h3><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">Focus</span>':''}</div><div class="hrow"><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Expand ${esc(s.name)}" title="Expand card">${ic('chev')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header></article>`;
+  }
+  return`<article class="card" id="card-${s.id}"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Collapse ${esc(s.name)}" title="Collapse card">${ic('chevu')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
   <p class="means">${esc(s.means)}</p>${irrel?`<p class="rnote">This sub-outcome is not normally relevant at the ${WAVES[wave-1].name} wave. It is shown because you added it, and it counts towards the index while it stays in the audit.</p>`:''}
   <div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>
   <div class="two"><div><label>Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
@@ -570,29 +964,37 @@ function vAudit(){
   ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
   <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
   <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
-  <label>Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 4px">Record the actual number the client gave you, such as "18 per cent of target candidates know the brand", with the date. Next cycle you can compare the new number with this one, and the compare view on the Report tab shows both.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
-  <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Write anything you want to remember or say to the client about this sub-outcome, for example what you heard in the interviews or what the sponsor cares about. These notes appear in the report under the priorities and in the downloads.">${esc(a.nt||'')}</textarea>
-  <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 4px">Add a link for each source you relied on, such as a careers page or a survey result, with the date you saw it. Links appear in the report as clickable entries.</p>
-  ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, for example Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
-  ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the most links that fit on one sub-outcome, which is five.</p>'}
-  <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. It moves the sub-outcome up the priority list in the report, and it does not change the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join('');
- const n=R.n,warn=n<9?'This is below the recommended nine to fifteen sub-outcomes, so the audit may be too thin to be useful.':n>15?'This is above the recommended nine to fifteen sub-outcomes. Consider removing some, because a sharp profile is more useful than a long one.':'This is within the recommended nine to fifteen sub-outcomes.';
+  <label>Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 4px">Record the actual number the client gave you, such as "18 per cent of target candidates know the brand", with the date. Next cycle you can compare the new number with this one.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
+  <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Write anything you want to remember or say to the client about this sub-outcome, for example what you heard in interviews or what the sponsor cares about.">${esc(a.nt||'')}</textarea>
+  <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 4px">Add a link for each source you relied on, with the date you saw it. Links appear in the report as clickable entries.</p>
+  ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
+  ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
+  <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. Moves it up the priority list without changing the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join(''):'<div class="empty">No sub-outcomes match your current filter. Clear the search or switch back to "All".</div>';
+
+ const pCounts=[R.n].concat(PIL.map((_,pi)=>R.rows.filter(r=>r.s.p===pi).length));
+ const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]];
+ const anyOpen=R.rows.some(r=>!COLL[r.s.id]);
  return`<div class="eyebrow">Audit</div><h1 style="margin-top:8px">Place the brand on the curve</h1>
- <p class="lede">This is where you audit a client. Work through the four steps below in order. Your answers save automatically as you go, so you can leave and come back at any time. When you have scored enough, open the Report tab to see the result.</p>
- <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave using the boxes below. Then add a cohort for each talent segment you want to score separately, such as engineers and support staff, because each segment competes in a different talent market.</div><div><b>2 Choose what to audit</b>Use the plus button to add the nine to fifteen sub-outcomes the client genuinely has a stake in. Sub-outcomes that are not relevant at the client's wave are hidden for you automatically, and you can reveal them from the note below the summary if you ever need one.</div><div><b>3 Score the indicator</b>Look at the indicator and pick the rung that the evidence supports, and not the rung the client hopes for. Hover over a rung, or use the link under the rungs on a touch screen, to see what would define it. Then say whether the result is below, meets or is above what this wave expects.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you can point to something you saw. Write down what it was and when you saw it, so the score can be checked later.</div></div>
+ <p class="lede">Work through the four steps below. Your answers save automatically as you go. When you have scored enough sub-outcomes, open the Report tab to see the executive summary, radar profile, and recommended moves.</p>
+ <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung for its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
  ${ctxBar()}
- <div class="sum" id="sum">${sumInner(R,warn)}</div>
- <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}</button>`).join('')}</div>
+ <div class="sum" id="sum">${sumInner(R,scopeWarn(R.n))}</div>
+ <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}<span class="cnt">${pCounts[i]}</span></button>`).join('')}</div>
+ <div class="atool"><div class="sbox">${ic('search',15)}<input id="aq" data-i="aq" value="${esc(AF.q)}" placeholder="Filter by sub-outcome, owner or indicator..." aria-label="Filter sub-outcomes"></div><div class="fpills">${fOpts.map(([k,l])=>`<button class="${AF.f===k?'on':''}" data-a="afil" data-v="${k}">${l}</button>`).join('')}</div>${R.n?`<button class="btn sm ghost" data-a="${anyOpen?'collall':'expall'}">${anyOpen?'Collapse all':'Expand all'}</button>`:''}</div>
  ${hidBox}
  ${body}`;
 }
-function sumInner(R,warn){return`<div><b>${R.n}</b> <span>being audited</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>provisional index (0 to 100)</span></div><span>${warn||''}</span><button class="btn pri sp" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button>`}
+function sumInner(R,warn){
+ const needAttn=R.unscored.length+R.missing.length;
+ return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:34ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
+}
 function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on'+i:''}"></i>`).join('')}</div>`}
 function vReport(){
- const c=cl(),h=ch(),R=compute(c,h),W=WAVES[c.wave-1].name,name=c.name||'The client';
+ const c=cl(),h=ch(),R=compute(c,h),W=WAVES[c.wave-1].name,name=c.name||'The client',adm=S.role==='admin';
  if(!R.n)return`<div class="eyebrow">Report</div><h1 style="margin-top:8px">Report</h1>${ctxBar()}<div class="empty">Nothing is being audited yet for ${esc(h.name||'this cohort')}, so there is nothing to report on. Open the Audit tab, add the sub-outcomes the client has a stake in, and score them. The report will then fill in on its own.</div><button class="btn pri" data-a="tab" data-v="audit">${ic('audit',16)} Go to the audit</button>`;
  const verdict=R.scored.length?`${name}, ${h.name||'cohort'}: ${R.avg<1.5?'a Presence':R.avg<2.5?'a Consistency':R.avg<3.5?'an Evidence':R.avg<4.5?'an Authority':'a Category'}-stage employer brand inside a ${W} centre.`:'No scores have been entered yet.';
- const pri=R.top.map((r,i)=>{const s=r.s,to=Math.min(r.sc+1,5);return`<div class="pb"><h3><span class="no">${i+1}</span>${esc(s.name)} <span class="chip hot">${esc(s.owner)}</span></h3>
+ const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
+ const pri=R.top.map((r,i)=>{const s=r.s;return`<div class="pb"><h3><span class="no">${i+1}</span>${esc(s.name)} <span class="chip hot">${esc(s.owner)}</span></h3>
   <dl><dt>Where it stands now</dt><dd>Rung ${r.sc}, ${RUNG[r.sc]}. ${r.a.vd==='b'?'<span class="tag b">Below wave expectation</span>':r.a.vd==='m'?'<span class="tag m">Meets</span>':''}${r.a.pr==='f'?' <span class="tag m">Client focus</span>':''}</dd>
   <dt>The next move</dt><dd>${esc(nextMove(r))}</dd>
   <dt>A ${WAVES[c.wave-1].name} centre is expected to show</dt><dd>${esc(s.w[c.wave-1])}</dd>
@@ -600,41 +1002,52 @@ function vReport(){
   <dt>The number to track</dt><dd>${esc(s.ind)} <small>(${esc(s.src)})</small></dd>
   <dt>Budget owner</dt><dd>${esc(s.owner)}. A number the CFO will recognise, to anchor the case: ${CFO[s.p]}.</dd>
   ${r.ok?'':`<dt>First step</dt><dd><span class="warn">Collect the artefact behind this score before you present it to the client.</span></dd>`}</dl></div>`}).join('');
- const hist=h.hist.slice().reverse().map((x,i,arr)=>{const prev=arr[i+1];const d=prev&&x.idx!=null&&prev.idx!=null?x.idx-prev.idx:null;return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope, ${x.s} scored, avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <small>${d>0?'+':''}${d}</small>`}</div></div>`}).join('');
- const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available. Use this table to compare them.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td>${q.idx==null?'n/a':q.idx}</td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
+ const hist=h.hist.slice().reverse().map((x,i,arr)=>{
+  const prev=arr[i+1];const d=prev&&x.idx!=null&&prev.idx!=null?x.idx-prev.idx:null;
+  const arm=ARM==='s'+x.id;
+  return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope · ${x.s} scored · ${x.v} evidenced · avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div style="display:flex;align-items:center;gap:10px"><div style="text-align:right"><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <span class="${d>0?'ok':d<0?'warn':'mute'}">${d>0?'+':''}${d}</span>`}</div>${adm?`<button class="ib noprint ${arm?'arm':''}" data-a="delsnap" data-id="${x.id}" aria-label="${arm?'Click again to delete this snapshot':'Delete snapshot'}" title="${arm?'Click again to confirm deleting this snapshot':'Delete snapshot'}">${ic('trash',16)}</button>`:''}</div></div>`;
+ }).join('');
+ const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Evidenced</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr class="${x.id===h.id?'sel':''}"><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.valid.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td><b>${q.idx==null?'n/a':q.idx}</b></td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
  const xrows=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
  const cmpSec=cmpSection(c,h);
- const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">These are the notes and sources you recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
+ const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">Notes and sources recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
  const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small>${(r.a.iv||'').trim()?`<br><small>Last recorded: ${esc(r.a.iv.trim())}${r.a.ivd?' ('+esc(r.a.ivd)+')':''}</small>`:''}</li>`).join('');
  const txt=reportText(c,h,R);
  const xm=h.a._x||{},xs=xm.sum||'';
+ const rawOpen=!!OPEN.rawall;
  return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
  <div class="noprint">${ctxBar()}</div>
- <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor, such as the main finding and what you recommend. It saves automatically, and it appears at the top of the printed report and the downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
- <h3 class="noprint" style="margin-top:20px">About this audit</h3><p class="lede noprint" style="margin-top:6px">These details are printed on the report, so that anyone reading it later knows who did the audit, when, and who was spoken to.</p>
+ <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
+ <h3 class="noprint" style="margin-top:20px">About this audit</h3>
  <div class="ctx noprint" style="margin-top:8px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
- <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:70px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
+ <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
  ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="printonly"><small>${xm.au?'Auditor: '+esc(xm.au)+'. ':''}${xm.ad?'Audit date: '+esc(xm.ad)+'. ':''}${(xm.iw||'').trim()?'Interviewed or sources: '+esc(xm.iw.trim())+'.':''}</small></div>`:''}</section>
  <div class="verdict">${esc(verdict)}</div>
- <div class="big"><div><div class="m">${R.idx==null?'n/a':R.idx}</div><div class="l">Provisional index (0 to 100), counting every score</div></div><div><div class="m">${R.idxV==null?'n/a':R.idxV}</div><div class="l">Evidenced index, counting only the ${R.valid.length} of ${R.scored.length} scores that have an artefact</div></div><div><div class="m">${R.avg==null?'n/a':R.avg.toFixed(1)}</div><div class="l">Average rung, out of 5</div></div><div><div class="m">${R.below.length}</div><div class="l">Below what a ${esc(W)} centre should show</div></div></div>
+ <div class="kpis">
+  <div class="kpi hi"><div class="m">${R.idxV==null?'n/a':R.idxV}</div><div class="l">Evidenced index</div><div class="sub">${R.valid.length} of ${R.scored.length} scored backed by artefact (${evPct}%)</div><div class="ev-bar"><i style="width:${evPct}%"></i></div></div>
+  <div class="kpi"><div class="m">${R.idx==null?'n/a':R.idx}</div><div class="l">Provisional index</div><div class="sub">0 to 100, counting every score</div></div>
+  <div class="kpi"><div class="m">${R.avg==null?'n/a':R.avg.toFixed(1)}</div><div class="l">Average rung</div><div class="sub">Out of 5 across ${R.scored.length} scored</div></div>
+  <div class="kpi"><div class="m">${R.below.length}</div><div class="l">Below ${esc(W)} wave</div><div class="sub">${R.above.length} above · ${R.scored.length-R.below.length-R.above.length} meets/unjudged</div></div>
+ </div>
  <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
- <section><div class="two-col"><div><h2>The profile</h2><p class="lede" style="margin-top:6px">This shows one row for every sub-outcome you audited. Look for where the strong and weak areas sit, because an uneven profile is usually the main finding.</p>
- ${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' , focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`${RUNG[r.sc]}${r.ok?'':', needs an artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div>
- <div><h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 50px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b></div></div>`).join('')}
- <h2 style="margin-top:40px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these, because they show what the centre is already doing well.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>${esc(RUNG[r.sc])}</small></div></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4 or above, or is marked as above what the wave expects.</p>'}</div></div></section>
- <section><h2>What to do next</h2><p class="lede">These are the three moves we suggest for the coming year. Each asks the centre to climb one rung only, and they are spread across different owners so that each one has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
- <section><h2>The next 90 days</h2><div class="plan"><div><b>Days 1 to 30, baseline</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Then agree with the client which three indicators to track and who owns each one.</div><div><b>Days 31 to 60, first moves</b>${R.top[0]?`Ship the first move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicator every month so you can see movement.</div><div><b>Days 61 to 90, re-measure</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot using the button further down this page, and brief the client\'s sponsor on what has moved.</div></div></section>
- ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional, which means they do not yet count as evidenced. Each one becomes evidenced once you record the artefact on the Audit tab. The list below says where to look for each one.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
- ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Go back to the Audit tab and pick a rung for each of these, or remove them from the audit if the client does not need them.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
- <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review. A recurring engagement depends on re-measuring the same indicators each cycle.</p><ul class="pl">${feed}</ul></section>
+ <section><div class="two-col"><div><h2>The profile</h2><p class="lede" style="margin-top:6px">One row for every sub-outcome audited. An uneven, spiky profile is usually the real consulting finding.</p>
+ ${rungDist(R)}
+ <div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div></div>
+ <div>${radarSvg(R)}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
+ <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.a.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
+ <section><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
+ <section><h2>The next 90 days</h2><div class="plan"><div><b>Days 1 to 30 · Baseline</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div><b>Days 31 to 60 · First moves</b>${R.top[0]?`Ship the first move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicator monthly so movement is visible.</div><div><b>Days 61 to 90 · Re-measure</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
+ ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional until you record the artefact on the Audit tab.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
+ ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Return to the Audit tab to pick a rung for each of these, or remove them from scope.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
+ <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review.</p><ul class="pl">${feed}</ul></section>
  ${xsec}
- <section><h2>All consultant inputs, by pillar</h2><p class="lede">This is the full record of what you captured for every sub-outcome, so you can write the final summary from it. Each entry shows the rung, the artefact behind the score, the latest measured value, your notes and your evidence links. A sub-outcome that is not part of this audit appears only when it has inputs, and it is marked as such.</p>${rawHtml(c,h)}</section>
+ <section><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h2>All consultant inputs, by pillar</h2><button class="btn sm noprint" data-a="open" data-id="rawall">${rawOpen?'Hide full record':'Show full record'}</button></div><p class="lede">Full record of every rung, artefact, measured value, note and link captured. Always included in PDF print and downloads.</p><div class="raw-body ${rawOpen?'':'is-collapsed'}" style="${rawOpen?'':'display:none'}">${rawHtml(c,h)}</div></section>
  ${cmp}
  ${benchBlock(h)}
- <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data, so you can track how this cohort moves over time. A snapshot is a dated copy of the current scores. Saved snapshots also join the anonymised benchmark pool, which means the client\'s name is never shown to other clients.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
+ <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
  ${cmpSec}
- <section class="noprint"><h2>Export this report</h2><p class="lede">Choose how you want to take the report out of the app. Save as PDF opens your browser's print window, where you pick Save as PDF as the destination. The Markdown file suits pasting into a document, and the CSV file opens in Excel with one row for each sub-outcome you audited. The raw inputs downloads are different, because they leave out the app's own scoring commentary and priorities. They list, pillar by pillar, every rung, artefact, measured value, note and evidence link you recorded, so you can write the final summary yourself from them. The Markdown, PDF and CSV exports also carry these inputs.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Download raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Download raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">Download all client data</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
- <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory and are not measured benchmarks.</p>`;
+ <section class="noprint"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
+ <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
 }
 /* ---------- raw consultant inputs ---------- */
 const hasInputs=a=>!!(a&&((a.sc||0)>0||(a.ev||'').trim()||(a.nt||'').trim()||(a.iv||'').trim()||(a.ivd||'')||(a.lk||[]).length||a.vd||a.pr==='f'));
@@ -695,7 +1108,7 @@ const rawMd=(c,h)=>rawLines(c,h,true).join('\n');
 function rawHtml(c,h){
  const m=rawModel(c,h);
  if(!m.pillars.length)return'<p class="mute">No inputs have been recorded yet. Once you score a sub-outcome or add notes on the Audit tab, they will be collected here.</p>';
- return m.pillars.map(g=>`<h3>${esc(g.n)}</h3>`+g.items.map(x=>{const r=rawItem(c,x);
+ return m.pillars.map(g=>`<h3 style="margin-top:20px">${esc(g.n)}</h3>`+g.items.map(x=>{const r=rawItem(c,x);
   return`<div class="pb"><h3>${esc(r.id)} ${esc(r.name)} <span class="chip ${x.inAudit?'hot':''}">${esc(r.status)}</span></h3><dl>
   <dt>Rung</dt><dd>${r.rung?`${r.rung} of 5, ${esc(r.rungName)}. `:'Not scored yet. '}${esc(r.waveComparison)}.${r.priority==='Client focus'?' Client focus.':''}</dd>
   <dt>Artefact behind the score</dt><dd>${r.evidence?esc(r.evidence):'<span class="mute">None recorded</span>'}</dd>
@@ -707,7 +1120,7 @@ function reportText(c,h,R){
  const W=WAVES[c.wave-1].name,L=[];
  L.push(`EMPLOYER BRAND MATURITY AUDIT`);
  L.push(`${c.name||'Client'} | Cohort: ${h.name||'n/a'} | Wave: ${W} | ${new Date().toISOString().slice(0,10)}`);L.push('');
-  const xs=((h.a._x||{}).sum||'').trim();
+ const xs=((h.a._x||{}).sum||'').trim();
  const xm=h.a._x||{};
  if(xm.au||xm.ad||(xm.iw||'').trim()){L.push(`Auditor: ${xm.au||'n/a'} | Audit date: ${xm.ad||'n/a'}`);if((xm.iw||'').trim())L.push(`Interviewed or sources: ${xm.iw.trim()}`);L.push('')}
  if(xs){L.push('Executive summary');L.push(xs);L.push('')}
@@ -735,9 +1148,10 @@ function reportText(c,h,R){
 /* ---------- benchmark, clients ---------- */
 const ord=n=>{const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])};
 const f1=x=>x==null?'n/a':(Math.round(x*10)/10).toFixed(1);
-function vNoClient(){return`<h1>There is no client to show yet</h1><p class="lede">${S.role==='admin'?'Start by adding a client on the Clients tab. Once a client exists, you can audit its employer brand, read the report and compare it with its peers.':'No workspace has been set up for this password yet. Please contact the person who gave you the password so they can finish setting it up.'}</p>${S.role==='admin'?`<button class="btn pri" data-a="tab" data-v="clients">${ic('plus',16)} Add a client</button>`:''}`}
+const pctTag=p=>p==null?'n/a':`<span class="tag ${p>=75?'a':p>=50?'m':'b'}">${ord(p)}</span>`;
+function vNoClient(){return`<h1>There is no client to show yet</h1><p class="lede">${S.role==='admin'?'Start by adding a client on the Clients tab, or load the Moonshot Inc. sample dataset to explore an end-to-end audit and report.':'No workspace has been set up for this password yet. Please contact the person who gave you the password so they can finish setting it up.'}</p>${S.role==='admin'?`<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn pri" data-a="tab" data-v="clients">${ic('plus',16)} Add a client</button><button class="btn" data-a="seedmoonshot">${ic('spark',16)} Load Moonshot Inc. sample</button></div>`:''}`}
 function strip(i){
- return`<div class="strip"><i class="axis"></i>${i.p25!=null?`<i class="band" style="left:${i.p25}%;width:${Math.max(i.p75-i.p25,1)}%"></i>`:''}${i.med!=null?`<i class="med" style="left:${i.med}%"></i>`:''}<i class="me" style="left:${i.v}%"></i></div><div class="strip-l"><span>0</span><span>${i.p25!=null?'The shaded band covers the middle half of the pool, and the vertical tick marks the median.':''}</span><span>100</span></div>`;
+ return`<div class="strip"><i class="axis"></i>${i.p25!=null?`<i class="band" style="left:${i.p25}%;width:${Math.max(i.p75-i.p25,1)}%" title="Interquartile range: ${f1(i.p25)} to ${f1(i.p75)}"></i>`:''}${i.med!=null?`<i class="med" style="left:${i.med}%" title="Pool median: ${f1(i.med)}"></i>`:''}<i class="me" style="left:${i.v}%" title="This cohort: ${i.v}"></i></div><div class="strip-l"><span>0</span><span>${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · Median ${f1(i.med)} · This cohort ${i.v}`:`Median ${f1(i.med)} · This cohort ${i.v}`}</span><span>100</span></div>`;
 }
 async function loadBench(quiet){
  const h=ch();if(!h)return;
@@ -753,42 +1167,44 @@ function vBench(){
  const c=cl(),h=ch(),adm=S.role==='admin';
  const ctrl=`<div class="ctx" style="margin-top:0;border-bottom:0"><div class="f"><label for="bp">Compare with</label><select id="bp" data-c="bpool"><option value="all" ${BO.pool==='all'?'selected':''}>All peers in the pool</option><option value="wave" ${BO.pool==='wave'?'selected':''}>Only centres in the same wave</option></select></div>
  <div class="f"><label for="bb">Score basis</label><select id="bb" data-c="bbasis"><option value="evidenced" ${BO.basis==='evidenced'?'selected':''}>Only scores backed by an artefact</option><option value="provisional" ${BO.basis==='provisional'?'selected':''}>Include provisional scores too</option></select></div>
- <div class="f"><label for="bm">Fewest scored sub-outcomes a cohort needs to be included</label><select id="bm" data-c="bmin">${[3,5,8,10].map(n=>`<option ${BO.min===n?'selected':''}>${n}</option>`).join('')}</select></div></div>`;
+ <div class="f"><label for="bm">Fewest scored sub-outcomes a cohort needs</label><select id="bm" data-c="bmin">${[3,5,8,10].map(n=>`<option ${BO.min===n?'selected':''}>${n}</option>`).join('')}</select></div></div>`;
  let body='';
  const snapBtn=`<button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>`;
- if(!h.hist.length)body=`<div class="empty">There is no snapshot yet for ${esc(h.name)}. The benchmark compares saved snapshots, which are dated copies of the scores, so a half-finished draft never changes anyone\'s position. Save a snapshot once the scores and artefacts are in.<br><br>${snapBtn}</div>`;
- else if(BM.loading||(BM.for!==h.id&&!BM.err))body='<div class="empty">Reading the benchmark pool. This will take a moment.</div>';
+ if(!h.hist.length)body=`<div class="empty">There is no snapshot yet for ${esc(h.name)}. The benchmark compares saved snapshots so a half-finished draft never changes anyone's position. Save a snapshot once scores and artefacts are in.<br><br>${snapBtn}</div>`;
+ else if(BM.loading||(BM.for!==h.id&&!BM.err))body='<div class="empty">Reading the benchmark pool...</div>';
  else if(BM.err)body=`<div class="empty">We could not read the benchmark just now: ${esc(BM.err)} Please try again in a moment.</div>`;
  else{
   const d=BM.data;
   if(!d.eligible){
    body=d.reason==='too_few'
-    ?`<div class="empty">The latest snapshot has only ${d.have} sub-outcomes that count on the basis you chose, and the pool needs at least ${d.need}. You can add the missing artefacts and save a new snapshot, or lower the minimum in the settings above.<br><br>${snapBtn}</div>`
+    ?`<div class="empty">The latest snapshot has only ${d.have} sub-outcomes that count on the basis you chose, and the pool needs at least ${d.need}. Add the missing artefacts and save a new snapshot, or lower the minimum above.<br><br>${snapBtn}</div>`
     :`<div class="empty">There is no snapshot for this cohort yet. Save one to see where it sits among its peers.<br><br>${snapBtn}</div>`;
   }else{
    const p=d.pool,i=d.idx;
-   body=`<div class="big"><div><div class="m">${ord(i.pct)}</div><div class="l">Percentile</div></div>
-   <div><div class="m">${i.rank}<span style="font-size:24px"> of ${i.of}</span></div><div class="l">Rank in pool</div></div>
-   <div><div class="m">${i.v}</div><div class="l">Index${i.med!=null?', pool median '+f1(i.med):''}</div></div>
-   ${d.position?`<div><div class="m" style="font-size:28px;line-height:1.3">${esc(d.position)}</div><div class="l">Position</div></div>`:''}</div>
-   ${p.thin?`<p class="warn" style="margin-top:16px">There ${p.n===1?'is':'are'} only ${p.n} cohort${p.n===1?'':'s'} in this pool so far. Treat the position as indicative, because it will become more reliable as more clients are added.</p>`:''}
+   body=`<div class="kpis">
+   <div class="kpi hi"><div class="m">${ord(i.pct)}</div><div class="l">Percentile</div><div class="sub">${d.position?esc(d.position):'Pool of '+p.n}</div></div>
+   <div class="kpi"><div class="m">${i.rank}<span style="font-size:22px;color:var(--mut)"> / ${i.of}</span></div><div class="l">Rank in pool</div><div class="sub">${p.mode==='wave'?'Same wave ('+WNAME(p.wave)+')':'All waves'}</div></div>
+   <div class="kpi"><div class="m">${i.v}</div><div class="l">Index score</div><div class="sub">${i.med!=null?'Pool median '+f1(i.med):''}</div></div>
+   <div class="kpi"><div class="m" style="font-size:26px;line-height:1.35">${esc(d.taken_on)}</div><div class="l">Latest snapshot</div><div class="sub">${p.basis==='evidenced'?'Evidenced scores only':'Includes provisional'}</div></div>
+   </div>
+   ${p.thin?`<p class="warn" style="margin-top:16px">There ${p.n===1?'is':'are'} only ${p.n} cohort${p.n===1?'':'s'} in this pool so far. Treat the position as indicative.</p>`:''}
    ${strip(i)}
-   <section><h2>By pillar</h2><p class="lede">These comparisons are like for like, because each pillar average uses only the sub-outcomes that the cohort chose to score.</p>
-   <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your average rung</th><th>Pool median</th><th>Percentile</th><th style="width:30%">Place in pool</th></tr>
-   ${d.pillars.map(x=>`<tr><td>${esc(PIL[x.p])}</td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'not enough cohorts yet':f1(x.med)}</td><td>${x.pct==null?'n/a':ord(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
-   <section><h2>By sub-outcome</h2><p class="lede">A position can only be shown when at least three cohorts have scored the same sub-outcome, so some rows may show n/a.</p>
+   <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the sub-outcomes each cohort scored in each pillar.</p>
+   <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your avg rung</th><th>Pool median</th><th>Percentile</th><th style="width:28%">Place in pool</th></tr>
+   ${d.pillars.map(x=>`<tr><td><b>${esc(PIL[x.p])}</b></td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'<span class="mute">fewer than 3 peers</span>':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
+   <section><h2>By sub-outcome</h2><p class="lede">A position is shown when at least three cohorts have scored the same sub-outcome.</p>
    <div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Your rung</th><th>Pool median</th><th>Percentile</th><th>Cohorts scored</th></tr>
-   ${d.subs.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td>${esc(s?s.name:x.id)}</td><td>${x.v} ${RUNG[x.v]}</td><td>${x.med==null?'n/a':f1(x.med)}</td><td>${x.pct==null?'n/a':ord(x.pct)}</td><td>${x.n}</td></tr>`}).join('')}</table></div></section>`;
+   ${d.subs.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td><b>${esc(s?s.name:x.id)}</b></td><td>${x.v} ${RUNG[x.v]}</td><td>${x.med==null?'n/a':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.n}</td></tr>`}).join('')}</table></div></section>`;
   }
  }
- const lg=adm&&LG?`<section><h2>League table</h2><p class="lede">This table lists the latest snapshot for each cohort, ranked using the settings above. Only you can see the names. Clients see their own position and the pool\'s median and spread, and nothing about other clients.</p>
+ const lg=adm&&LG?`<section><h2>League table</h2><p class="lede">Latest snapshot for each cohort, ranked using the settings above. Only admins see client names.</p>
  <div class="scroll"><table class="tbl"><tr><th>#</th><th>Client</th><th>Cohort</th><th>Wave</th><th>Snapshot</th><th>Index</th><th>Percentile</th>${PIL.map((p,i)=>`<th title="${esc(p)}">P${i+1}</th>`).join('')}</tr>
- ${LG.rows.map((r,i)=>`<tr class="${r.cohort_id===h.id?'sel':''}"><td>${r.eligible?r.rank:'-'}</td><td><b>${esc(r.client)}</b></td><td>${esc(r.cohort)}</td><td>${r.wave}</td><td>${esc(r.taken_on)}</td><td>${r.idx==null?'n/a':r.idx}</td><td>${r.eligible?ord(r.pct):'below the minimum'}</td>${PIL.map((p,k)=>`<td>${r.eligible&&r.pillars[k]?(r.pillars[k].pct==null?f1(r.pillars[k].v):ord(r.pillars[k].pct)):'-'}</td>`).join('')}</tr>`).join('')}</table></div>
- <p class="mute" style="margin-top:8px">In the pillar columns, you see the percentile where at least three cohorts scored that pillar. Where fewer did, you see the average rung instead.</p></section>`:'';
+ ${LG.rows.map(r=>`<tr class="${r.cohort_id===h.id?'sel':''}"><td>${r.eligible?r.rank:'-'}</td><td><b>${esc(r.client)}</b></td><td>${esc(r.cohort)}</td><td>W${r.wave}</td><td>${esc(r.taken_on)}</td><td><b>${r.idx==null?'n/a':r.idx}</b></td><td>${r.eligible?pctTag(r.pct):'<span class="mute">below min</span>'}</td>${PIL.map((p,k)=>`<td>${r.eligible&&r.pillars[k]?(r.pillars[k].pct==null?f1(r.pillars[k].v):ord(r.pillars[k].pct)):'-'}</td>`).join('')}</tr>`).join('')}</table></div>
+ <p class="mute" style="margin-top:8px">Pillar columns show percentile where ≥3 cohorts scored that pillar, or average rung otherwise.</p></section>`:'';
  return`<div class="eyebrow">Benchmark</div><h1 style="margin-top:8px">Where this brand sits among its peers</h1>
- <p class="lede">This page compares the cohort's latest saved snapshot with the other snapshots in the benchmark pool. Use the three settings below to choose who to compare with and how strict to be. The comparison always shows the cohort chosen in the box above.</p>
+ <p class="lede">Compares the cohort's latest saved snapshot against the anonymised peer pool. Adjust the settings below to filter by wave, score basis, or minimum coverage.</p>
  ${ctxBar()}${ctrl}${body}${lg}
- <p class="mute" style="margin-top:48px">How to read this page: each position uses the cohort\'s latest saved snapshot. Only scores with an artefact behind them are counted, unless you choose to include provisional scores. Every sub-outcome carries equal weight. Because cohorts choose different sub-outcomes to audit, read the overall index as an indication only, and read the pillar and sub-outcome positions as true like-for-like comparisons. Saved snapshots join an anonymised pool, so no client can see another\'s name.</p>`;
+ <p class="mute" style="margin-top:48px">How to read this page: each position uses the cohort's latest saved snapshot. Every sub-outcome carries equal weight. Because cohorts choose different sub-outcomes to audit, read the overall index as indicative and pillar/sub-outcome positions as like-for-like.</p>`;
 }
 async function loadAcc(){try{const r=await api('GET','/access');ACC=r.access;}catch(e){ACC=[]}render(true)}
 const dshort=x=>x?String(x).slice(0,10):'never';
@@ -809,13 +1225,13 @@ function waveConfirm(c){
  const to=WCH.to,F=WNAME(c.wave),T=WNAME(to),r=waveImpact(c,to);
  const dir=to>c.wave?'higher':'lower';
  return`<div class="pwbox" role="group" aria-label="Confirm the wave change"><div class="lab" style="margin-top:0">Please confirm: move ${esc(c.name)} from ${F} to ${T}</div>
- <p style="margin:6px 0">Use this when the centre has outgrown its current wave, or was placed too high or too low at the start. ${T} is a ${dir} wave than ${F}, so this is what changes:</p>
+ <p style="margin:6px 0">${T} is a ${dir} wave than ${F}, so this is what changes:</p>
  <ul class="pl notes">
- <li><b>What the centre is measured against.</b> Every sub-outcome will be compared with the ${T} expectation instead of the ${F} one. The expectation text on the Audit and Report tabs, and the wave line in the Report, will all switch over.</li>
- <li><b>Which sub-outcomes are shown.</b> ${r.newHide.length?`${r.newHide.length} sub-outcome${r.newHide.length===1?' that you have not added becomes':'s that you have not added become'} hidden by default, because they are not relevant at ${T}.`:'No sub-outcomes become hidden.'} ${r.newShow.length?`${r.newShow.length} that ${r.newShow.length===1?'is':'are'} hidden today will appear, ready for you to add if they apply.`:'None that are hidden today will appear.'}${r.keptOdd?` ${r.keptOdd} that you have already added ${r.keptOdd===1?'is':'are'} not normally relevant at ${T}, but ${r.keptOdd===1?'stays':'stay'} visible with a note and still count towards the index.`:''}</li>
- <li><b>Your Below, Meets and Above judgements.</b> ${r.judged?`The ${r.judged} judgement${r.judged===1?'':'s'} you have recorded ${r.judged===1?'is':'are'} kept exactly as they are, but each was made against ${F} expectations. Please review ${r.judged===1?'it':'them'}, because a centre that Meets a ${F} expectation may now fall Below or sit Above the ${T} one.`:'You have not recorded any judgements yet, so there is nothing to review.'}</li>
- <li><b>What is kept.</b> Nothing is deleted. The ${r.added} sub-outcome${r.added===1?'':'s'} you have added, ${r.scored===1?'the 1 rung':`the ${r.scored} rungs`} you have scored, and all of your evidence and artefacts stay as they are, and so do the index scores. The index only counts the sub-outcomes you have added, so it does not move until you add or remove some.</li>
- <li><b>Saved snapshots.</b> The ${r.snaps} snapshot${r.snaps===1?'':'s'} already saved ${r.snaps===1?'keeps':'keep'} the wave ${r.snaps===1?'it was':'they were'} taken at, so your history stays true to what was known then. Peer comparisons that use "the same wave" will place this client in ${T} from the next snapshot you save.</li>
+ <li><b>What the centre is measured against.</b> Every sub-outcome compares against ${T} expectations instead of ${F}.</li>
+ <li><b>Which sub-outcomes are shown.</b> ${r.newHide.length?`${r.newHide.length} unadded sub-outcome(s) become hidden by default.`:'No sub-outcomes become hidden.'} ${r.newShow.length?`${r.newShow.length} hidden item(s) will appear.`:''}${r.keptOdd?` ${r.keptOdd} already-added item(s) remain visible with a note.`:''}</li>
+ <li><b>Your Below, Meets and Above judgements.</b> ${r.judged?`Your ${r.judged} judgement(s) are kept, but please review them against ${T} expectations.`:'No judgements recorded yet.'}</li>
+ <li><b>What is kept.</b> Nothing is deleted. All ${r.added} sub-outcomes, ${r.scored} scores, artefacts and notes remain intact.</li>
+ <li><b>Saved snapshots.</b> Your ${r.snaps} saved snapshot(s) keep the wave they were taken at.</li>
  </ul>
  <button class="btn pri" data-a="wavego">Yes, move to ${T}</button> <button class="btn" data-a="wavecancel">Keep ${F}</button></div>`;
 }
@@ -828,43 +1244,49 @@ function cohortManager(c){
   const n=Object.values(h.a||{}).filter(a=>a&&a.in).length,sc=Object.values(h.a||{}).filter(a=>a&&a.in&&a.sc).length,arm=ARM==='k'+h.id;
   const msg=arm?`Click again to confirm. This permanently deletes the cohort, its scores and its ${h.hist.length} saved snapshot${h.hist.length===1?'':'s'}.`:'Delete this cohort';
   return`<tr><td><input data-i="cname" data-id="${h.id}" value="${esc(h.name)}" aria-label="Cohort name" placeholder="For example, Engineers"></td><td>${n} added, ${sc} scored</td><td>${h.hist.length}</td><td>${c.cohorts.length>1?`<button class="ib ${arm?'arm':''}" data-a="delcoh" data-id="${h.id}" aria-label="${msg}" title="${msg}">${ic('trash')}</button>`:'<span class="mute">The only cohort</span>'}</td></tr>`}).join('');
- return`<h3 style="margin-top:32px">Cohorts</h3><p class="lede" style="margin-top:6px">A cohort is a talent segment that you score on its own, such as engineers or support staff, because each one competes in a different talent market. Rename a cohort by editing its name. Add one for each new segment you want to audit, and it starts empty, so nothing about the existing cohorts changes.</p>
+ return`<h3 style="margin-top:32px">Cohorts</h3><p class="lede" style="margin-top:6px">A cohort is a talent segment scored on its own, such as engineers or product &amp; design.</p>
  <div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>Sub-outcomes</th><th>Snapshots</th><th></th></tr>${rows}</table></div>
  <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nch">Name of the new cohort</label><input id="nch" placeholder="For example, Engineers"></div><button class="btn pri" data-a="addcoh">${ic('plus',16)} Add cohort</button></div>`;
 }
 function vClients(){
  const sel=cl();
- const rows=S.clients.map(c=>{const last=c.cohorts.flatMap(h=>h.hist).map(x=>x.d).sort().pop();return`<tr class="${sel&&c.id===sel.id?'sel':''}" data-a="selclient" data-id="${c.id}" style="cursor:pointer"><td><b>${esc(c.name)}</b></td><td>${c.wave} ${WNAME(c.wave)}</td><td>${c.cohorts.length}</td><td>${last||'none saved yet'}</td></tr>`}).join('');
+ const rows=S.clients.map(c=>{
+  const allH=c.cohorts.flatMap(h=>h.hist);
+  const last=allH.map(x=>x.d).sort().pop();
+  const latestIdx=allH.length?allH[allH.length-1].idx:null;
+  return`<tr class="${sel&&c.id===sel.id?'sel':''}" data-a="selclient" data-id="${c.id}" style="cursor:pointer"><td><b>${esc(c.name)}</b></td><td><span class="chip hot">W${c.wave} ${WNAME(c.wave)}</span></td><td>${c.cohorts.length}</td><td>${latestIdx==null?'<span class="mute">n/a</span>':'<b>'+latestIdx+'</b>'}</td><td>${last||'none saved yet'}</td></tr>`;
+ }).join('');
  const acc=sel&&ACC?ACC.filter(a=>a.client_id===sel.id):[];
+ const hasMoonshot=S.clients.some(c=>c.name.toLowerCase()==='moonshot inc.');
  const panel=sel?`<section><h2>${esc(sel.name)}</h2>
   <div class="ctx" style="margin-top:12px"><div class="f"><label for="rn">Client name</label><input id="rn" data-i="rename" value="${esc(sel.name)}"></div>
   <div class="f"><label for="cw">GCC wave</label>${waveSel(sel,'cw')}</div>
   <button class="btn" data-a="archclient" data-id="${sel.id}" title="Hide this client from the app and from benchmarks. You can restore it later.">Archive client</button> <button class="btn" data-a="export" data-id="${sel.id}" title="Download every cohort, score, note and snapshot for this client as one file">Download all data</button></div>
-  <p class="mute" style="margin-top:8px">Archiving hides the client from the app and from the benchmark pool without deleting anything, and you can restore it below. Download all data saves a JSON file with every cohort, score, note and snapshot, which is useful as a backup or when a client asks for its data. The name saves as soon as you change it. If the centre has moved to a different wave, for example from Satellite to Portfolio Hub, choose the new wave and you will be asked to confirm. Reclassifying never deletes any scores or evidence.</p>
+  <p class="mute" style="margin-top:8px">Archiving hides the client without deleting anything. Reclassifying the wave never deletes any scores or evidence.</p>
   ${waveConfirm(sel)}
   ${cohortManager(sel)}
-  <h3 style="margin-top:32px">Passwords</h3><p class="lede" style="margin-top:6px">Each password opens this client\'s workspace and nothing else. Issue a separate password for each person or team, so that you can switch one off later without affecting the others.</p>
-  ${NEWPW&&NEWPW.client===sel.id?`<div class="pwbox"><div class="lab" style="margin-top:0">New password. It is shown only this once</div><div class="pw">${esc(NEWPW.pw)}</div><p class="mute" style="margin:6px 0 10px">Send it to the person together with this address: ${esc(location.origin)}. We cannot show it again, so if it is lost you will need to create a new password and revoke this one.</p><button class="btn" data-a="pwcopy">${ic('copy',16)} Copy</button> <button class="btn" data-a="pwdone">Done</button></div>`:''}
-  <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nal">Label for the new password</label><input id="nal" placeholder="Who is this password for? For example, Priya (CHRO)"></div><button class="btn pri" data-a="mkaccess" data-id="${sel.id}">${ic('key',16)} Create password</button></div>
-  <div class="scroll"><table class="tbl"><tr><th>Label</th><th>Created</th><th>Last signed in</th><th>Status</th><th></th></tr>${acc.map(a=>`<tr><td>${esc(a.label)}</td><td>${dshort(a.created_at)}</td><td>${dshort(a.last_login)}</td><td>${a.revoked?'<span class="warn">Revoked</span>':'<span class="ok">Active</span>'}</td><td><button class="ib" data-a="revoke" data-id="${a.id}" data-v="${a.revoked?0:1}" aria-label="${a.revoked?'Restore this password':'Revoke this password'}" title="${a.revoked?'Restore this password so it works again':'Revoke this password so it stops working'}">${ic(a.revoked?'plus':'x')}</button></td></tr>`).join('')||'<tr><td colspan="5" class="mute">No passwords have been created for this client yet.</td></tr>'}</table></div></section>`:'';
+  <h3 style="margin-top:32px">Passwords</h3><p class="lede" style="margin-top:6px">Each password opens this client's workspace and nothing else.</p>
+  ${NEWPW&&NEWPW.client===sel.id?`<div class="pwbox"><div class="lab" style="margin-top:0">New password — shown only once</div><div class="pw">${esc(NEWPW.pw)}</div><p class="mute" style="margin:6px 0 10px">Send it together with ${esc(location.origin)}.</p><button class="btn" data-a="pwcopy">${ic('copy',16)} Copy</button> <button class="btn" data-a="pwdone">Done</button></div>`:''}
+  <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nal">Label for the new password</label><input id="nal" placeholder="e.g. Ananya Rao (VP Engineering)"></div><button class="btn pri" data-a="mkaccess" data-id="${sel.id}">${ic('key',16)} Create password</button></div>
+  <div class="scroll"><table class="tbl"><tr><th>Label</th><th>Created</th><th>Last signed in</th><th>Status</th><th></th></tr>${acc.map(a=>`<tr><td>${esc(a.label)}</td><td>${dshort(a.created_at)}</td><td>${dshort(a.last_login)}</td><td>${a.revoked?'<span class="warn">Revoked</span>':'<span class="ok">Active</span>'}</td><td><button class="ib" data-a="revoke" data-id="${a.id}" data-v="${a.revoked?0:1}" aria-label="${a.revoked?'Restore this password':'Revoke this password'}" title="${a.revoked?'Restore password':'Revoke password'}">${ic(a.revoked?'plus':'x')}</button></td></tr>`).join('')||'<tr><td colspan="5" class="mute">No passwords have been created for this client yet.</td></tr>'}</table></div></section>`:'';
  return`<div class="eyebrow">Admin</div><h1 style="margin-top:8px">Clients</h1>
- <p class="lede">Each client has its own workspace, protected by its own password. As the admin, you can open every workspace, while each client can only open its own. Add a client below, then choose it in the table to create passwords for it.</p>
- <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button></div>
- <div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th>Cohorts</th><th>Last snapshot saved</th></tr>${rows||'<tr><td colspan="4" class="mute">No clients have been added yet. Use the form above to add the first one.</td></tr>'}</table></div>
+ <p class="lede">Each client has its own workspace protected by its own password. Add a client below, or load the complete <b>Moonshot Inc.</b> sample dataset to demonstrate end-to-end scoring, audit, report, and snapshot comparisons.</p>
+ <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button>${!hasMoonshot?`<button class="btn" data-a="seedmoonshot">${ic('spark',16)} Load Moonshot Inc. sample</button>`:''}</div>
+ <div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th>Cohorts</th><th>Latest index</th><th>Last snapshot</th></tr>${rows||'<tr><td colspan="5" class="mute">No clients have been added yet. Add one above or load the Moonshot Inc. sample.</td></tr>'}</table></div>
  ${panel}
- ${(S.archived||[]).length?`<section><h2>Archived clients</h2><p class="lede" style="margin-top:6px">These clients are hidden everywhere else and are left out of benchmarks. Restore one to bring it back exactly as it was. Deleting permanently removes the client, its cohorts, its snapshots and its passwords, and it cannot be undone.</p><div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th></th></tr>${S.archived.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${x.wave} ${WNAME(x.wave)}</td><td><button class="btn" data-a="restoreclient" data-id="${x.id}">Restore</button> <button class="btn ${ARM==='x'+x.id?'arm':''}" data-a="purgeclient" data-id="${x.id}">${ARM==='x'+x.id?'Click again to delete permanently':'Delete permanently'}</button></td></tr>`).join('')}</table></div></section>`:''}
- <section><h2>Your admin password</h2><p class="lede" style="margin-top:6px">Use this form to change the password you use to sign in as admin. Spaces and capital letters are ignored when the password is checked. Please choose at least 12 characters, and a few unrelated words strung together is an easy way to get there. Your clients\' passwords are not affected.</p>
+ ${(S.archived||[]).length?`<section><h2>Archived clients</h2><p class="lede" style="margin-top:6px">Hidden from the app and benchmarks. Restore anytime or delete permanently.</p><div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th></th></tr>${S.archived.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>W${x.wave} ${WNAME(x.wave)}</td><td><button class="btn sm" data-a="restoreclient" data-id="${x.id}">Restore</button> <button class="btn sm ${ARM==='x'+x.id?'arm':''}" data-a="purgeclient" data-id="${x.id}">${ARM==='x'+x.id?'Click again to delete permanently':'Delete permanently'}</button></td></tr>`).join('')}</table></div></section>`:''}
+ ${DEMO?'':`<section><h2>Your admin password</h2><p class="lede" style="margin-top:6px">Change your admin password. Use at least 12 characters (spaces and case are ignored). Client passwords are unaffected.</p>
  <form class="pwform" id="apf" autocomplete="off"><div class="f"><label for="apc">Current password</label><input id="apc" type="password" autocomplete="current-password" spellcheck="false"></div>
  <div class="f"><label for="apn">New password</label><input id="apn" type="password" autocomplete="new-password" spellcheck="false"></div>
  <div class="f"><label for="apr">Repeat new password</label><input id="apr" type="password" autocomplete="new-password" spellcheck="false"></div>
- <button class="btn pri" type="submit">${ic('key',16)} Change password</button></form></section>`;
+ <button class="btn pri" type="submit">${ic('key',16)} Change password</button></form></section>`}`;
 }
 
 function benchBlock(h){
  const d=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
  if(!d)return'';
  const i=d.idx;
- return`<section><h2>Where this brand sits among its peers</h2><p class="lede">${ord(i.pct)} percentile, rank ${i.rank} of ${i.of}${d.position?', '+esc(d.position.toLowerCase()):''}, from the latest saved snapshot (${esc(d.taken_on)}). The Benchmark tab has the pillar and sub-outcome positions.</p></section>`;
+ return`<section><h2>Where this brand sits among its peers</h2><p class="lede">${ord(i.pct)} percentile, rank ${i.rank} of ${i.of}${d.position?', '+esc(d.position.toLowerCase()):''}, from the latest saved snapshot (${esc(d.taken_on)}). Open the Benchmark tab for pillar and sub-outcome percentiles.</p></section>`;
 }
 function benchText(h){
  const d=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
@@ -879,14 +1301,18 @@ function reportCsv(c,h,R){
  const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Status','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
  rawModel(c,h).pillars.forEach(g=>g.items.forEach(x=>{const r=rawItem(c,x),a=x.a,sc=a.sc||0;
   rows.push([c.name,h.name,WNAME(c.wave),r.id,r.name,r.pillar,r.owner,r.status,sc||'',sc?RUNG[sc]:'',{b:'Below',m:'Meets',a:'Above'}[a.vd]||'',sc?(r.evidenceRecorded?'Yes':'No'):'',r.priority==='Client focus'?'Focus':'Normal',r.evidence,r.measuredValue.value,r.measuredValue.measuredOn,r.notes,r.evidenceLinks.map(l=>`${l.title} ${l.url}${l.seen?' (seen '+l.seen+')':''}`.trim()).join('; ')])}));
- return '﻿'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+ return '\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
 }
 
 const CMP={},SNAPC={};
 async function getSnap(id){if(id&&id!=='cur'&&!SNAPC[id])SNAPC[id]=await api('GET','/snapshot?id='+encodeURIComponent(id))}
 function cmpSection(c,h){
  if(!h.hist.length)return'';
- const cs=CMP[h.id]||(CMP[h.id]={a:'',b:'cur'});
+ let cs=CMP[h.id];
+ if(!cs){
+  cs=CMP[h.id]={a:h.hist.length>=2?h.hist[h.hist.length-2].id:h.hist[0].id,b:h.hist.length>=2?h.hist[h.hist.length-1].id:'cur'};
+  Promise.all([getSnap(cs.a),getSnap(cs.b)]).then(()=>{if(S&&S.tab==='report'&&ch()&&ch().id===h.id)render(true)}).catch(()=>{});
+ }
  const opts=sel=>h.hist.slice().reverse().map(x=>`<option value="${x.id}" ${sel===x.id?'selected':''}>Snapshot of ${esc(x.d)} (index ${x.idx==null?'n/a':x.idx})</option>`).join('');
  const sa=cs.a?SNAPC[cs.a]:null,sb=cs.b==='cur'?{answers:h.a}:SNAPC[cs.b];
  let tbl='';
@@ -895,17 +1321,17 @@ function cmpSection(c,h){
   const show=v=>v==null?'<span class="mute">Not audited</span>':v?`${v} ${RUNG[v]}`:'<span class="mute">Not scored</span>';
   const rows=SUBS.filter(x=>st(sa.answers,x.id)!=null||st(sb.answers,x.id)!=null).map(x=>{
    const p=st(sa.answers,x.id),q=st(sb.answers,x.id);
-   const d=p>0&&q>0?(q>p?`<span class="ok">Up ${q-p}</span>`:q<p?`<span class="warn">Down ${p-q}</span>`:'<span class="mute">No change</span>'):(p==null?'<span class="mute">Added</span>':q==null?'<span class="mute">Removed</span>':'');
+   const d=p>0&&q>0?(q>p?`<span class="ok">Up +${q-p}</span>`:q<p?`<span class="warn">Down -${p-q}</span>`:'<span class="mute">No change</span>'):(p==null?'<span class="mute">Added</span>':q==null?'<span class="mute">Removed</span>':'');
    const iv=o=>{const y=o[x.id];return y&&(y.iv||'').trim()?esc(y.iv.trim())+(y.ivd?' <small>('+esc(y.ivd)+')</small>':''):'<span class="mute">none</span>'};
    return`<tr><td><b>${esc(x.name)}</b></td><td>${show(p)}</td><td>${show(q)}</td><td>${d}</td><td>${iv(sa.answers)}</td><td>${iv(sb.answers)}</td></tr>`}).join('');
   const ra=compute(c,{a:sa.answers}),rb=compute(c,{a:sb.answers}),f=v=>v==null?'n/a':v;
-  tbl=`<p class="lede">Provisional index ${f(ra.idx)} then, ${f(rb.idx)} now. Evidenced index ${f(ra.idxV)} then, ${f(rb.idxV)} now. Rungs compared: ${ra.scored.length} then, ${rb.scored.length} now.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
- }else tbl='<p class="mute">Choose an earlier snapshot to see how each sub-outcome has moved.</p>';
- return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Pick an earlier snapshot and a later one, or compare a snapshot with the scores as they stand now. Each row shows the rung on both dates and whether it moved, along with the measured indicator values you recorded. This is the clearest way to show a client what changed between cycles.</p>
+  tbl=`<p class="lede">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
+ }else tbl='<p class="mute">Loading snapshot comparison...</p>';
+ return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Compare any earlier snapshot against a later snapshot or your live unsaved scores, including measured indicator values.</p>
  <div class="ctx"><div class="f"><label for="cmpa">Earlier</label><select id="cmpa" data-c="cmpa"><option value="">Choose a snapshot</option>${opts(cs.a)}</select></div><div class="f"><label for="cmpb">Later</label><select id="cmpb" data-c="cmpb"><option value="cur" ${cs.b==='cur'?'selected':''}>Current scores, not yet saved as a snapshot</option>${opts(cs.b)}</select></div></div>${tbl}</section>`;
 }
 /* ---------- events ---------- */
-function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),4500)}
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),4200)}
 document.addEventListener('submit',async e=>{
  if(e.target.id!=='apf')return;e.preventDefault();
  const c=$('#apc').value,n=$('#apn').value,r=$('#apr').value,btn=e.target.querySelector('button');
@@ -923,6 +1349,27 @@ document.addEventListener('click',async e=>{
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
   else if(a==='pil'){S.pil=+v}
+  else if(a==='afil'){AF.f=v}
+  else if(a==='coll'){COLL[id]=!COLL[id]}
+  else if(a==='collall'){SUBS.forEach(s=>{if(A(s.id).in)COLL[s.id]=true})}
+  else if(a==='expall'){COLL={}}
+  else if(a==='nextgap'){
+   const R=compute(c,h),tgt=R.unscored[0]||R.missing[0];
+   if(tgt){
+    S.pil=0;AF.q='';AF.f='all';COLL[tgt.s.id]=false;render(true);
+    const el=document.getElementById('card-'+tgt.s.id);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+   }
+  }
+  else if(a==='wq'){const qi=+id,wv=+v;WQ[qi]=WQ[qi]===wv?0:wv}
+  else if(a==='clearwq'){WQ=[0,0,0,0,0]}
+  else if(a==='applywq'){WCH={client:c.id,to:+v};S.tab='audit';keep=false}
+  else if(a==='fexpand'){SUBS.forEach(s=>OPEN[s.id]=true)}
+  else if(a==='fcollapse'){SUBS.forEach(s=>delete OPEN[s.id])}
+  else if(a==='demorole'){DEMO_DB.role=v;S.role=v;if(v==='client'&&S.tab==='clients')S.tab='report';if(S.tab==='bench')loadBench();else if(S.tab==='clients')loadAcc()}
+  else if(a==='demoreset'){startDemo(S.tab);toast('Moonshot Inc. demo workspace reset.');return}
+  else if(a==='seedmoonshot'){await seedMoonshotLive();return}
   else if(a==='open'){OPEN[id]=!OPEN[id]}
   else if(a==='showrel'){SHOWREL=!SHOWREL}
   else if(a==='scope'){const x=A(id);x.in=!x.in;dirty(h)}
@@ -935,10 +1382,14 @@ document.addEventListener('click',async e=>{
    if(wasArm==='h'+h.id){await api('DELETE','/cohort?id='+h.id);c.cohorts=c.cohorts.filter(x=>x.id!==h.id);S.h=c.cohorts[0].id;BM={}}
    else ARM='h'+h.id;
   }
-  else if(a==='snap'){await flush(h);const r=await api('POST','/snapshot',{cohort_id:h.id});h.hist.push(r);BM={};toast('Snapshot saved. You can now see it under History.');if(S.tab==='bench')loadBench();else loadBench(true)}
+  else if(a==='snap'){await flush(h);const r=await api('POST','/snapshot',{cohort_id:h.id});h.hist.push(r);BM={};delete CMP[h.id];toast('Snapshot saved. You can now see it under History.');if(S.tab==='bench')loadBench();else loadBench(true)}
+  else if(a==='delsnap'){
+   if(wasArm==='s'+id){await api('DELETE','/snapshot?id='+encodeURIComponent(id));h.hist=h.hist.filter(x=>x.id!==id);delete SNAPC[id];delete CMP[h.id];BM={};LG=null;toast('Snapshot deleted.');if(S.tab==='report')loadBench(true)}
+   else ARM='s'+id;
+  }
   else if(a==='reloadstate'){await reloadState();toast('The latest version has been loaded.')}
   else if(a==='overwrite'){await flush(h,true);toast('Your version has been saved over the newer one.')}
-  else if(a==='archclient'){await api('PATCH','/client',{id,archived:true});await reloadState();toast('The client has been archived. It is hidden from the app and from benchmarks, and you can restore it from the Archived clients list on this tab.')}
+  else if(a==='archclient'){await api('PATCH','/client',{id,archived:true});await reloadState();toast('The client has been archived.')}
   else if(a==='restoreclient'){await api('PATCH','/client',{id,archived:false});await reloadState();toast('The client has been restored.')}
   else if(a==='purgeclient'){
    if(wasArm==='x'+id){await api('DELETE','/client?id='+id);S.archived=S.archived.filter(x=>x.id!==id);toast('The client and all of its data have been permanently deleted.')}
@@ -952,7 +1403,7 @@ document.addEventListener('click',async e=>{
   else if(a==='dlcsv'){const R=compute(c,h);dl(fname(c,h,'csv'),'text/csv',reportCsv(c,h,R));return}
   else if(a==='dlraw'){dl(fname(c,h,'raw-inputs.md'),'text/markdown',rawMd(c,h));return}
   else if(a==='dlrawjson'){dl(fname(c,h,'raw-inputs.json'),'application/json',rawJson(c,h));return}
-  else if(a==='copy'){const tx=$('#rtxt');tx.select();try{const p=navigator.clipboard&&navigator.clipboard.writeText(tx.value);if(p&&p.catch)p.catch(()=>{})}catch(err){}toast('Report copied. If it does not paste, select the text in the box below and copy it yourself.');return}
+  else if(a==='copy'){const tx=$('#rtxt');tx.select();try{const p=navigator.clipboard&&navigator.clipboard.writeText(tx.value);if(p&&p.catch)p.catch(()=>{})}catch(err){}toast('Report copied to clipboard.');return}
   else if(a==='mkclient'){
    const name=($('#ncn').value||'').trim()||'New client',wave=+$('#ncw').value;
    const n=await api('POST','/client',{name,wave});S.clients.push(n);S.c=n.id;S.h=n.cohorts[0].id;toast('Client added. Choose it in the table to create a password.');
@@ -961,7 +1412,7 @@ document.addEventListener('click',async e=>{
   else if(a==='wavecancel'){WCH=null}
   else if(a==='addcoh'){
    const name=($('#nch').value||'').trim()||'Cohort '+(c.cohorts.length+1);
-   const n=await api('POST','/cohort',{client_id:c.id,name});c.cohorts.push(n);BM={};toast('Cohort added. Open the Audit tab and choose it to start scoring.');
+   const n=await api('POST','/cohort',{client_id:c.id,name});c.cohorts.push(n);BM={};toast('Cohort added. Open the Audit tab to start scoring.');
   }
   else if(a==='delcoh'){
    if(wasArm==='k'+id){await api('DELETE','/cohort?id='+id);c.cohorts=c.cohorts.filter(x=>x.id!==id);if(!c.cohorts.find(x=>x.id===S.h))S.h=c.cohorts[0].id;BM={};LG=null;toast('The cohort has been deleted.')}
@@ -985,6 +1436,8 @@ document.addEventListener('click',async e=>{
 });
 document.addEventListener('input',e=>{
  const t=e.target,i=t.dataset.i;if(!i)return;
+ if(i==='aq'){AF.q=t.value;const pos=t.selectionStart;render(true);const el=document.getElementById('aq');if(el){el.focus();el.setSelectionRange(pos,pos)}return}
+ if(i==='fq'){FQ=t.value;const pos=t.selectionStart;render(true);const el=document.getElementById('fq');if(el){el.focus();el.setSelectionRange(pos,pos)}return}
  if(i==='hname'){const h=ch();if(h)h.name=t.value}
  else if(i==='iv'){A(t.dataset.id).iv=t.value;dirty(ch())}
  else if(i==='ivd'){A(t.dataset.id).ivd=t.value;dirty(ch())}
@@ -992,14 +1445,15 @@ document.addEventListener('input',e=>{
  else if(i==='nt'){A(t.dataset.id).nt=t.value;dirty(ch())}
  else if(i==='xsum'){const h=ch();h.a._x=h.a._x||{};h.a._x.sum=t.value;dirty(h);const pp=document.getElementById('xsum-p');if(pp)pp.textContent=t.value}
  else if(i==='lkt'||i==='lku'||i==='lkd'){const x=A(t.dataset.id),l=(x.lk||[])[+t.dataset.k];if(l){l[{lkt:'t',lku:'u',lkd:'d'}[i]]=t.value;dirty(ch())}}
- else if(i==='ev'){const h=ch();A(t.dataset.id).ev=t.value;dirty(h);const b=document.getElementById('bd-'+t.dataset.id);if(b)b.innerHTML=badge(A(t.dataset.id));const s=$('#sum');if(s){const R=compute(cl(),ch());s.innerHTML=sumInner(R,'')}}
+ else if(i==='ev'){const h=ch();A(t.dataset.id).ev=t.value;dirty(h);const b=document.getElementById('bd-'+t.dataset.id);if(b)b.innerHTML=badge(A(t.dataset.id));const s=$('#sum');if(s){const R=compute(cl(),ch());s.innerHTML=sumInner(R,scopeWarn(R.n))}}
 });
 document.addEventListener('change',async e=>{
  const t=e.target,k=t.dataset.c,i=t.dataset.i;
  try{
-  if(i==='hname'){const h=ch();h.name=t.value;await api('PATCH','/cohort',{id:h.id,name:t.value});return}
+  if(i==='lku'){const x=A(t.dataset.id),l=(x.lk||[])[+t.dataset.k];if(l&&l.u&&!/^https?:\/\//i.test(l.u)&&/^[a-z0-9.-]+\.[a-z]{2,}/i.test(l.u.trim())){l.u='https://'+l.u.trim();t.value=l.u;dirty(ch())}return}
+  if(i==='hname'){const h=ch();h.name=t.value;await api('PATCH','/cohort',{id:h.id,name:t.value});nav();return}
   if(i==='cname'){const x=cl().cohorts.find(y=>y.id===t.dataset.id);x.name=t.value;await api('PATCH','/cohort',{id:x.id,name:t.value});BM={};setStat('Saved');return}
-  if(i==='rename'){const c=cl();c.name=t.value;await api('PATCH','/client',{id:c.id,name:t.value});setStat('Saved');return}
+  if(i==='rename'){const c=cl();c.name=t.value;await api('PATCH','/client',{id:c.id,name:t.value});setStat('Saved');nav();return}
   if(!k)return;
   if(k==='client'){WCH=null;S.c=t.value;S.h=cl().cohorts[0].id;BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
   else if(k==='wavepick'){const c=cl();WCH=+t.value===c.wave?null:{client:c.id,to:+t.value}}
