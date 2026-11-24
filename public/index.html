@@ -11,7 +11,7 @@
 :root{
   --ink:#1A1A24;--mut:#525263;--line:#E2E2E8;--paper:#F6F6F8;--bg:#FFFFFF;--surface:#FFFFFF;
   --acc:#D35400;--acch:#B34500;--gold:#E99A10;--tint:#FDF2E9;--tint-line:#F4D3B8;
-  --ok:#1D6B3A;--ok-bg:#E8F5EC;
+  --ok:#1D6B3A;--ok-bg:#E8F5EC;--gap:#B83B2A;--gap-bg:#FDF0EE;
   --r1:#D6D6DD;--r2:#F3CF8F;--r3:#E99A10;--r4:#E0770C;--r5:#D35400;
   --sh-sm:0 1px 2px rgba(26,26,36,.04),0 1px 3px rgba(26,26,36,.03);
   --sh-md:0 4px 14px rgba(26,26,36,.07),0 1px 3px rgba(26,26,36,.04);
@@ -218,9 +218,77 @@ small{font-size:12px;color:var(--mut)}
 .pb dd{margin:0}
 .tag{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:600}
 .tag.b{background:var(--tint);color:var(--acch)}.tag.m{background:var(--paper);color:var(--mut)}.tag.a{background:var(--ok-bg);color:var(--ok)}
-.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px}
-.plan div{border-top:2px solid var(--acc);padding:14px 16px;background:var(--paper);border-radius:0 0 12px 12px}
-.plan b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:6px}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
+.plan .pstep{border:1px solid var(--line);border-top:3px solid var(--acc);padding:16px 18px;background:#fff;border-radius:12px;box-shadow:var(--sh-sm)}
+.plan .pstep .sno{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font:700 11px Inter,sans-serif;margin-right:8px}
+.plan .pstep .shead{display:flex;align-items:center;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:8px}
+.plan .pstep b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:6px;color:var(--ink)}
+/* executive infographic & visual analytics */
+.viz-box{border:1px solid var(--line);border-radius:14px;padding:20px 22px;background:#fff;box-shadow:var(--sh-sm);margin-top:16px}
+.viz-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.viz-head h3{font-size:17px}
+.info-grid{display:grid;grid-template-columns:5fr 7fr;gap:18px;margin-top:22px;align-items:stretch}
+.gauge-card{border:1px solid var(--tint-line);background:linear-gradient(180deg,var(--tint) 0%,#fff 58%);border-radius:14px;padding:20px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+.gauge-foot{width:100%;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:10px;font-size:12px;color:var(--mut)}
+.info-right{display:flex;flex-direction:column;gap:14px;justify-content:space-between}
+.info-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ring-card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;box-shadow:var(--sh-sm);display:flex;align-items:center;gap:14px}
+.wgap-card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;justify-content:center}
+.wgap-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--line);gap:2px;margin:10px 0 6px}
+.move-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.move-card{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--paper);font-size:12px}
+.move-card .mtop{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-bottom:4px}
+.move-card .mtop b{color:var(--acc);font-family:'Playfair Display',serif;font-size:14px}
+.move-card .mname{font-weight:600;color:var(--ink);line-height:1.3}
+.move-card .mcfo{font-size:11px;color:var(--mut);margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+/* pillar dumbbell gap chart */
+.db-wrap{display:flex;flex-direction:column;gap:14px}
+.db-head,.db-row{display:grid;grid-template-columns:1.6fr 2.4fr 96px;gap:12px;align-items:center;font-size:12.5px}
+.db-head{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.db-ticks{display:flex;justify-content:space-between}
+.db-track{position:relative;height:26px;display:flex;align-items:center}
+.db-axis{position:absolute;left:0;right:0;height:2px;background:var(--line);border-radius:99px}
+.db-whisk{position:absolute;height:4px;background:#D6D6E0;border-radius:99px}
+.db-iqr{position:absolute;height:12px;background:var(--r2);opacity:.72;border-radius:6px}
+.db-med{position:absolute;width:2px;height:20px;background:var(--ink)}
+.db-me{position:absolute;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--acc);border:2px solid #fff;box-shadow:0 1px 4px rgba(211,84,0,.4)}
+.db-val{text-align:right;font-variant-numeric:tabular-nums}
+/* sub-outcome rung tile heatmap */
+.hm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.hm-col{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.hm-col-h{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.hm-tile{border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.3;border:1px solid transparent}
+.hm-tile.unv{border:1.5px dashed var(--acch)}
+.hm-tile.t1{background:var(--r1);color:var(--ink)}
+.hm-tile.t2{background:var(--r2);color:var(--ink)}
+.hm-tile.t3{background:var(--r3);color:var(--ink)}
+.hm-tile.t4{background:var(--r4);color:#fff}
+.hm-tile.t5{background:var(--r5);color:#fff}
+.hm-tile.t0{background:#fff;border-color:var(--line);color:var(--mut)}
+.hm-top{display:flex;justify-content:space-between;font-weight:700;font-size:11px;opacity:.9}
+.hm-nm{font-weight:600;margin-top:3px}
+.hm-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.hm-badges span{background:rgba(255,255,255,.92);color:var(--ink);border-radius:4px;padding:1px 5px;font-size:10px;font-weight:600}
+.hm-badges span.hb{color:var(--acch)}
+.hm-badges span.ha{color:var(--ok)}
+/* peer beeswarm & ranked bars */
+.bee-wrap{position:relative;height:78px;margin-top:16px}
+.bee-zones{position:absolute;left:0;right:0;top:24px;height:30px;border-radius:8px;overflow:hidden;display:flex;border:1px solid var(--line)}
+.bee-zones i{display:block;height:100%}
+.bee-med{position:absolute;top:14px;bottom:14px;width:2px;background:var(--ink)}
+.bee-med span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.bee-dot{position:absolute;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.bee-dot.me{background:var(--acc);width:18px;height:18px;z-index:5}
+.bee-dot.peer{background:#7A7A8C;width:11px;height:11px;opacity:.78;z-index:2}
+.bee-pin{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:700;color:var(--acc);white-space:nowrap}
+.rk-list{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.rk-row{display:grid;grid-template-columns:2fr 3fr 78px;gap:12px;align-items:center;font-size:12.5px}
+.rk-row.me{font-weight:700}
+.rk-track{height:12px;background:var(--paper);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.rk-fill{height:100%;border-radius:99px;background:#9A9AAA}
+.rk-row.me .rk-fill{background:var(--acc)}
+/* slopegraph */
+.slope-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:center}
 ul.pl{margin:8px 0;padding-left:18px}
 .empty{padding:40px 24px;color:var(--mut);background:var(--paper);border-radius:14px;border:1px dashed var(--line);margin-top:16px}
 .txt{width:100%;min-height:240px;font:12px/1.5 ui-monospace,Menlo,monospace}
@@ -245,7 +313,7 @@ ul.pl{margin:8px 0;padding-left:18px}
 .note{white-space:pre-wrap}
 .xlist{list-style:none;padding:0;margin:8px 0}.xlist li{border-top:1px solid var(--line);padding:10px 0}
 .xrow{display:flex;gap:10px;flex-wrap:wrap}
-@media(max-width:1100px){.kpis{grid-template-columns:1fr 1fr}.waves{grid-template-columns:1fr 1fr}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
+@media(max-width:1100px){.kpis{grid-template-columns:1fr 1fr}.info-grid,.slope-grid{grid-template-columns:1fr}.hm-grid{grid-template-columns:repeat(2,1fr)}.waves{grid-template-columns:1fr 1fr}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
 @media(max-width:760px){
 body{display:block}
 aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:0;z-index:30;border-top:1px solid var(--line);border-right:0}
@@ -253,20 +321,65 @@ aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction
 .nav{flex-direction:row;width:100%;gap:0}.nav button{flex:1;flex-direction:column;gap:2px;font-size:11px;padding:10px 4px;border-left:0;border-top:2px solid transparent;align-items:center}
 .nav button.on{border-top-color:var(--acc);box-shadow:none}
 main{padding:24px 18px 110px}h1{font-size:28px}
+.info-pair,.move-grid,.hm-grid,.db-head,.db-row,.rk-row{grid-template-columns:1fr}
 .kpis,.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
 .how{grid-template-columns:1fr}.big{gap:28px}.pb dl{grid-template-columns:1fr}.lk{grid-template-columns:1fr}
 }
+.tag.b{background:var(--gap-bg);color:var(--gap)}
+.hm-badges span.hb{color:var(--gap)}
+.hm-tile{cursor:pointer;transition:transform .12s,box-shadow .12s}
+.hm-tile:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+/* compact global context bar */
+.ctx-slim{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:10px 14px;background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-top:18px}
+.ctx-slim .f{display:flex;align-items:center;gap:8px;flex-direction:row}
+.ctx-slim .f label{margin:0;white-space:nowrap}
+.ctx-slim select,.ctx-slim input{padding:5px 10px;font-size:13px}
+.ctx-slim .cohorts{margin-top:0;gap:6px;padding-left:12px;border-left:1px solid var(--line)}
+/* audit progressive disclosure & live rung strip */
+.wv-one{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;border:1px solid var(--tint-line);background:var(--tint);font-size:12.5px;margin-bottom:12px}
+.wv-one b{color:var(--acch);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.rstrip{margin-top:8px;padding:9px 13px;border-radius:10px;background:var(--paper);border:1px solid var(--line);font-size:12.5px;color:var(--ink);min-height:38px;display:flex;align-items:center;gap:8px}
+.rstrip b{color:var(--acc);white-space:nowrap}
+.ext-toggle{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--paper);font-size:12.5px;font-weight:500;color:var(--ink)}
+.ext-toggle:hover{border-color:var(--acc);color:var(--acc);background:#fff}
+.ext-drawer{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+.prog-mini{display:flex;align-items:center;gap:8px;min-width:130px}
+.prog-mini .ptrack{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden;min-width:68px}
+.prog-mini .ptrack i{display:block;height:100%;background:var(--ok);border-radius:99px}
+/* report editorial summary, section jump bar & presentation mode */
+.exec-prose{border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:20px 24px;background:var(--paper);margin-top:16px}
+.exec-prose .ep-text{font-size:15.5px;line-height:1.7;color:var(--ink);white-space:pre-wrap}
+.exec-prose .ep-meta{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);display:flex;flex-wrap:wrap;gap:6px 18px}
+.rjump{position:sticky;top:0;z-index:12;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 0;margin-top:16px;border-bottom:1px solid var(--line)}
+.rjump a{text-decoration:none;color:var(--mut);font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:99px;border:1px solid transparent;transition:all .15s}
+.rjump a:hover{color:var(--acc);background:var(--tint);border-color:var(--tint-line)}
+.rjump .rj-sp{margin-left:auto;display:flex;gap:8px;align-items:center}
+body.pres{display:block}
+body.pres aside,body.pres .demo-bar,body.pres .pres-hide{display:none!important}
+body.pres main{max-width:1180px;margin:0 auto;padding:36px 40px 80px}
+.pres-exit{position:fixed;top:16px;right:20px;z-index:50;box-shadow:var(--sh-md)}
+/* instant custom chart tooltip */
+#ctip{position:fixed;z-index:80;pointer-events:none;display:none;max-width:280px;background:var(--ink);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.fs-back{position:fixed;inset:0;z-index:60;background:rgba(26,26,36,.68);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px}
+.fs-dialog{width:min(1360px,95vw);max-height:92vh;background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.32);display:flex;flex-direction:column;overflow:hidden}
+.fs-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--paper)}
+.fs-head h3{font-size:20px;margin:0}
+.fs-body{padding:28px 32px;overflow:auto;flex:1}
+.fs-body svg{max-width:none!important;max-height:72vh!important;width:100%;height:auto}
+.fs-body .viz-box,.fs-body .radar-wrap,.fs-body .trend-wrap{border:0;box-shadow:none;padding:0;margin:0}
+.fs-body .fs-trigger{display:none!important}
+.viz-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media print{
 @page{margin:16mm 14mm}
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{display:block;font-size:11.5px;color:#000}
-aside,.noprint,.demo-bar,.toast,button,.ib{display:none!important}
+aside,.noprint,.demo-bar,.toast,.fs-back,.rjump,.pres-exit,#ctip,button,.ib{display:none!important}
 main{padding:0;max-width:none}
 .printhead{display:block;border-bottom:2px solid var(--acc);padding-bottom:8px;margin-bottom:18px}
 .printhead b{font-family:'Playfair Display',Georgia,serif;font-size:20px}
 .printonly{display:block}
 .raw-body.is-collapsed{display:block!important}
-section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap{break-inside:avoid}
+section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap,.viz-box,.exec-prose{break-inside:avoid}
 h2,h3{break-after:avoid}
 a{color:inherit;text-decoration:none}
 .scroll{overflow:visible}
@@ -281,6 +394,8 @@ a{color:inherit;text-decoration:none}
   <div class="side-foot" id="sidefoot"></div>
 </aside>
 <main id="app"></main>
+<div id="fsmodal"></div>
+<div id="ctip" role="tooltip"></div>
 <script src="sample-data.js"></script>
 <script>
 /* ---------- icons (Lucide style, inline) ---------- */
@@ -301,7 +416,8 @@ key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 
 search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
 chev:'<path d="m6 9 6 6 6-6"/>',
 chevu:'<path d="m18 15-6-6-6 6"/>',
-spark:'<path d="M12 3 9.5 9.5 3 12l6.5 2.5L12 21l2.5-6.5L21 12l-6.5-2.5z"/>'
+spark:'<path d="M12 3 9.5 9.5 3 12l6.5 2.5L12 21l2.5-6.5L21 12l-6.5-2.5z"/>',
+expand:'<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>'
 };
 const ic=(n,sz=18)=>`<svg class="ic" width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
 
@@ -343,7 +459,8 @@ Recall|EB|The centre comes to mind when a role opens in its domain|Share who con
 Differentiation|EB|Talent can say what the centre stands for versus the centre next door|Number of attributes the centre owns distinct from rival centres|Attribute survey|No attributes claimed|EVP attributes stated|Attributes evidenced and compared|Attributes others benchmark|Stated but unevidenced = consistency; evidenced with a comparison = evidence; rivals copying = category
 Consideration|EB with TA|The centre is on the mental shortlist before applying|Share of target talent who would consider an offer|Talent survey|Not asked|Asked, small share|Half or more of the target pool|Considered the default option|A quarter = consistency, half = evidence, default = authority
 Category association|EB with leadership|The centre is known for a domain, such as AI or payments or risk|Share of domain press coverage that names the centre|Media monitoring|None|Occasional mention|Regular mentions on its domain|The reference on that domain|Any systemic mention = evidence; being the cited source = authority
-Parent-portfolio positioning|Centre leader|HQ sees the centre as a strategic asset, not a cost line|Strategic mentions of the centre in parent filings and earnings|Parent annual report|Cost line only|Mentioned in the operational review|Named as a capability or centre of excellence|Named in the strategy narrative|Operational = consistency; strategy = authority; named as the model = category`,
+Parent-portfolio positioning|Centre leader|HQ sees the centre as a strategic asset, not a cost line|Strategic mentions of the centre in parent filings and earnings|Parent annual report|Cost line only|Mentioned in the operational review|Named as a capability or centre of excellence|Named in the strategy narrative|Operational = consistency; strategy = authority; named as the model = category
+Campus and early-career awareness|EB with TA|Target campuses know the centre before placement season opens|Unaided awareness and hackathon participation across target colleges|Campus survey, hackathon tracker|None|Placement-day visit only|Year-round campus calendar on target schools|Top-choice employer on target campuses|Placement-day only = consistency; year-round engagement = evidence; top-choice employer = authority`,
 `Attraction|TA with EB|Enough of the right applications arrive|Qualified applications per open role|ATS|Under five|Five to fifteen|Fifteen to thirty with a quality filter|Inbound above opening needs|Volume without quality = presence; qualified share tracked = evidence
 Recruitment support|EB|Recruiters have the story, collateral and data to sell the centre|Share of open roles with a tailored recruiter kit in active use|ATS, recruiter survey|None|A standard deck exists|Kits per practice, used and refreshed|Recruiters co-author the positioning|Assets existing = consistency; refreshed and measured = evidence
 Hiring process experience|TA|The process feels fair, informed and quick|Candidate NPS by stage|Candidate survey|Not measured|Measured at the end|Measured per stage with owners|Above market at every stage|Any stage-level measurement = evidence rung or better
@@ -351,7 +468,9 @@ Assessment experience|TA|Tests and AI screening are explained and answered|Drop-
 Offer and closing experience|TA with rewards|Pay logic is clear, counteroffers are rare|Offer acceptance rate|ATS|Not tracked|Tracked|Above the sector's median|Above market with pay logic published|Any tracking = consistency; above market plus published logic = authority
 Pre-joining and onboarding|HR with EB|The promise survives the gap between offer and day one|Offer-to-join rate and ninety-day retention|HRIS|Not tracked|Tracked|Both above target|Ninety-day retention above 95 per cent|Tracking = consistency; holding the promise = authority
 Talent pool building|TA|Communities, campus, returner and alumni pools exist before the vacancy|Pool size per critical role and its conversion rate|CRM|No pools|One generic pool|Pools per critical role, refreshed|Pools convert without a vacancy|Pools existing = consistency; converting unprompted = category
-Hiring manager capability|HR|Managers interview well and keep the promises made|First-year attrition and share of managers trained to interview|HRIS, L&D|Not measured|Measured|Below the centre's own benchmark, most managers trained|All managers certified, first-year attrition under the market|Measurement = consistency; certification with a number = authority`,
+Hiring manager capability|HR|Managers interview well and keep the promises made|First-year attrition and share of managers trained to interview|HRIS, L&D|Not measured|Measured|Below the centre's own benchmark, most managers trained|All managers certified, first-year attrition under the market|Measurement = consistency; certification with a number = authority
+Campus hiring and internship experience|TA with EB|Interns and fresh graduates get a structured launchpad that converts to full-time hires|Internship-to-PPO conversion rate and campus candidate NPS|ATS, campus survey|Not tracked|Tracked informally|Structured internship with PPO conversion tracked|PPO conversion above 70 per cent and strong campus NPS|Structured programme tracked = evidence; 70%+ PPO conversion = authority
+Executive and niche-specialist hiring|TA with leadership|Principal engineers, AI specialists and site leaders see real global charter, not back-office work|Offer acceptance and time-to-fill for Principal, VP and niche-specialist roles|ATS, executive search tracker|Not tracked|Tracked via agencies|Dedicated executive pitch and global-leader access|Inbound specialist interest and high executive closing rate|Dedicated charter narrative = evidence; inbound specialist pull = authority`,
 `Pre-boarding and day-one narrative|EB with comms|The story told in the interview is the first thing the joiner hears again, in the same words|Share of new joiners who recall the value proposition in the interview's own words|Onboarding survey|Not asked|Not asked|Half or more recall it|Nearly all, and can explain it|Asking at all = evidence rung; recall above 80 per cent = authority
 Internal channel positioning|Comms|Every internal channel has a name, a purpose and a cadence, and carries one core message|Reach and message consistency across internal channels|Comms analytics|Ad hoc emails|Defined channels and cadence|Channels with owners, one core message|Channels measured against business outcomes|Defined cadence = consistency; measured against outcomes = evidence
 Manager as brand carrier|Comms with HR|Managers can state the centre's promise and what it means for their team|Share of managers who can state the centre's promise unprompted|Manager survey|Not asked|Not asked|Half can state it|Most can state it and give an example|Any measurement = evidence; above 80 per cent with examples = authority
@@ -360,7 +479,12 @@ Recognition and signature moments|EB with comms|The centre's own rituals and rec
 Change and restructuring communication|Comms with leadership|Restructures, RTO and policy shifts are messaged deliberately, with the same rigour as a launch|Trust index movement through a change event|Pulse survey|No measurement|Measured after|Measured before, during and after|Trust holds or recovers through the change|Before and after = evidence; holding = authority
 Employee-generated content pipeline|EB with comms|Employees produce content about the centre inside-out, with judgement rather than script|Employee-authored pieces per month and their reach|Social analytics|None|Occasional|Programme with volume and reach tracked|Employees publish without prompting; applications follow|Programme with numbers = evidence; unprompted volume = category
 Culture and values in evidence|EB with leadership|Values are shown through artefacts, decisions and stories, not posters|Share who recall the values and can give a real example|Pulse survey|Posters only|Values published|Half can give an example|Most can, and cite a decision|Example recall is the whole test: stated values alone stay at consistency
-Exit and alumni handoff|Comms with HR|The goodbye is messaged, and departing people leave able to speak well of the centre|Share of leavers who would recommend the centre|Exit survey|Not asked|Asked|Above the review-platform score|Alumni network active and sourcing|Asking = consistency; alumni sourcing = category`,
+Exit and alumni handoff|Comms with HR|The goodbye is messaged, and departing people leave able to speak well of the centre|Share of leavers who would recommend the centre|Exit survey|Not asked|Asked|Above the review-platform score|Alumni network active and sourcing|Asking = consistency; alumni sourcing = category
+Learning and capability positioning|EB with L&D|Candidates and employees know clearly what skills and market value the centre builds, backed by real proof rather than generic claims|Alignment between external learning claims and employee-evidenced capability stories|Pulse survey, careers content audit|Generic claims only|Learning story stated|Backed by real upskilling proof points|Employees and candidates cite the same concrete capability gains|Generic claims = presence; backed by real proof = evidence; cited consistently by both talent and employees = authority
+Performance and meritocracy narrative|EB with HR|The centre's performance contract — whether high-bar or developmental — is positioned candidly and matches how progression actually works|Share of employees and joiners who say the performance bar matches what the brand promised|Onboarding and pulse surveys|Not articulated|Stated in handbook only|Criteria published and promise-reality alignment tracked|High say-do match across teams; right talent self-selects in|Stated only = consistency; say-do alignment tracked = evidence; high match = authority
+Inclusion and employee-connect positioning|EB with comms|Inclusion and employee-connect claims are positioned authentically and corroborated by lived employee voices, not performative campaigns|Consistency between external inclusion claims and lived employee-connect proof across segments|Pulse survey, content audit|Generic statements only|Policy and events published|Lived employee proof tracked across segments|External reputation and internal lived reality align closely|Statements only = presence; tracked across segments = evidence; aligned = authority
+Total rewards and benefits positioning|EB with rewards|The pay-and-benefits philosophy — whatever its market stance — is positioned clearly so talent understands the full deal without surprise|Share of candidates and employees who accurately understand the total-rewards proposition|Rewards survey, candidate feedback|Offer letter only|Benefits listed on intranet|Total-rewards narrative communicated and comprehension tracked|High comprehension and minimal promise-reality gap|Listed only = consistency; comprehension tracked = evidence; minimal say-do gap = authority
+Work-style, pace and flexibility positioning|EB with leadership|The centre positions its actual work pace, timezone reality and flexibility norms candidly — whether high-intensity or balance-led — so the right talent self-selects in|Say-do alignment between promised work-style and 90-day / pulse employee reality|Onboarding and pulse surveys, review platforms|Not stated|Policy stated only|Work-style and timezone reality stated candidly and say-do gap tracked|Candidates self-select on accurate expectations; minimal say-do gap|A high-intensity centre that positions its pace honestly can reach authority; promising balance you do not deliver stays at presence or consistency`,
 `Referrals|TA with HR|Employees bring people in|Referral share of hires|ATS|Under five per cent|Five to fifteen per cent|Fifteen to thirty per cent|Above thirty per cent|The share is the ladder; under five per cent is presence regardless of programme
 Employee social advocacy|EB with comms|Employees publish with judgement, not by script|Reach per participating employee and applications it produces|Social analytics|None|A few enthusiasts|A programme with volume and reach|Employees post with judgement, tracked to applications|Programme = evidence; measured to applications = authority
 Review-site health|EB|Ratings are healthy and the spread is tight, not just the average|Rating, the spread between reviews, and response rate|Glassdoor, AmbitionBox|Unclaimed profile|Responds to reviews|Rating and spread both tracked|Above 4.2 with a tight spread and near-total response|Spread matters as much as the average: wide spread reads as manipulation
@@ -368,7 +492,8 @@ Word of mouth|HR with EB|People recommend the centre without being asked|Share w
 Alumni advocacy|HR|Former employees send work and people back|Alumni-sourced hires and alumni referrals per year|CRM, HRIS|None|An informal list|A managed network|Alumni recruit for the centre|A managed network = evidence; sourcing = authority
 Leadership advocacy|Comms with leadership|Leaders speak credibly for the centre|Leader mentions and appearances per quarter|Media tracking|None|Occasional post|A cadence per leader|Leaders are the cited voices in their domain|Cadence = consistency; being the cited voice = authority
 Community presence|EB with CSR|The centre is a good local citizen, and locals say so|Programmes with a measured outcome and local recognition|CSR reporting|Ad hoc donations|Programmes run|Programmes with outcomes published|Community names the centre as a local asset|Outcomes published = evidence; named by the community = category
-Rejected-candidate goodwill|TA|Turned-down candidates still speak well of the process|Candidate NPS after a rejection|Candidate survey|Not measured|Not measured|Measured, and above zero|Positive, with reapplications tracked|Almost nobody measures this; measuring it alone is the evidence rung`,
+Rejected-candidate goodwill|TA|Turned-down candidates still speak well of the process|Candidate NPS after a rejection|Candidate survey|Not measured|Not measured|Measured, and above zero|Positive, with reapplications tracked|Almost nobody measures this; measuring it alone is the evidence rung
+Practitioner and tech community advocacy|EB with engineering|Engineers and specialists build the centre's reputation via tech blogs, meetups and open source|Tech blog posts, open-source contributions, patents and meetup talks per quarter|GitHub, tech blog, event tracker|None|Occasional talks|Tracked engineering blog and community meetups|Regular open-source releases, patents and conference talks|Tracked tech blog or meetups = evidence; open-source and conference presence = authority`,
 `Thought leadership|EB with leadership|The centre publishes a point of view worth citing|Published pieces per quarter and third-party citations|Media tracking|None|Occasional blog|A published cadence with a point of view|Cited by others as a source|Cadence = consistency; cited = authority
 Awards and certification|EB|External validation that a buyer recognises|Shortlists and wins per year, and whether they appear on the site|Awards tracker|None|Entered as they come|A targeted programme per pillar|Wins carry the centre's positioning|A programme = evidence; a win used as positioning = authority
 Analyst and media recognition|Comms|Third parties describe the centre accurately|Analyst mentions and the share that describe the centre accurately|Analyst tracker|None|Occasional|Briefings run, accuracy tracked|Analysts quote the centre's data|Running briefings = consistency; being quoted = authority
@@ -376,7 +501,9 @@ Leadership visibility|Comms|Named leaders are findable and quoted|Share of leade
 Data credibility|EB with Zinnov research|The centre's own numbers are the ones the market quotes|Third-party citations of the centre's own published data|Media tracking|None|Internal reports only|Published once|Cited by others annually|Any publication = consistency; citations = category
 Policy and fairness credibility|TA with legal|Hiring, AI use and candidate data handling are defensible|AI and candidate-data disclosure published, and audit trail|Policy documents|Nothing published|A privacy notice|Disclosure of AI use in screening|Published practice plus an annual audit|Disclosure published = evidence rung; audited = authority
 Crisis and restructuring credibility|Comms with leadership|Trust survives a bad quarter|Trust index movement across a restructure, and review sentiment after|Pulse survey, review platforms|Not measured|Measured after the event|Measured and managed through the event|Trust recovers within two quarters|Management through the event = authority; recovery = category
-Ecosystem credibility|Centre leader|Universities, government and industry bodies want the centre in the room|University partnerships, government MoUs and advisory seats held|Partnership tracker|None|One relationship|A portfolio of relationships|The centre is sought out to advise|Sought out = category; one MoU = consistency`];
+Ecosystem credibility|Centre leader|Universities, government and industry bodies want the centre in the room|University partnerships, government MoUs and advisory seats held|Partnership tracker|None|One relationship|A portfolio of relationships|The centre is sought out to advise|Sought out = category; one MoU = consistency
+Employer brand governance and operating muscle|EB with Centre leader|Employer brand has a named owner, ring-fenced budget and cross-functional cadence to sustain maturity|Named EB charter, dedicated budget and quarterly TA-HR-Comms review cadence|Governance charter, budget tracker|No owner|Part-time task inside TA or HR|Named owner, annual plan and ring-fenced budget|Cross-functional EB council with executive KPIs|Named owner and budget = evidence; executive council with KPIs = authority
+Workplace ethics and ESG credibility|Centre leader with HR|Pay equity, governance integrity and sustainability claims hold up under candidate scrutiny|Pay-equity audit status, ethics-channel trust and published ESG progress|ESG report, pulse survey|Nothing published|Parent policy linked|Local pay-equity or ethics trust tracked|Independent audits and local ESG outcomes published|Local tracking = evidence; audited and published outcomes = authority`];
 const SUBS=[];
 RAW.forEach((blk,pi)=>blk.split('\n').forEach((ln,i)=>{const f=ln.split('|');SUBS.push({id:(pi+1)+'.'+(i+1),p:pi,name:f[0],owner:f[1],means:f[2],ind:f[3],src:f[4],w:[f[5],f[6],f[7],f[8]],read:f[9]})}));
 /* Relevance by wave. One line per sub-outcome: id, then one digit per wave (Outpost, Satellite, Portfolio Hub, Transformation Hub). 1 = shown in the audit, 0 = hidden as not relevant at that wave.
@@ -388,6 +515,7 @@ const REL=`1.1 1111
 1.5 0111
 1.6 0111
 1.7 1111
+1.8 0111
 2.1 1111
 2.2 0111
 2.3 0111
@@ -396,6 +524,8 @@ const REL=`1.1 1111
 2.6 0111
 2.7 0111
 2.8 0111
+2.9 0111
+2.10 0011
 3.1 0011
 3.2 1111
 3.3 0011
@@ -405,6 +535,11 @@ const REL=`1.1 1111
 3.7 0111
 3.8 1111
 3.9 0111
+3.10 1111
+3.11 0111
+3.12 0111
+3.13 0111
+3.14 1111
 4.1 1111
 4.2 0111
 4.3 1111
@@ -413,6 +548,7 @@ const REL=`1.1 1111
 4.6 0111
 4.7 1111
 4.8 0011
+4.9 0011
 5.1 0111
 5.2 0111
 5.3 0111
@@ -420,7 +556,9 @@ const REL=`1.1 1111
 5.5 0111
 5.6 0111
 5.7 0111
-5.8 0111`;
+5.8 0111
+5.9 0111
+5.10 0111`;
 /* Rung thresholds. id | basis | rung 1 | rung 2 | rung 3 | rung 4 | rung 5. Basis g = anchored in the reading guide above, p = proposed wording and numbers awaiting review. */
 const THR=`1.1|g|The careers page or profile exists and was last updated within the past twelve months.|One named owner updates it on a fixed cadence, for example twice a year.|It is refreshed at least every quarter against a content plan.|It is always current, because updating it is part of the team's normal rhythm.|It is current within days, every channel profile is complete, and other centres copy how it is kept.
 1.2|g|Fewer than 10 per cent of target talent name the centre when asked without prompting.|Between 10 and 25 per cent name the centre unaided.|Between 25 and 50 per cent name the centre unaided.|More than 50 per cent name the centre unaided.|More than 50 per cent name it unaided, and it is the first name given when talent describes the domain.
@@ -429,6 +567,7 @@ const THR=`1.1|g|The careers page or profile exists and was last updated within 
 1.5|g|The question of whether talent would consider the centre has not been asked.|About a quarter of the target pool would consider an offer.|About half of the target pool would consider an offer.|Around three quarters would consider an offer, so the centre is the default option.|The centre is the default option for most of the pool, and rival centres position themselves against it.
 1.6|p|The centre is not mentioned in coverage of its domain.|It is mentioned occasionally, for example once or twice a year.|It is mentioned in a systematic way, at least once a quarter, and the mentions are tracked.|It is the cited source on its domain, with several mentions every quarter.|It is named in more than half of the coverage on its domain and is treated as the reference.
 1.7|g|The parent company treats the centre as a cost line and nothing more.|The centre is mentioned in the parent's operational review.|The centre is named as a capability or centre of excellence in the parent's reporting.|The centre appears in the strategy narrative in the parent's annual report or earnings material.|The parent names the centre as the model for its other centres.
+1.8|g|The centre has no presence on campuses outside job postings.|It visits campuses only during placement season.|It runs a year-round calendar of hackathons, guest lectures or faculty connects on target campuses.|More than half of final-year students on target campuses name the centre unaided.|The centre is a Day-0 or Day-1 top-choice employer on target campuses, with student ambassadors leading outreach.
 2.1|g|Fewer than five qualified applications arrive for each open role.|Between five and fifteen qualified applications arrive for each open role.|Between fifteen and thirty arrive, and a quality filter shows how many are qualified.|More than thirty qualified applications arrive for each role.|Inbound applications consistently exceed what openings need, and recruiters can close roles early.
 2.2|g|Recruiters have no kit, deck or collateral for selling the centre.|A single standard deck exists.|Kits exist for at least half of the practices, and they are used and refreshed.|Kits cover nearly every open role, and recruiter use is measured.|Recruiters help to write the positioning, and the kits are updated from what they hear in the market.
 2.3|p|Candidate experience is not measured.|Candidate NPS is measured once, at the end of the process.|Candidate NPS is measured at every stage and each stage has an owner.|Candidate NPS is above the market benchmark at every stage.|Candidate NPS is in the top quartile at every stage, and other centres copy the process.
@@ -437,6 +576,8 @@ const THR=`1.1|g|The careers page or profile exists and was last updated within 
 2.6|g|Offer-to-join rate and ninety-day retention are not tracked.|Both are tracked, but are not yet at target.|Both are above the target the centre has set.|Ninety-day retention is above 95 per cent and offer-to-join is above target.|Ninety-day retention is above 95 per cent and offer-to-join is above 90 per cent, year after year.
 2.7|p|There are no talent pools.|There is one generic pool, such as a single talent community.|There is a pool for each critical role, and each is refreshed at least twice a year.|Each pool is tracked, and pools fill a measurable share of hires, for example 15 per cent.|Pools convert into hires without a vacancy being open, and this happens every quarter.
 2.8|g|Hiring manager capability is not measured.|It is measured, for example the share of managers trained to interview.|More than half of the managers are trained, and first-year attrition is below the centre's own benchmark.|All managers are certified, and first-year attrition is below the market.|Certification is renewed each year, and first-year attrition is in the best quartile of the market.
+2.9|g|Campus hiring or internships are ad hoc with no conversion tracking.|Internship-to-PPO conversion is tracked, whatever the rate.|A structured internship and onboarding programme runs, with conversion and campus NPS tracked.|Internship-to-PPO conversion is above 70 per cent and campus candidate NPS is positive.|PPO conversion holds above 80 per cent and former interns actively recruit the next batch on campus.
+2.10|g|Senior or niche-specialist hiring relies on generic lateral decks and agencies.|Offer acceptance for senior and specialist roles is tracked.|A tailored charter pitch exists with direct access to global product or technology leaders during closing.|Acceptance for specialist and executive roles beats market, with direct leadership sourcing.|Principal and executive talent proactively approach the centre for its global mandate.
 3.1|g|New joiners are not asked whether the story they heard in the interview matches day one.|The story is aligned by design between interview and day one, but nobody has measured it yet.|It is measured, and half or more of new joiners recall the value proposition in the interview's own words.|More than 80 per cent recall it in the interview's own words.|Nearly all new joiners recall it and can explain it to someone else in their own words.
 3.2|p|Internal communication is ad hoc emails with no defined channels.|Channels are defined, each with a purpose and a cadence.|Each channel has an owner, carries one core message, and its reach is measured against business outcomes.|Reach is above 80 per cent of employees and the channel mix is adjusted using the data.|The channel model is copied by other centres or by the parent.
 3.3|g|Managers are not asked whether they can state the centre's promise.|Managers have been briefed on the promise, but it is not measured.|It is measured, and half of the managers can state the promise without prompting.|More than 80 per cent can state it and give an example from their own team.|Managers carry the promise into hiring and team life, and employees quote them back.
@@ -446,6 +587,11 @@ const THR=`1.1|g|The careers page or profile exists and was last updated within 
 3.7|p|No employee-written content is published about the centre.|Employees publish occasionally, fewer than two pieces a month.|A programme runs, and the monthly number of pieces and their reach are tracked.|Employees publish eight or more pieces a month and the reach grows quarter on quarter.|Employees publish without being asked, and applications visibly follow.
 3.8|g|Values appear only on posters.|Values are published, for example on the website and in the handbook.|Half of employees can give a real example of a value in action.|More than 75 per cent can give an example and cite a decision where the values mattered.|Employees and outsiders describe the values in the same words, and examples are easy to find.
 3.9|g|Leavers are not asked how they felt about the centre.|Leavers are asked, for example in exit surveys.|The share of leavers who would recommend the centre is above the review-platform score.|An alumni network is active, with regular contact and events.|Alumni source hires and referrals for the centre every quarter.
+3.10|g|External copy makes generic learning claims with no concrete proof points.|A learning and capability story is stated on the careers site and internally.|External and internal learning stories are backed by real upskilling artefacts and employee examples.|Over 75 per cent of employees and new joiners confirm the capability-building reality matches the brand promise.|The centre's capability-building positioning is recognised across the market and cited unprompted by applicants.
+3.11|g|The centre's performance culture and progression rules are not articulated to candidates or employees.|Performance expectations are written in HR policy, but not translated into the employer brand narrative.|The performance contract — whether high-intensity or developmental — is positioned candidly and say-do alignment is measured.|Over 75 per cent of joiners and employees say the actual performance bar matches what was promised.|Candidates self-select on the centre's candid performance reputation, and reviews cite fairness and clarity unprompted.
+3.12|g|Inclusion and culture appear only as generic boilerplate statements on the careers page.|Policies and employee-connect events are published, with no measurement of credibility.|External inclusion and community claims are backed by employee-led stories and tracked across segments.|External reputation and internal lived reality align closely across demographics with minimal say-do gap.|Employees and external talent describe the centre's inclusion and community culture in the same credible words.
+3.13|g|Compensation and benefits are explained only in the offer letter or at annual-hike time.|Pay and benefits policies are listed on the intranet, without a cohesive total-rewards narrative.|A clear total-rewards positioning narrative is communicated to candidates and employees, and comprehension is measured.|Over 75 per cent understand the full pay-and-benefits philosophy and report minimal surprise after joining.|The centre's total-rewards positioning is clear enough that candidates self-select accurately and cite it as a trust driver.
+3.14|g|Work pace, cross-timezone expectations and flexibility are left unstated or contradicted by generic balance claims.|Hybrid or work-style policies are stated on paper, with no measurement of whether reality matches.|Actual work pace, HQ timezone overlap and flexibility norms are positioned candidly (whether high-intensity or balance-led) and say-do gap is tracked.|Over 75 per cent of new joiners say day-to-day pace and flexibility match what was pitched during hiring.|The centre's candid work-style positioning attracts self-selected talent who thrive in its actual pace, and Glassdoor confirms minimal say-do gap.
 4.1|g|Under 5 per cent of hires come from referrals.|Between 5 and 15 per cent of hires come from referrals.|Between 15 and 30 per cent of hires come from referrals.|Above 30 per cent of hires come from referrals.|Above 45 per cent of hires come from referrals, and the share has held for a year.
 4.2|p|Employees do not publish about the centre.|A few enthusiasts post now and then.|A programme runs, with volume and reach tracked.|Posts are tracked to applications, with a clear number of applications each quarter.|Employees post with their own judgement and drive about 10 per cent of applications.
 4.3|g|The review-site profile has not been claimed.|The centre responds to reviews.|The rating and the spread between reviews are both tracked.|The rating is above 4.2, the spread is tight and more than 90 per cent of reviews get a response.|The centre is in the top quartile of its sector on both rating and spread, and the position has held for a year.
@@ -454,6 +600,7 @@ const THR=`1.1|g|The careers page or profile exists and was last updated within 
 4.6|g|Leaders do not speak about the centre in public.|Leaders post occasionally, with no schedule.|Each leader has a cadence, for example one appearance a quarter, and it is measured.|Leaders are the cited voices in their domain.|Leaders set the agenda on their domain and are invited by default.
 4.7|g|The centre makes ad hoc donations.|Community programmes run.|Programmes run, and their outcomes are measured and published.|Local bodies or media recognise the programmes.|The community names the centre as a local asset.
 4.8|g|Candidate NPS after a rejection is not measured.|Rejected candidates are asked informally, but nothing is tracked.|Candidate NPS after rejection is measured at all, which is rare.|Candidate NPS after rejection is above zero.|It is positive, and reapplications from rejected candidates are tracked and growing.
+4.9|g|Practitioners do not publish technical work or speak at external meetups.|A handful of engineers speak or blog occasionally on personal initiative.|A structured engineering blog, meetup or open-source programme runs with quarterly output tracked.|Practitioners regularly speak at tier-1 conferences, publish papers or maintain open-source projects.|The centre's technical output is followed by peers and directly attracts senior engineering applicants.
 5.1|g|Fewer than one article is published each quarter.|One or two articles are published each quarter on a steady cadence.|Three or more articles are published each quarter with a clear point of view, and readership is tracked.|At least three third parties cite the centre's articles each quarter.|Ten or more third parties cite the articles each quarter, and others adopt the centre's terms.
 5.2|g|The centre has no awards or certifications.|It enters awards as they come, for example one or two a year.|A targeted programme enters at least four relevant awards a year, spread across the pillars.|Wins are used as the centre's positioning on the website and in hiring material.|Repeated wins are cited by others, and the awards are seen as the benchmark of the category.
 5.3|g|No analyst or media mentions are tracked.|Analysts and media receive briefings from the centre now and then.|Briefings run on a schedule, and at least 80 per cent of the mentions describe the centre accurately.|Analysts quote the centre's own data.|Analysts use the centre's data as the reference for the category.
@@ -461,12 +608,14 @@ const THR=`1.1|g|The careers page or profile exists and was last updated within 
 5.5|g|The centre has not published any data of its own.|Data was published once.|Data is published every year.|Third parties cite the data at least once a year.|Several third parties cite the data each year, and it is the market's reference.
 5.6|g|Nothing is published on hiring, AI use or candidate data.|A privacy notice is published.|Disclosure of AI use in screening is published.|Published practice is backed by an annual audit.|Audit results are published, and others use the centre's approach as a model.
 5.7|g|Trust is not measured around a restructure.|Trust is measured after the event.|Trust is measured before and after the event.|Trust is measured and managed throughout the event.|Trust recovers within two quarters of the event, and others learn from how it was managed.
-5.8|g|The centre has no relationships with universities, government or industry bodies.|The centre has one relationship, such as a single MoU.|The centre has a handful of active relationships, for example three or more.|The centre has a portfolio of five or more relationships across universities, government and industry bodies.|Others seek out the centre to advise them.`;
+5.8|g|The centre has no relationships with universities, government or industry bodies.|The centre has one relationship, such as a single MoU.|The centre has a handful of active relationships, for example three or more.|The centre has a portfolio of five or more relationships across universities, government and industry bodies.|Others seek out the centre to advise them.
+5.9|g|Employer brand has no named owner or dedicated budget.|It sits as a side-of-desk task inside TA or HR with ad hoc spend.|A named EB owner runs an annual plan with ring-fenced budget and listening cadence.|A cross-functional council across TA, HR, Comms and leadership reviews EB KPIs quarterly.|EB governance is embedded in the centre's annual operating plan and replicated across global sites.
+5.10|g|No local ethics, pay-equity or sustainability proof is published.|The centre links to the parent company's global ESG policy only.|Local ethics-channel trust and pay-equity reviews are tracked internally.|Local pay-equity and sustainability outcomes are audited and published.|Candidates and analysts cite the centre's ethics and ESG transparency as a trust benchmark.`;
 const RELM={},THRM={};
 REL.split("\n").forEach(l=>{const[a,b]=l.split(" ");RELM[a]=b});
 THR.split("\n").forEach(l=>{const f=l.split("|");THRM[f[0]]={basis:f[1],r:f.slice(2)}});
 SUBS.forEach(s=>{s.rel=RELM[s.id].split("").map(x=>x==="1");s.thr=THRM[s.id]});
-const LOW=/^(none|not (measured|asked|tracked)|no (pools|attributes|measurement)|nothing|unclaimed|ad hoc|posters only|cost line only)/i;
+const LOW=/^(none|not (measured|asked|tracked)|no (pools|attributes|measurement|owner)|nothing|unclaimed|ad hoc|posters only|cost line only)/i;
 
 /* ---------- state, demo mode and server sync ---------- */
 let WCH=null,SHOWREL=false,S=null,OPEN={},COLL={},ARM='',BM={},LG=null,ACC=null,NEWPW=null;
@@ -617,15 +766,16 @@ function demoApi(method,path,body){
    const list=rows.map(r=>r.pillars[pi]).filter(x=>x!=null),v=me.pillars[pi];
    if(v==null)return{p:pi,v:null,n:list.length};
    const o={p:pi,v:r1(v),n:list.length};
-   if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
+   if(list.length>=3){const s=[...list].sort((a,b)=>a-b);Object.assign(o,{pct:pctOf(list,v),min:r1(s[0]),p25:r1(quant(s,0.25)),med:r1(quant(s,0.5)),p75:r1(quant(s,0.75)),max:r1(s[s.length-1])})}
    return o;
   });
   const subs=Object.entries(me.subs).map(([id,v])=>{
    const list=rows.map(r=>r.subs[id]).filter(x=>x!=null),o={id,v,n:list.length};
-   if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
+   if(list.length>=3){const s=[...list].sort((a,b)=>a-b);Object.assign(o,{pct:pctOf(list,v),rank:rankOf(list,v),of:list.length,p25:r1(quant(s,0.25)),med:r1(quant(s,0.5)),p75:r1(quant(s,0.75))})}
    return o;
   }).sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
-  return{eligible:true,pool:{n,thin,mode:pool,basis,min,wave:me.wave},idx,position:n>=3?lbl(idx.pct):null,pillars,subs,taken_on:me.taken_on};
+  const dist=rows.length>=3?rows.map(r=>({wave:r.wave,idx:r.idx,me:r.cohort_id===cid})).sort((a,b)=>b.idx-a.idx):[];
+  return{eligible:true,pool:{n,thin,mode:pool,basis,min,wave:me.wave},idx,position:n>=3?lbl(idx.pct):null,pillars,subs,dist,taken_on:me.taken_on};
  }
  if(p==='/league'&&method==='GET'){
   const pool=q.get('pool')==='wave'?'wave':'all',basis=q.get('basis')==='provisional'?'provisional':'evidenced',min=Math.max(1,Math.min(15,+(q.get('min')||5)|0));
@@ -751,6 +901,27 @@ async function seedMoonshotLive(){
  render();
  loadBench(true);
 }
+async function seedPeersLive(){
+ const sample=window.EBMI_SAMPLE;
+ if(!sample||!sample.peers||!sample.peerToAnswers)return toast('Sample peer data is not loaded.');
+ const existing=new Set(S.clients.map(c=>c.name.toLowerCase()));
+ const toAdd=sample.peers.filter(p=>!existing.has(p.client.toLowerCase()));
+ if(!toAdd.length)return toast('All 10 sample peer GCCs are already in your workspace.');
+ toast(`Seeding ${toAdd.length} peer GCCs into the benchmark pool...`);
+ for(const p of toAdd){
+  const created=await api('POST','/client',{name:p.client,wave:p.wave});
+  const coh=created.cohorts[0];
+  await api('PATCH','/cohort',{id:coh.id,name:p.cohort});
+  const ans=sample.peerToAnswers(p);
+  const r=await api('PATCH','/cohort',{id:coh.id,answers:ans,force:true});
+  const sr=await api('POST','/snapshot',{cohort_id:coh.id,taken_on:p.taken_on,answers:ans});
+  created.cohorts=[{id:coh.id,name:p.cohort,a:ans,u:r.u,hist:[sr]}];
+  S.clients.push(created);
+ }
+ BM={};LG=null;
+ toast(`Added ${toAdd.length} sample peer GCCs. Open Benchmark to explore the full pool.`);
+ render(true);
+}
 async function boot(){
  const params=new URLSearchParams(location.search);
  if(params.get('demo')==='1'){startDemo(params.get('tab')||'report');return}
@@ -802,57 +973,351 @@ function nextMove(r){
  return`Move from ${RUNG[r.sc]} to ${RUNG[to]}. This is one rung only, which is the most a centre can realistically climb in a year.`;
 }
 
-/* ---------- charts (SVG: radar, rung distribution, snapshot trend) ---------- */
-function radarSvg(R){
- const cx=160,cy=138,rmax=92,labels=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
+/* ---------- charts & infographics (all 6 visual formats) ---------- */
+let PVIEW='heatmap',CVIEW='radar',PRES=false,BSUBPIL=0;
+const PIL_SHORT=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
+
+function execInfographic(c,h,R,bm){
+ const W=WAVES[c.wave-1].name,evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
+ const idxV=R.idxV!=null?R.idxV:(R.idx!=null?R.idx:0),idxP=R.idx!=null?R.idx:0;
+ const stage=R.avg==null?'Not scored':R.avg<1.5?'Presence':R.avg<2.5?'Consistency':R.avg<3.5?'Evidence':R.avg<4.5?'Authority':'Category';
+ const r=82,halfC=Math.PI*r,dashP=(idxP/100)*halfC,dashV=(idxV/100)*halfC;
+ const med=bm&&bm.idx&&bm.idx.med!=null?bm.idx.med:null;
+ let medTick='';
+ if(med!=null){
+  const ang=Math.PI-(med/100)*Math.PI;
+  const x1=120+(r-12)*Math.cos(ang),y1=108-(r-12)*Math.sin(ang),x2=120+(r+10)*Math.cos(ang),y2=108-(r+10)*Math.sin(ang);
+  medTick=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#1A1A24" stroke-width="2.4"/>`;
+ }
+ const dr=32,dc=2*Math.PI*dr,dFill=(evPct/100)*dc;
+ const tot=Math.max(R.scored.length,1),mCnt=Math.max(0,R.scored.length-R.below.length-R.above.length);
+ const topCards=R.top.length?`<div class="viz-box" style="margin-top:0;padding:14px 16px"><div class="lab" style="margin:0">Top ${R.top.length} priority moves (next 12 months · +1 rung each)</div><div class="move-grid">${R.top.map((x,i)=>`<div class="move-card"><div class="mtop"><b>#${i+1}</b><span>${esc(x.s.owner)}</span></div><div class="mname">${esc(x.s.name)}</div><div style="margin-top:4px;color:var(--mut)">Rung ${x.sc} → <strong style="color:var(--ink)">${Math.min(x.sc+1,5)}</strong></div><div class="mcfo">CFO: ${esc(CFO[x.s.p])}</div></div>`).join('')}</div></div>`:'';
+ return`<div class="info-grid">
+  <div class="gauge-card">
+   <div class="lab" style="margin:0;align-self:flex-start">Employer Brand Index (0–100)</div>
+   <svg viewBox="0 0 240 132" width="100%" style="max-width:260px;display:block;margin-top:4px" role="img" aria-label="Employer Brand Maturity Index gauge">
+    <path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#E2E2E8" stroke-width="15" stroke-linecap="round"/>
+    ${R.idx!=null?`<path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#E99A10" stroke-width="15" stroke-linecap="round" stroke-dasharray="${dashP.toFixed(1)} ${halfC.toFixed(1)}" opacity="0.45"/>`:''}
+    ${R.idxV!=null?`<path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#D35400" stroke-width="15" stroke-linecap="round" stroke-dasharray="${dashV.toFixed(1)} ${halfC.toFixed(1)}"/>`:''}
+    ${medTick}
+    <text x="120" y="84" text-anchor="middle" fill="#1A1A24" font-family="'Playfair Display',Georgia,serif" font-size="36" font-weight="700">${R.idxV!=null?R.idxV:(R.idx!=null?R.idx:'n/a')}</text>
+    <text x="120" y="102" text-anchor="middle" fill="#525263" font-size="10.5" font-weight="600">${esc(stage.toUpperCase())} STAGE</text>
+    <text x="30" y="126" text-anchor="middle" fill="#8A8A98" font-size="10">0</text>
+    <text x="120" y="126" text-anchor="middle" fill="#525263" font-size="10">${med!=null?'Peer median '+f1(med):'Evidenced index'}</text>
+    <text x="210" y="126" text-anchor="middle" fill="#8A8A98" font-size="10">100</text>
+   </svg>
+   <div class="gauge-foot">
+    <span>Provisional: <strong style="color:var(--ink)">${R.idx==null?'n/a':R.idx}</strong></span>
+    <span>Avg rung: <strong style="color:var(--ink)">${R.avg==null?'n/a':R.avg.toFixed(1)}/5</strong></span>
+    ${bm&&bm.idx?`<span style="color:var(--acc);font-weight:700">${ord(bm.idx.pct)} pct</span>`:`<span>W${c.wave} ${esc(W)}</span>`}
+   </div>
+  </div>
+  <div class="info-right">
+   <div class="info-pair">
+    <div class="ring-card">
+     <svg viewBox="0 0 80 80" width="72" height="72" style="flex:none" role="img" aria-label="Evidence integrity ring">
+      <circle cx="40" cy="40" r="${dr}" fill="none" stroke="#E2E2E8" stroke-width="7"/>
+      <circle cx="40" cy="40" r="${dr}" fill="none" stroke="#1D6B3A" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke-dasharray="${dFill.toFixed(1)} ${dc.toFixed(1)}"/>
+      <text x="40" y="44" text-anchor="middle" fill="#1A1A24" font-size="15" font-weight="700">${evPct}%</text>
+     </svg>
+     <div><div class="lab" style="margin:0">Evidence integrity</div><div style="font-weight:600;margin-top:2px">${R.valid.length} of ${R.scored.length} verified</div><small>${R.missing.length?`${R.missing.length} provisional score${R.missing.length===1?'':'s'} need artefact`:'All scored items backed'}</small></div>
+    </div>
+    <div class="wgap-card">
+     <div class="lab" style="margin:0">Wave ${c.wave} gap signal</div>
+     <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b style="font-family:'Playfair Display',serif;font-size:26px;line-height:1;color:var(--gap)">${R.below.length}</b><small>below · <strong style="color:var(--ok)">${R.above.length} above</strong> · ${mCnt} meets</small></div>
+     <div class="wgap-bar"><i style="width:${(R.below.length/tot*100).toFixed(1)}%;background:var(--gap)"></i><i style="width:${(mCnt/tot*100).toFixed(1)}%;background:#C4C4D0"></i><i style="width:${(R.above.length/tot*100).toFixed(1)}%;background:var(--ok)"></i></div>
+     <small>${bm&&bm.idx?`Peer rank <strong style="color:var(--ink)">#${bm.idx.rank} of ${bm.idx.of}</strong>`:`Measured against ${esc(W)} expectations`}</small>
+    </div>
+   </div>
+   ${topCards}
+  </div>
+ </div>`;
+}
+
+const fsBtn=t=>`<button class="btn sm ghost fs-trigger noprint" data-a="fs" data-v="${esc(t)}" aria-label="View ${esc(t)} full screen" title="View full screen">${ic('expand',14)} Full screen</button>`;
+function openFs(trigger){
+ const card=trigger.closest('.viz-box,.radar-wrap,.trend-wrap');
+ const box=document.getElementById('fsmodal');
+ if(!card||!box)return;
+ const title=trigger.dataset.v||'Chart';
+ box.innerHTML=`<div class="fs-back" data-a="fsback" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="fs-dialog"><div class="fs-head"><h3>${esc(title)}</h3><button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button></div><div class="fs-body">${card.outerHTML}</div></div></div>`;
+}
+function closeFs(){const box=document.getElementById('fsmodal');if(box)box.innerHTML='';const ct=document.getElementById('ctip');if(ct)ct.style.display='none'}
+function openTileModal(id){
+ const c=cl(),h=ch(),s=SUBS.find(x=>x.id===id),box=document.getElementById('fsmodal');
+ if(!c||!h||!s||!box)return;
+ const a=h.a[id]||{},sc=a.sc||0,ok=!!(a.ev||'').trim();
+ const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below wave',m:'Meets wave',a:'Above wave'}[a.vd]}</span>`:'<span class="mute">Not judged against wave</span>';
+ const links=(a.lk||[]).filter(l=>(l.t||l.u||'').trim());
+ box.innerHTML=`<div class="fs-back" data-a="fsback" role="dialog" aria-modal="true" aria-label="${esc(s.name)}">
+  <div class="fs-dialog" style="max-width:720px">
+   <div class="fs-head">
+    <div><div class="eyebrow" style="margin-bottom:2px">Pillar ${s.p+1} · ${esc(PIL_SHORT[s.p])} · ${esc(s.id)}</div><h3>${esc(s.name)}</h3></div>
+    <button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button>
+   </div>
+   <div class="fs-body" style="padding:22px 26px">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px">
+     <span class="chip">${esc(s.owner)}</span>
+     ${sc?`<span class="chip hot">Rung ${sc} · ${RUNG[sc]}</span>`:'<span class="chip">Not scored</span>'}
+     ${vdTag}
+     ${a.pr==='f'?'<span class="chip">★ Client focus</span>':''}
+     ${sc?(ok?'<span class="ok">Evidenced</span>':'<span class="warn">Needs artefact</span>'):''}
+    </div>
+    <div class="wv-one" style="margin-bottom:16px"><div><b>Wave ${c.wave} (${esc(WAVES[c.wave-1].name)}) expectation</b>${esc(s.w[c.wave-1])}</div></div>
+    <dl style="display:grid;grid-template-columns:150px 1fr;gap:10px 18px;font-size:13.5px;margin:0">
+     <dt style="color:var(--mut);font-weight:600">Artefact</dt><dd style="margin:0">${ok?esc(a.ev.trim()):'<span class="warn">No artefact recorded yet.</span>'}</dd>
+     ${(a.iv||'').trim()?`<dt style="color:var(--mut);font-weight:600">Measured value</dt><dd style="margin:0"><b>${esc(a.iv.trim())}</b>${a.ivd?` <small class="mute">(${esc(a.ivd)})</small>`:''}</dd>`:''}
+     ${(a.nt||'').trim()?`<dt style="color:var(--mut);font-weight:600">Consultant notes</dt><dd style="margin:0;white-space:pre-wrap">${esc(a.nt.trim())}</dd>`:''}
+     ${links.length?`<dt style="color:var(--mut);font-weight:600">Evidence links</dt><dd style="margin:0"><ul class="pl" style="margin:0">${links.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u)}${l.d?` <small class="mute">(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul></dd>`:''}
+     <dt style="color:var(--mut);font-weight:600">Indicator</dt><dd style="margin:0">${esc(s.ind)} <small class="mute">(${esc(s.src)})</small></dd>
+    </dl>
+    ${!PRES?`<div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:flex-end"><button class="btn sm" data-a="jumptocard" data-id="${s.id}">Edit on Audit tab ${ic('arrow',14)}</button></div>`:''}
+   </div>
+  </div>
+ </div>`;
+}
+
+function waveMatrixSvg(c,h,R,bm,lg){
+ const curIdx=R&&(R.idxV!=null?R.idxV:R.idx);
+ if(curIdx==null&&!(bm&&bm.idx))return'';
+ const myIdx=curIdx!=null?curIdx:bm.idx.v;
+ const W=780,H=390,pL=56,pR=140,pT=28,pB=52,pw=W-pL-pR,ph=H-pT-pB;
+ const xW=w=>pL+((w-0.5)/4)*pw,yI=v=>pT+ph-(Math.max(0,Math.min(100,v))/100)*ph;
+ const bandPts=[`${xW(0.6)},${yI(32)}`,`${xW(4.4)},${yI(98)}`,`${xW(4.4)},${yI(68)}`,`${xW(0.6)},${yI(5)}`].join(' ');
+ const gridY=[0,25,50,75,100].map(v=>`<line x1="${pL}" y1="${yI(v).toFixed(1)}" x2="${W-pR+40}" y2="${yI(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${pL-10}" y="${(yI(v)+3.5).toFixed(1)}" text-anchor="end" font-size="11" fill="#8A8A98">${v}</text>`).join('');
+ const gridX=[1,2,3,4].map(w=>`<line x1="${xW(w).toFixed(1)}" y1="${pT}" x2="${xW(w).toFixed(1)}" y2="${H-pB}" stroke="#E2E2E8" stroke-dasharray="3 3"/><text x="${xW(w).toFixed(1)}" y="${H-24}" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1A1A24">Wave ${w}</text><text x="${xW(w).toFixed(1)}" y="${H-9}" text-anchor="middle" font-size="10.5" fill="#525263">${WAVES[w-1].name}</text>`).join('');
+
+ // Collect all plotted nodes (peers + current cohort + optional baseline)
+ const nodes=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach(r=>nodes.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort}) · Wave ${r.wave} · Index ${r.idx}`,short:r.client,kind:r.client_id===c.id?'same':'peer'}));
+ }else if(bm&&bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.filter(r=>!r.me).forEach(r=>{pn++;nodes.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} · Wave ${r.wave} · Index ${r.idx}`,short:'',kind:'peer'})});
+ }
+ let baseNode=null;
+ if(h.hist&&h.hist.length>=2){
+  const first=h.hist[0],fIdx=first.idxv!=null?first.idxv:first.idx;
+  if(fIdx!=null&&fIdx!==myIdx){
+   baseNode={wave:c.wave,idx:fIdx,lbl:`${first.d} baseline · Index ${fIdx}`,short:`${first.d} (${fIdx})`,kind:'base'};
+   nodes.push(baseNode);
+  }
+ }
+ const meNode={wave:c.wave,idx:myIdx,lbl:`${c.name} — ${h.name} · Wave ${c.wave} · Index ${myIdx}`,short:`${h.name} (${myIdx})`,kind:'me'};
+ nodes.push(meNode);
+
+ // Group by wave, spread X gently within wave, assign left/right label sides, and relax Y so labels never overlap
+ const byWave={1:[],2:[],3:[],4:[]};
+ nodes.forEach(n=>(byWave[n.wave]||byWave[3]).push(n));
+ Object.entries(byWave).forEach(([w,arr])=>{
+  arr.sort((a,b)=>b.idx-a.idx);
+  const wNum=+w;
+  arr.forEach((n,i)=>{
+   const off=n.kind==='me'||n.kind==='base'?0.03:((i%3)-1)*0.09;
+   n.cx=xW(wNum+off);
+   n.cy=yI(n.idx);
+   n.ly=n.cy;
+   n.side=wNum===1?1:(n.kind==='me'?1:(i%2===0?1:-1));
+  });
+  [1,-1].forEach(side=>{
+   const grp=arr.filter(n=>n.short&&n.side===side).sort((a,b)=>a.ly-b.ly);
+   const minGap=16,lo=pT+14,hi=H-pB-14;
+   for(let pass=0;pass<6;pass++){
+    for(let i=1;i<grp.length;i++){
+     const diff=grp[i].ly-grp[i-1].ly;
+     if(diff<minGap){const push=(minGap-diff)/2;grp[i-1].ly-=push;grp[i].ly+=push}
+    }
+    grp.forEach(n=>{if(n.ly<lo)n.ly=lo;if(n.ly>hi)n.ly=hi});
+   }
+  });
+ });
+
+ let traj='';
+ if(baseNode){
+  traj=`<line x1="${baseNode.cx.toFixed(1)}" y1="${baseNode.cy.toFixed(1)}" x2="${meNode.cx.toFixed(1)}" y2="${meNode.cy.toFixed(1)}" stroke="#D35400" stroke-width="2" stroke-dasharray="4 3"/>`;
+ }
+ const rendered=nodes.map(n=>{
+  const isMe=n.kind==='me',isBase=n.kind==='base',isSame=n.kind==='same';
+  const r=isMe?8:isSame?6:isBase?4.5:5;
+  const fill=isMe?'#D35400':isSame?'#E99A10':isBase?'#fff':'#7A7A8C';
+  const stroke=isBase?'#D35400':'#fff';
+  const sw=isMe||isBase?2:1.5;
+  const op=isMe||isBase||isSame?1:0.72;
+  let lblSvg='';
+  if(n.short){
+   const lx=n.cx+(n.side>0?(r+10):-(r+10));
+   const anc=n.side>0?'start':'end';
+   const leader=Math.abs(n.ly-n.cy)>2?`<line x1="${(n.cx+(n.side>0?r:-r)).toFixed(1)}" y1="${n.cy.toFixed(1)}" x2="${(lx+(n.side>0?-3:3)).toFixed(1)}" y2="${n.ly.toFixed(1)}" stroke="#C4C4D2" stroke-width="1"/>`:'';
+   lblSvg=`${leader}<text x="${lx.toFixed(1)}" y="${(n.ly+3.5).toFixed(1)}" text-anchor="${anc}" font-size="${isMe?11:10}" font-weight="${isMe?700:500}" fill="${isMe?'#1A1A24':'#525263'}">${esc(n.short)}</text>`;
+  }
+  return`<g data-tip="${esc(n.lbl)}" style="cursor:pointer"><circle cx="${n.cx.toFixed(1)}" cy="${n.cy.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op}" stroke="${stroke}" stroke-width="${sw}"/>${lblSvg}</g>`;
+ }).join('');
+
+ const peerCnt=nodes.filter(n=>n.kind==='peer'||n.kind==='same').length;
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Wave mandate vs. brand maturity matrix</h3><small>Centres below the shaded diagonal have outgrown their employer brand story</small></div><div class="viz-acts">${fsBtn('Wave mandate vs. brand maturity matrix')}</div></div>
+  <div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:560px;max-height:420px;display:block" role="img" aria-label="Wave mandate versus brand maturity scatter matrix">
+   <polygon points="${bandPts}" fill="#1D6B3A" opacity="0.08"/>
+   ${gridY}${gridX}
+   <text x="${pL+10}" y="${pT+16}" font-size="10" font-weight="700" fill="#1D6B3A">BRAND-LED (AHEAD OF WAVE)</text>
+   <text x="${W-pR+34}" y="${H-pB-10}" text-anchor="end" font-size="10" font-weight="700" fill="#B34500">MANDATE OUTPACING BRAND (OPPORTUNITY ZONE)</text>
+   ${traj}${rendered}
+  </svg></div>
+  <div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>${esc(c.name)} · ${esc(h.name)}</span>${peerCnt?`<span><i style="background:#7A7A8C;border-radius:50%"></i>Peer centres (${S.role==='admin'&&lg?'named':'anonymised'})</span>`:''}<span><i style="background:rgba(29,107,58,.22)"></i>Mandate–brand alignment band</span></div></div>`;
+}
+
+function radarSvg(R,bm){
+ const cx=190,cy=154,rmax=96;
  const pt=(i,val)=>{const ang=-Math.PI/2+i*(2*Math.PI/5),r=(val/5)*rmax;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
  const rings=[1,2,3,4,5].map(lv=>{
   const pts=[0,1,2,3,4].map(i=>pt(i,lv).map(n=>n.toFixed(1)).join(',')).join(' ');
   return`<polygon points="${pts}" fill="none" stroke="#E2E2E8" stroke-width="${lv===3?'1.2':'0.8'}" ${lv===3?'stroke-dasharray="3 3"':''}/>`;
  }).join('');
  const axes=[0,1,2,3,4].map(i=>{
-  const[x,y]=pt(i,5),[lx,ly]=pt(i,5.95);
+  const[x,y]=pt(i,5),[lx,ly]=pt(i,6.05);
   const anc=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
-  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11" font-weight="600" fill="#525263">${labels[i]}</text>`;
+  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11.5" font-weight="600" fill="#525263">${PIL_SHORT[i]}</text>`;
  }).join('');
- const poly=(vals,fill,stroke,dash)=>{
-  if(!vals.some(v=>v>0))return'';
+ const poly=(vals,fill,stroke,dash,w=2,lbl='')=>{
+  if(!vals||!vals.some(v=>v>0))return'';
   const pts=vals.map((v,i)=>pt(i,v||0).map(n=>n.toFixed(1)).join(',')).join(' ');
-  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${stroke}"/>`}).join('');
-  return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
+  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${stroke}" data-tip="${esc(PIL_SHORT[i])} · ${esc(lbl)}: ${v.toFixed(1)}/5" style="cursor:pointer"/>`}).join('');
+  return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="${w}" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const prov=R.pil.map(p=>p.avg||0),evid=R.pil.map(p=>p.avgV||0);
- const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+4}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9" fill="#8A8A98">${lv}</text>`).join('');
- return`<div class="radar-wrap"><h3>Pillar maturity radar</h3><small>Average rung (1 to 5) per pillar</small><svg viewBox="0 0 320 268" width="100%" style="max-width:340px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${poly(prov,'rgba(233,154,16,0.18)','#E99A10',true)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span></div></div>`;
+ const hasPeer=bm&&bm.pillars&&bm.pillars.some(x=>x.med!=null);
+ const peerMed=hasPeer?bm.pillars.map(x=>x.med||0):null;
+ const peerP75=hasPeer&&bm.pillars.some(x=>x.p75!=null)?bm.pillars.map(x=>x.p75||0):null;
+ const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+5}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9.5" fill="#8A8A98">${lv}</text>`).join('');
+ return`<svg viewBox="0 0 380 306" width="100%" style="max-width:380px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3,'Peer P75'):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5,'Peer median'):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8,'Provisional')}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2,'Evidenced')}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
 }
+
+function pillarDumbbell(R,bm){
+ const pct=n=>Math.max(0,Math.min(100,((n-1)/4)*100));
+ const rows=PIL.map((name,i)=>{
+  const bp=bm&&bm.pillars?bm.pillars.find(x=>x.p===i):null;
+  const me=R?(R.pil[i].avgV!=null?R.pil[i].avgV:R.pil[i].avg):(bp?bp.v:null);
+  const med=bp&&bp.med!=null?bp.med:null;
+  const diff=me!=null&&med!=null?me-med:null;
+  const dStr=diff==null?'':`<span class="${diff>=0?'ok':'warn'}" style="margin-left:5px">(${diff>=0?'+':''}${diff.toFixed(1)})</span>`;
+  return`<div class="db-row">
+   <div><b>${esc(PIL_SHORT[i])}</b></div>
+   <div class="db-track">
+    <i class="db-axis"></i>
+    ${bp&&bp.min!=null&&bp.max!=null?`<i class="db-whisk" style="left:${pct(bp.min)}%;width:${Math.max(pct(bp.max)-pct(bp.min),1)}%" data-tip="${esc(PIL_SHORT[i])} peer range: ${f1(bp.min)}–${f1(bp.max)}"></i>`:''}
+    ${bp&&bp.p25!=null&&bp.p75!=null?`<i class="db-iqr" style="left:${pct(bp.p25)}%;width:${Math.max(pct(bp.p75)-pct(bp.p25),2)}%" data-tip="${esc(PIL_SHORT[i])} peer IQR (middle 50%): ${f1(bp.p25)}–${f1(bp.p75)}"></i>`:''}
+    ${med!=null?`<i class="db-med" style="left:${pct(med)}%" data-tip="${esc(PIL_SHORT[i])} peer median: ${f1(med)}"></i>`:''}
+    ${me!=null?`<i class="db-me" style="left:${pct(me)}%" data-tip="${esc(PIL_SHORT[i])} your avg rung: ${f1(me)}"></i>`:''}
+   </div>
+   <div class="db-val"><b>${me==null?'n/a':f1(me)}</b>${dStr}</div>
+  </div>`;
+ }).join('');
+ return`<div class="db-wrap"><div class="db-head"><div>Pillar</div><div class="db-ticks"><span>R1</span><span>2</span><span>3</span><span>4</span><span>R5</span></div><div style="text-align:right">You (vs med)</div></div>${rows}<div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>Your cohort</span><span><i style="background:#1A1A24;width:3px"></i>Peer median</span><span><i style="background:var(--r2)"></i>Peer middle 50% (IQR)</span></div></div>`;
+}
+
+function heatmapHtml(R){
+ const cols=PIL.map((pn,pi)=>{
+  const items=R.rows.filter(r=>r.s.p===pi);
+  return`<div class="hm-col"><div class="hm-col-h">P${pi+1} · ${esc(PIL_SHORT[pi])}</div>${items.length?items.map(r=>`<div class="hm-tile t${r.sc||0} ${r.sc&&!r.ok?'unv':''}" data-a="hmtile" data-id="${r.s.id}" role="button" tabindex="0" data-tip="${esc(r.s.name)} — ${r.sc?'Rung '+r.sc+' '+RUNG[r.sc]:'Not scored'} · Click for evidence &amp; notes"><div class="hm-top"><span>${r.s.id}</span><span>${r.sc?'R'+r.sc:'—'}</span></div><div class="hm-nm">${esc(r.s.name)}</div><div class="hm-badges">${r.a.vd==='b'?'<span class="hb">Below</span>':r.a.vd==='a'?'<span class="ha">Above</span>':''}${r.a.pr==='f'?'<span>★ Focus</span>':''}${r.sc&&!r.ok?'<span class="hb">No artefact</span>':''}</div></div>`).join(''):'<small class="mute">None in scope</small>'}</div>`;
+ }).join('');
+ return`<div class="hm-grid">${cols}</div><div class="radar-leg" style="margin-top:12px"><span><i style="background:var(--r1)"></i>1 Presence</span><span><i style="background:var(--r2)"></i>2 Consistency</span><span><i style="background:var(--r3)"></i>3 Evidence</span><span><i style="background:var(--r4)"></i>4 Authority</span><span><i style="background:var(--r5)"></i>5 Category</span><span><i style="border:1.5px dashed var(--acch);background:#fff"></i>Missing artefact</span><span style="margin-left:auto;color:var(--mut)">Click any tile to inspect artefact &amp; notes</span></div>`;
+}
+
+function beeswarmHtml(c,h,bm,lg){
+ const i=bm.idx;
+ const pts=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible).forEach(r=>pts.push({idx:r.idx,me:r.cohort_id===h.id,lbl:`${r.client} (${r.cohort}) · Wave ${r.wave} · Index ${r.idx}`}));
+ }else if(bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.forEach(r=>{if(r.me)pts.push({idx:r.idx,me:true,lbl:`${c.name} (${h.name}) · Index ${r.idx}`});else{pn++;pts.push({idx:r.idx,me:false,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave}) · Index ${r.idx}`})}});
+ }else{
+  pts.push({idx:i.v,me:true,lbl:`${c.name} (${h.name}) · Index ${i.v}`});
+ }
+ const lanes=[30,39,48];
+ const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:lanes[k%3]}px" data-tip="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Peer pool quartile distribution</h3><small>Pool of ${bm.pool.n} cohorts · ${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · `:''}Median ${f1(i.med)}</small></div><div class="viz-acts">${fsBtn('Peer pool quartile distribution')}</div></div>
+  <div class="bee-wrap">
+   <div class="bee-zones"><i style="width:25%;background:rgba(211,84,0,.09)" data-tip="Bottom quartile (0–25)"></i><i style="width:25%;background:rgba(82,82,99,.05)" data-tip="Lower half (25–50)"></i><i style="width:25%;background:rgba(233,154,16,.11)" data-tip="Upper half (50–75)"></i><i style="width:25%;background:rgba(29,107,58,.12)" data-tip="Top quartile (75–100)"></i></div>
+   ${i.med!=null?`<div class="bee-med" style="left:${i.med}%"><span>Med ${f1(i.med)}</span></div>`:''}
+   ${dots}
+  </div>
+  <div class="strip-l" style="margin-top:16px"><span>0 · Presence</span><span>25 · Consistency</span><span>50 · Evidence</span><span>75 · Authority</span><span>100 · Category</span></div></div>`;
+}
+
+function rankedPeersHtml(c,h,bm,lg){
+ const rows=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible).forEach(r=>rows.push({lbl:`${r.client} — ${r.cohort}`,wave:r.wave,idx:r.idx,me:r.cohort_id===h.id}));
+ }else if(bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.forEach(r=>{if(r.me)rows.push({lbl:`${c.name} — ${h.name}`,wave:r.wave,idx:r.idx,me:true});else{pn++;rows.push({lbl:`Peer ${String.fromCharCode(64+pn)}`,wave:r.wave,idx:r.idx,me:false})}});
+ }
+ if(rows.length<2)return'';
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Ranked peer comparison</h3><small>${S.role==='admin'&&lg?'Admin view: all peer names visible':'Client view: peer identities are anonymised'}</small></div><div class="viz-acts">${fsBtn('Ranked peer comparison')}</div></div>
+  <div class="rk-list">${rows.map((r,i)=>`<div class="rk-row ${r.me?'me':''}"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="mute" style="margin-right:8px">#${i+1}</span>${esc(r.lbl)}</div><div class="rk-track"><div class="rk-fill" style="width:${r.idx}%"></div></div><div style="text-align:right;font-variant-numeric:tabular-nums"><b>${r.idx}</b> <span class="mute">W${r.wave}</span></div></div>`).join('')}</div></div>`;
+}
+
+function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
+ const pairs=SUBS.map(s=>{
+  const a=sa.answers[s.id],b=sb.answers[s.id];
+  const p=a&&a.in&&a.sc?a.sc:0,q=b&&b.in&&b.sc?b.sc:0;
+  return p&&q?{s,p,q}:null;
+ }).filter(Boolean);
+ if(!pairs.length)return'';
+ const W=560,H=260,x1=150,x2=410,pT=34,pB=24;
+ const yR=r=>pT+((5-r)/4)*(H-pT-pB);
+ const lines=pairs.map((x,i)=>{
+  const up=x.q>x.p,dn=x.q<x.p,j=((i%5)-2)*2.6,yA=yR(x.p)+j,yB=yR(x.q)+j;
+  const col=up?'#1D6B3A':dn?'#B83B2A':'#9A9AAA';
+  return`<g data-tip="${esc(x.s.name)}: Rung ${x.p} (${RUNG[x.p]}) → Rung ${x.q} (${RUNG[x.q]})" style="cursor:pointer"><line x1="${x1}" y1="${yA.toFixed(1)}" x2="${x2}" y2="${yB.toFixed(1)}" stroke="${col}" stroke-width="${up||dn?2.2:1.2}" opacity="${up||dn?0.85:0.38}"/><circle cx="${x1}" cy="${yA.toFixed(1)}" r="3.5" fill="${col}"/><circle cx="${x2}" cy="${yB.toFixed(1)}" r="4" fill="${col}"/></g>`;
+ }).join('');
+ const upList=pairs.filter(x=>x.q>x.p),dnList=pairs.filter(x=>x.q<x.p);
+ const dIdx=ra.idx!=null&&rb.idx!=null?rb.idx-ra.idx:null;
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Cycle-over-cycle rung slopegraph</h3><small>${esc(lblA)} vs. ${esc(lblB)}</small></div><div class="viz-acts">${fsBtn('Cycle-over-cycle rung slopegraph')}</div></div><div class="slope-grid">
+  <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle over cycle sub-outcome rung slopegraph">
+   <text x="${x1}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#525263">${esc(lblA)} (${ra.idx==null?'n/a':ra.idx})</text>
+   <text x="${x2}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1A1A24">${esc(lblB)} (${rb.idx==null?'n/a':rb.idx})</text>
+   <line x1="${x1}" y1="${pT}" x2="${x1}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
+   <line x1="${x2}" y1="${pT}" x2="${x2}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
+   ${[1,2,3,4,5].map(r=>`<text x="${x1-12}" y="${(yR(r)+3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#525263">R${r} ${RUNG[r]}</text><text x="${x2+12}" y="${(yR(r)+3.5).toFixed(1)}" text-anchor="start" font-size="10.5" fill="#525263">R${r} ${RUNG[r]}</text>`).join('')}
+   ${lines}
+  </svg>
+  <div>
+   <h3 style="font-size:16px">${upList.length} of ${pairs.length} sub-outcomes climbed</h3>
+   <p class="mute" style="margin:6px 0 10px">${dIdx!=null?`Overall index moved <strong style="color:${dIdx>=0?'var(--ok)':'var(--gap)'}">${dIdx>0?'+':''}${dIdx} pts</strong> (${ra.idx} → ${rb.idx}). `:''}Green lines show rung gains; grey lines stayed flat${dnList.length?'; red lines declined.':'.'}</p>
+   <div style="display:flex;flex-wrap:wrap;gap:6px">${upList.map(x=>`<span class="chip ok">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}${dnList.map(x=>`<span class="chip hot">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}</div>
+  </div>
+ </div></div>`;
+}
+
 function rungDist(R){
  if(!R.scored.length)return'';
  const counts=[1,2,3,4,5].map(n=>R.scored.filter(r=>r.sc===n).length);
  const tot=R.scored.length,cols=['var(--r1)','var(--r2)','var(--r3)','var(--r4)','var(--r5)'];
- return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" title="Rung ${i+1} ${RUNG[i+1]}: ${c}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
+ return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" data-tip="Rung ${i+1} ${RUNG[i+1]}: ${c} sub-outcome${c===1?'':'s'}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
 }
 function trendSvg(hist){
  if(!hist||hist.length<2)return'';
- const W=560,H=150,padL=34,padR=24,padT=16,padB=28,pw=W-padL-padR,ph=H-padT-padB;
+ const W=600,H=170,padL=36,padR=28,padT=20,padB=30,pw=W-padL-padR,ph=H-padT-padB;
  const xAt=i=>padL+(hist.length===1?pw/2:(i/(hist.length-1))*pw);
  const yAt=v=>padT+ph-((Math.max(0,Math.min(100,v)))/100)*ph;
  const grid=[0,25,50,75,100].map(v=>`<line x1="${padL}" y1="${yAt(v).toFixed(1)}" x2="${W-padR}" y2="${yAt(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${padL-6}" y="${(yAt(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A8A98">${v}</text>`).join('');
- const line=(key,color,dash)=>{
+ const line=(key,color,dash,lbl)=>{
   const pts=hist.map((x,i)=>x[key]==null?null:[xAt(i),yAt(x[key]),x[key],x.d]).filter(Boolean);
   if(pts.length<2)return'';
   const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/><text x="${p[0].toFixed(1)}" y="${(p[1]-8).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="${color}" stroke="#fff" stroke-width="1.5" data-tip="${esc(p[3])} · ${lbl}: ${p[2]}" style="cursor:pointer"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
   return`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const xlabels=hist.map((x,i)=>`<text x="${xAt(i).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#525263">${esc(x.d)}</text>`).join('');
- return`<div class="trend-wrap"><div class="lab" style="margin:0 0 8px">Index trajectory across saved snapshots</div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:600px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true)}${line('idxv','#D35400',false)}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
+ return`<div class="trend-wrap"><div class="viz-head" style="margin-bottom:8px"><div><div class="lab" style="margin:0">Index trajectory across saved snapshots</div></div><div class="viz-acts">${fsBtn('Index trajectory across saved snapshots')}</div></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true,'Provisional index')}${line('idxv','#D35400',false,'Evidenced index')}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
 }
 
 /* ---------- views ---------- */
 const $=s=>document.querySelector(s);
 function demoBanner(){
  if(!DEMO)return'';
- return`<div class="demo-bar noprint"><div><b>Interactive Demo</b> · Exploring <b>Moonshot Inc.</b> (Wave 3 Portfolio Hub) with 2 cohorts, historical snapshots &amp; 5 anonymised peer centres. Changes stay in this browser session.</div><div class="db-acts"><div class="seg"><button class="${S.role==='admin'?'on':''}" data-a="demorole" data-v="admin">Admin view</button><button class="${S.role==='client'?'on':''}" data-a="demorole" data-v="client">Client view</button></div><button class="btn sm" data-a="demoreset">Reset sample</button></div></div>`;
+ return`<div class="demo-bar noprint"><div><b>Interactive Demo</b> · Exploring <b>Moonshot Inc.</b> (Wave 3 Portfolio Hub) with 2 cohorts, historical snapshots &amp; 10 anonymised peer centres. Changes stay in this browser session.</div><div class="db-acts"><div class="seg"><button class="${S.role==='admin'?'on':''}" data-a="demorole" data-v="admin">Admin view</button><button class="${S.role==='client'?'on':''}" data-a="demorole" data-v="client">Client view</button></div><button class="btn sm" data-a="demoreset">Reset sample</button></div></div>`;
 }
 function nav(){
  const items=[['frame','Framework','frame'],['audit','Audit','audit'],['report','Report','report'],['bench','Benchmark','bench']];
@@ -870,7 +1335,11 @@ function nav(){
  }
 }
 function render(keepScroll){
- const y=window.scrollY;nav();
+ const y=window.scrollY;
+ if(S.tab!=='report')PRES=false;
+ if(document.body)document.body.classList.toggle('pres',!!PRES&&S.tab==='report');
+ const ct=document.getElementById('ctip');if(ct)ct.style.display='none';
+ nav();
  let v;
  if(['audit','report','bench'].includes(S.tab)&&!cl())v=vNoClient();
  else v=S.tab==='frame'?vFrame():S.tab==='audit'?vAudit():S.tab==='report'?vReport():S.tab==='bench'?vBench():vClients();
@@ -916,25 +1385,28 @@ function vFrame(){
  <section><h2>The four waves</h2><p class="lede">Read these from left to right, because each wave is a step up from the one before it. Each card explains what the centre does, what the employer brand has to deliver at that stage, and the mistake centres most often make there. Open "Function by function" to see what each function should be doing and what evidence to ask for.</p><div class="waves">${waves}</div></section>
  <section><h2>Deciding the wave</h2><p class="lede">Before you audit a client, decide which wave its centre is in. Classify the centre on what it actually owns and decides, not on how large or how old it is. Outpost, Satellite, Portfolio Hub and Transformation Hub are four separate stages.</p>${wq}</section>
  <section><h2>The five rungs</h2><p class="lede">These short descriptions explain the five rungs you will use when you score. The table below them shows what each rung looks like in each function, which helps when you are deciding which rung the evidence supports.</p>${rungs}${curve}</section>
- <section><h2>Forty sub-outcomes across the waves</h2><p class="lede">Each row shows what is expected of a centre at each wave. Hatched cells mean little is expected at that wave. Click any row to expand its indicator, source, and reading guide. The column for the selected client's wave is highlighted.</p>
- <div class="atool"><div class="sbox">${ic('search',15)}<input id="fq" data-i="fq" value="${esc(FQ)}" placeholder="Search 40 sub-outcomes by name, owner or indicator..." aria-label="Search sub-outcomes"></div><button class="btn sm" data-a="fexpand">Expand all</button><button class="btn sm" data-a="fcollapse">Collapse all</button></div>${exp}</section>
- <section><h2>Using it in a client conversation</h2><p class="lede">These are practical habits for running an audit with a client. They come from how the instrument is meant to be used.</p><ul class="pl notes"><li>Start by agreeing the wave with the client, and then ask what evidence they have for each function. The gap between what the wave expects and what the evidence shows is the story you will tell.</li><li>Always judge a score against the wave. An Outpost at rung 1 is not a failure, while a Transformation Hub at rung 2 is a real problem.</li><li>Score only the nine to fifteen sub-outcomes the client genuinely has a stake in, and not all forty. A spiky profile, with strong and weak areas side by side, is the finding, and an average would hide it.</li><li>Never present a score without the artefact behind it, meaning the page, report, dashboard or survey you actually saw. When the artefact is missing, that gap is often exactly what the client is paying you to fix.</li><li>Propose one rung of progress per function per year, and tie it to one number the CFO already knows, such as cost per hire, offer acceptance, regretted attrition, referral share or applications per rupee.</li><li>Do not promise rung 5 to a client. Category status takes years and depends on the city and the practice, so it cannot be delivered in a single engagement.</li><li>Be open with clients about the limits. The instrument is newly built and no centre has been scored with it yet. The wave expectations are advisory reasoning from Zinnov's wave definitions, not measured benchmarks. Sub-outcomes also influence one another, so scoring them as if they were independent can overstate what any single programme achieved.</li></ul></section>`;
+ <section><h2>Fifty-one sub-outcomes across the waves</h2><p class="lede">Each row shows what is expected of a centre at each wave across the full GCC talent and brand lifecycle (including campus, executive hiring, L&amp;D, performance fairness, inclusion, total rewards, work-life balance, tech community advocacy, and EB governance). Hatched cells mean little is expected at that wave. Click any row to expand its indicator, source, and reading guide. The column for the selected client's wave is highlighted.</p>
+ <div class="atool"><div class="sbox">${ic('search',15)}<input id="fq" data-i="fq" value="${esc(FQ)}" placeholder="Search 51 sub-outcomes by name, owner or indicator..." aria-label="Search sub-outcomes"></div><button class="btn sm" data-a="fexpand">Expand all</button><button class="btn sm" data-a="fcollapse">Collapse all</button></div>${exp}</section>
+ <section><h2>Using it in a client conversation</h2><p class="lede">These are practical habits for running an audit with a client. They come from how the instrument is meant to be used.</p><ul class="pl notes"><li><b>Score the branding process, not the message or the HR product.</b> Maturity measures the rigour of the employer brand <em>process</em> — how systematically the centre positions, evidences and tracks its reality across touchpoints. It does not judge which HR perks a centre offers (a high-intensity centre that candidly positions its pace can score Rung 4–5), nor does it replace an EVP differentiation or audience-perception study (a separate exercise that ranks subjective talent perception on specific EVP tenets).</li><li>Start by agreeing the wave with the client, and then ask what evidence they have for each function. The gap between what the wave expects and what the evidence shows is the story you will tell.</li><li>Always judge a score against the wave. An Outpost at rung 1 is not a failure, while a Transformation Hub at rung 2 is a real problem.</li><li>Score only the nine to fifteen sub-outcomes the client genuinely has a stake in, and not all fifty-one. Mark intentional non-investments (such as Campus hiring for a lateral-only centre) as <b>N/A by choice</b> so they are documented transparently without penalising the index.</li><li>Never present a score without the artefact behind it, meaning the page, report, dashboard or survey you actually saw. When the artefact is missing, that gap is often exactly what the client is paying you to fix.</li><li>Propose one rung of progress per function per year, and tie it to one number the CFO already knows, such as cost per hire, offer acceptance, regretted attrition, referral share or applications per rupee.</li><li>Do not promise rung 5 to a client. Category status takes years and depends on the city and the practice, so it cannot be delivered in a single engagement.</li><li>Be open with clients about the limits. The wave expectations are advisory reasoning from Zinnov's wave definitions, and sub-outcomes can influence one another, so read peer benchmarks at the pillar and sub-outcome level as like-for-like.</li></ul></section>`;
 }
 function ctxBar(){
  const c=cl(),h=ch(),adm=S.role==='admin';
- const top=adm
-  ?`<div class="ctx"><div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
-   <div class="f"><label for="wv">GCC wave</label>${waveSel(c,'wv')}</div></div>${waveConfirm(c)}`
-  :`<div class="ctx"><div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>GCC wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div></div>`;
- return conflictBox(h)+top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn sm" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',15)} Add cohort</button>
- <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:8px;width:200px">
- ${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
+ const clientPart=adm
+  ?`<div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
+   <div class="f"><label for="wv">Wave</label>${waveSel(c,'wv')}</div>`
+  :`<div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>Wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div>`;
+ const cohPart=`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn sm" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',14)} Add</button><input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Cohort name" style="width:165px">${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
+ return conflictBox(h)+`<div class="ctx-slim">${clientPart}${cohPart}</div>`+(adm?waveConfirm(c):'');
 }
 function badge(a){return a.sc?((a.ev||'').trim()?'<span class="ok">Evidenced</span>':'<span class="warn">Needs artefact</span>'):'<span class="mute">Not scored yet</span>'}
+function rungStripHtml(s,n){
+ if(!n)return`<span class="mute">Hover or select a rung (1–5) to preview its evidence threshold.</span>`;
+ return`<b>Rung ${n} · ${RUNG[n]}</b><span>${esc(s.thr.r[n-1])}${s.thr.basis==='p'?' <em style="color:var(--mut)">(proposed)</em>':''}</span>`;
+}
 function vAudit(){
  const c=cl(),h=ch(),R=compute(c,h),wave=c.wave;
  const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
- const isHid=s=>!s.rel[wave-1]&&!A(s.id).in;
+ const isHid=s=>!s.rel[wave-1]&&!A(s.id).in&&!A(s.id).na;
  const hidN=inPil.filter(isHid).length,hidAll=SUBS.filter(isHid).length;
  let list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
  const q=AF.q.trim().toLowerCase();
@@ -944,39 +1416,53 @@ function vAudit(){
  else if(AF.f==='unscored')list=list.filter(s=>{const a=A(s.id);return a.in&&!a.sc});
  else if(AF.f==='below')list=list.filter(s=>{const a=A(s.id);return a.in&&a.vd==='b'});
  else if(AF.f==='focus')list=list.filter(s=>{const a=A(s.id);return a.in&&a.pr==='f'});
+ else if(AF.f==='na')list=list.filter(s=>{const a=A(s.id);return !a.in&&!!a.na});
 
- const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the 40 sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. Nothing has been deleted.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
+ const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the ${SUBS.length} sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. Nothing has been deleted.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
  const body=list.length?list.map(s=>{const a=A(s.id);
   const irrel=!s.rel[wave-1];
-  if(!a.in){const t=s.w[wave-1];return`<div class="off"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span><small>${irrel?`Hidden by default at ${WAVES[wave-1].name} wave. `:''}${WAVES[wave-1].name} expectation: ${esc(t)}${LOW.test(t)?' (little expected at this wave)':''}</small></div><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div>`}
+  if(!a.in){const t=s.w[wave-1];return`<div class="off" style="${a.na?'border-style:dashed;background:#fff':''}"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span>${a.na?' <span class="chip" style="background:var(--paper);color:var(--ink);border:1px solid var(--line)">N/A — by choice</span>':''}<small>${irrel?`Hidden by default at ${WAVES[wave-1].name} wave. `:''}${WAVES[wave-1].name} expectation: ${esc(t)}${LOW.test(t)?' (little expected at this wave)':''}</small>${a.na?`<div style="margin-top:8px"><input data-i="nar" data-id="${s.id}" value="${esc(a.nar||'')}" placeholder="Optional rationale (e.g. Lateral-only hiring model — no campus intake)" style="max-width:460px;font-size:12.5px;padding:6px 10px" aria-label="Reason marked not applicable by choice"></div>`:''}</div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm ${a.na?'':'ghost'}" data-a="nabychoice" data-id="${s.id}" title="${a.na?'Remove N/A by choice tag':'Mark as intentionally not applicable (does not penalise score)'}">${a.na?'Undo N/A':'N/A by choice'}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div></div>`}
   const col=!!COLL[s.id];
   const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below',m:'Meets',a:'Above'}[a.vd]}</span>`:'';
   const rungChip=a.sc?`<span class="chip hot">Rung ${a.sc} · ${RUNG[a.sc]}</span>`:'';
   if(col){
    return`<article class="card collapsed" id="card-${s.id}"><header><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="id">${s.id}</span><h3 style="font-size:16px">${esc(s.name)}</h3><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">Focus</span>':''}</div><div class="hrow"><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Expand ${esc(s.name)}" title="Expand card">${ic('chev')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header></article>`;
   }
+  const wvOpen=!!OPEN['wv'+s.id],extOpen=!!OPEN['ext'+s.id];
+  const extParts=[];
+  if((a.iv||'').trim())extParts.push('Measured');
+  if((a.nt||'').trim())extParts.push('Notes');
+  const lkN=(a.lk||[]).filter(l=>(l.t||l.u||'').trim()).length;
+  if(lkN)extParts.push(`${lkN} link${lkN===1?'':'s'}`);
+  const extBadge=extParts.length?`<span class="chip" style="margin-left:4px">${extParts.join(' · ')}</span>`:'';
   return`<article class="card" id="card-${s.id}"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Collapse ${esc(s.name)}" title="Collapse card">${ic('chevu')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
   <p class="means">${esc(s.means)}</p>${irrel?`<p class="rnote">This sub-outcome is not normally relevant at the ${WAVES[wave-1].name} wave. It is shown because you added it, and it counts towards the index while it stays in the audit.</p>`:''}
-  <div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>
+  <div class="wv-one"><div><b>Wave ${wave} (${WAVES[wave-1].name}) expectation</b>${esc(s.w[wave-1])}</div><button class="lnk" style="margin-top:0;white-space:nowrap" data-a="open" data-id="wv${s.id}">${wvOpen?'Hide all 4 waves':'Compare all 4 waves'}</button></div>
+  ${wvOpen?`<div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>`:''}
   <div class="two"><div><label>Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
-  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}" aria-describedby="tp-${s.id}-${n}"><b>${n}</b>${RUNG[n]}</button><span class="tip" role="tooltip" id="tp-${s.id}-${n}"><b>Rung ${n} · ${RUNG[n]}</b>${esc(s.thr.r[n-1])}${s.thr.basis==='p'?'<i>Proposed threshold, not yet confirmed.</i>':''}</span></div>`).join('')}</div>
-  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} what each rung means for this sub-outcome</button>
+  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" data-rid="${s.id}" data-rn="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}"><b>${n}</b>${RUNG[n]}</button></div>`).join('')}</div>
+  <div class="rstrip" id="rs-${s.id}">${rungStripHtml(s,a.sc)}</div>
+  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} all 5 rung thresholds</button>
   ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
   <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
   <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
-  <label>Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 4px">Record the actual number the client gave you, such as "18 per cent of target candidates know the brand", with the date. Next cycle you can compare the new number with this one.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
-  <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Write anything you want to remember or say to the client about this sub-outcome, for example what you heard in interviews or what the sponsor cares about.">${esc(a.nt||'')}</textarea>
-  <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 4px">Add a link for each source you relied on, with the date you saw it. Links appear in the report as clickable entries.</p>
-  ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
-  ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
+  <div><button class="ext-toggle" data-a="open" data-id="ext${s.id}" aria-expanded="${extOpen?'true':'false'}">${ic(extOpen?'chevu':'chev',14)} ${extOpen?'Hide':'Measured value, notes &amp; links'}${extBadge}</button></div>
+  ${extOpen?`<div class="ext-drawer">
+   <label style="margin-top:0">Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Record the actual number the client gave you, with the date, to compare cycle over cycle.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
+   <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Interview notes, sponsor context, or caveats for the report.">${esc(a.nt||'')}</textarea>
+   <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Add clickable source links with the date you saw them.</p>
+   ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
+   ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
+  </div>`:''}
   <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. Moves it up the priority list without changing the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join(''):'<div class="empty">No sub-outcomes match your current filter. Clear the search or switch back to "All".</div>';
 
  const pCounts=[R.n].concat(PIL.map((_,pi)=>R.rows.filter(r=>r.s.p===pi).length));
- const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]];
+ const naCnt=SUBS.filter(s=>{const a=A(s.id);return !a.in&&!!a.na}).length;
+ const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]].concat(naCnt?[['na',`N/A by choice (${naCnt})`]]:[]);
  const anyOpen=R.rows.some(r=>!COLL[r.s.id]);
  return`<div class="eyebrow">Audit</div><h1 style="margin-top:8px">Place the brand on the curve</h1>
  <p class="lede">Work through the four steps below. Your answers save automatically as you go. When you have scored enough sub-outcomes, open the Report tab to see the executive summary, radar profile, and recommended moves.</p>
- <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung for its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
+ <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung to preview its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
  ${ctxBar()}
  <div class="sum" id="sum">${sumInner(R,scopeWarn(R.n))}</div>
  <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}<span class="cnt">${pCounts[i]}</span></button>`).join('')}</div>
@@ -986,14 +1472,15 @@ function vAudit(){
 }
 function sumInner(R,warn){
  const needAttn=R.unscored.length+R.missing.length;
- return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:34ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
+ const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
+ return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div class="prog-mini" data-tip="Evidence integrity: ${R.valid.length} of ${R.scored.length} scored items backed by artefact"><div class="ptrack"><i style="width:${evPct}%"></i></div><small>${evPct}%</small></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:30ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
 }
 function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on'+i:''}"></i>`).join('')}</div>`}
 function vReport(){
  const c=cl(),h=ch(),R=compute(c,h),W=WAVES[c.wave-1].name,name=c.name||'The client',adm=S.role==='admin';
  if(!R.n)return`<div class="eyebrow">Report</div><h1 style="margin-top:8px">Report</h1>${ctxBar()}<div class="empty">Nothing is being audited yet for ${esc(h.name||'this cohort')}, so there is nothing to report on. Open the Audit tab, add the sub-outcomes the client has a stake in, and score them. The report will then fill in on its own.</div><button class="btn pri" data-a="tab" data-v="audit">${ic('audit',16)} Go to the audit</button>`;
+ const bm=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
  const verdict=R.scored.length?`${name}, ${h.name||'cohort'}: ${R.avg<1.5?'a Presence':R.avg<2.5?'a Consistency':R.avg<3.5?'an Evidence':R.avg<4.5?'an Authority':'a Category'}-stage employer brand inside a ${W} centre.`:'No scores have been entered yet.';
- const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
  const pri=R.top.map((r,i)=>{const s=r.s;return`<div class="pb"><h3><span class="no">${i+1}</span>${esc(s.name)} <span class="chip hot">${esc(s.owner)}</span></h3>
   <dl><dt>Where it stands now</dt><dd>Rung ${r.sc}, ${RUNG[r.sc]}. ${r.a.vd==='b'?'<span class="tag b">Below wave expectation</span>':r.a.vd==='m'?'<span class="tag m">Meets</span>':''}${r.a.pr==='f'?' <span class="tag m">Client focus</span>':''}</dd>
   <dt>The next move</dt><dd>${esc(nextMove(r))}</dd>
@@ -1005,7 +1492,7 @@ function vReport(){
  const hist=h.hist.slice().reverse().map((x,i,arr)=>{
   const prev=arr[i+1];const d=prev&&x.idx!=null&&prev.idx!=null?x.idx-prev.idx:null;
   const arm=ARM==='s'+x.id;
-  return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope · ${x.s} scored · ${x.v} evidenced · avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div style="display:flex;align-items:center;gap:10px"><div style="text-align:right"><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <span class="${d>0?'ok':d<0?'warn':'mute'}">${d>0?'+':''}${d}</span>`}</div>${adm?`<button class="ib noprint ${arm?'arm':''}" data-a="delsnap" data-id="${x.id}" aria-label="${arm?'Click again to delete this snapshot':'Delete snapshot'}" title="${arm?'Click again to confirm deleting this snapshot':'Delete snapshot'}">${ic('trash',16)}</button>`:''}</div></div>`;
+  return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope · ${x.s} scored · ${x.v} evidenced · avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div style="display:flex;align-items:center;gap:10px"><div style="text-align:right"><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <span class="${d>0?'ok':d<0?'warn':'mute'}">${d>0?'+':''}${d}</span>`}</div>${adm?`<button class="ib noprint pres-hide ${arm?'arm':''}" data-a="delsnap" data-id="${x.id}" aria-label="${arm?'Click again to delete this snapshot':'Delete snapshot'}" title="${arm?'Click again to confirm deleting this snapshot':'Delete snapshot'}">${ic('trash',16)}</button>`:''}</div></div>`;
  }).join('');
  const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Evidenced</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr class="${x.id===h.id?'sel':''}"><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.valid.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td><b>${q.idx==null?'n/a':q.idx}</b></td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
  const xrows=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
@@ -1013,41 +1500,54 @@ function vReport(){
  const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">Notes and sources recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
  const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small>${(r.a.iv||'').trim()?`<br><small>Last recorded: ${esc(r.a.iv.trim())}${r.a.ivd?' ('+esc(r.a.ivd)+')':''}</small>`:''}</li>`).join('');
  const txt=reportText(c,h,R);
- const xm=h.a._x||{},xs=xm.sum||'';
+ const xm=h.a._x||{},xs=(xm.sum||'').trim();
+ const editSum=!!OPEN.editsum&&!PRES;
  const rawOpen=!!OPEN.rawall;
- return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
- <div class="noprint">${ctxBar()}</div>
- <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
- <h3 class="noprint" style="margin-top:20px">About this audit</h3>
- <div class="ctx noprint" style="margin-top:8px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
- <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
- ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="printonly"><small>${xm.au?'Auditor: '+esc(xm.au)+'. ':''}${xm.ad?'Audit date: '+esc(xm.ad)+'. ':''}${(xm.iw||'').trim()?'Interviewed or sources: '+esc(xm.iw.trim())+'.':''}</small></div>`:''}</section>
- <div class="verdict">${esc(verdict)}</div>
- <div class="kpis">
-  <div class="kpi hi"><div class="m">${R.idxV==null?'n/a':R.idxV}</div><div class="l">Evidenced index</div><div class="sub">${R.valid.length} of ${R.scored.length} scored backed by artefact (${evPct}%)</div><div class="ev-bar"><i style="width:${evPct}%"></i></div></div>
-  <div class="kpi"><div class="m">${R.idx==null?'n/a':R.idx}</div><div class="l">Provisional index</div><div class="sub">0 to 100, counting every score</div></div>
-  <div class="kpi"><div class="m">${R.avg==null?'n/a':R.avg.toFixed(1)}</div><div class="l">Average rung</div><div class="sub">Out of 5 across ${R.scored.length} scored</div></div>
-  <div class="kpi"><div class="m">${R.below.length}</div><div class="l">Below ${esc(W)} wave</div><div class="sub">${R.above.length} above · ${R.scored.length-R.below.length-R.above.length} meets/unjudged</div></div>
- </div>
- <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
- <section><div class="two-col"><div><h2>The profile</h2><p class="lede" style="margin-top:6px">One row for every sub-outcome audited. An uneven, spiky profile is usually the real consulting finding.</p>
+ const profList=`<div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div>`;
+ const pillarViz=`<div class="radar-wrap"><div class="viz-head"><div><h3>Pillar maturity${bm?' vs. peers':''}</h3><small>${CVIEW==='radar'?'Average rung (1 to 5) per pillar':'Cohort vs. peer median &amp; IQR band'}</small></div><div class="viz-acts"><div class="seg noprint"><button class="${CVIEW==='radar'?'on':''}" data-a="cview" data-v="radar">Radar</button><button class="${CVIEW==='dumbbell'?'on':''}" data-a="cview" data-v="dumbbell">Dumbbell</button></div>${fsBtn('Pillar maturity'+(bm?' vs. peers':''))}</div></div>${CVIEW==='radar'?radarSvg(R,bm):pillarDumbbell(R,bm)}</div>`;
+ const execCard=editSum
+  ?`<div class="exec-prose noprint"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px"><div class="lab" style="margin:0">Edit executive summary &amp; audit details</div><button class="btn sm pri" data-a="open" data-id="editsum">Done editing</button></div>
+   <textarea id="xsum" data-i="xsum" style="min-height:110px" placeholder="Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.">${esc(xm.sum||'')}</textarea>
+   <div class="ctx" style="margin-top:12px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
+   <label for="xiw">People interviewed or sources used</label><textarea id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea></div>`
+  :`<div class="exec-prose"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px"><div class="lab" style="margin:0">Executive summary</div><button class="btn sm ghost noprint pres-hide" data-a="open" data-id="editsum">Edit summary</button></div>
+   <div class="ep-text" id="xsum-p">${xs?esc(xs):'<span class="mute">No executive summary written yet. Click "Edit summary" to add a sponsor brief, auditor name, and interview sources.</span>'}</div>
+   ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="ep-meta">${xm.au?`<span><b>Auditor:</b> ${esc(xm.au)}</span>`:''}${xm.ad?`<span><b>Audit date:</b> ${esc(xm.ad)}</span>`:''}${(xm.iw||'').trim()?`<span><b>Sources &amp; interviews:</b> ${esc(xm.iw.trim())}</span>`:''}</div>`:''}</div>`;
+ return`${PRES?`<button class="btn pri sm pres-exit noprint" data-a="pres">${ic('x',14)} Exit presentation mode</button>`:''}
+ <div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div>
+ <div class="eyebrow noprint">Report${PRES?` · ${esc(name)} · ${esc(h.name||'Cohort')}`:''}</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
+ <div class="noprint pres-hide">${ctxBar()}</div>
+ <nav class="rjump noprint" aria-label="Report sections">
+  <a href="#sec-score">Scorecard</a><a href="#sec-pos">Positioning</a><a href="#sec-prof">Profile</a><a href="#sec-pri">Priorities</a><a href="#sec-90d">90-Day Plan</a><a href="#sec-hist">History</a><a href="#sec-exp" class="pres-hide">Export</a>
+  <div class="rj-sp"><button class="btn sm ${PRES?'pri':''}" data-a="pres">${ic('expand',13)} ${PRES?'Exit presentation':'Presentation mode'}</button><button class="btn sm ghost pres-hide" data-a="print">PDF</button></div>
+ </nav>
+ <section id="sec-score" style="margin-top:24px">
+  <div class="verdict" style="margin-top:0">${esc(verdict)}</div>
+  ${execInfographic(c,h,R,bm)}
+  <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
+  ${execCard}
+ </section>
+ <section id="sec-pos"><h2>Strategic positioning</h2><p class="lede">Wave is the centre's mandate; the maturity index is what the employer brand has actually built. Plotting both shows whether the brand is keeping pace with the mandate.</p>${waveMatrixSvg(c,h,R,bm,LG)}</section>
+ <section id="sec-prof"><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited sub-outcomes as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
  ${rungDist(R)}
- <div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div></div>
- <div>${radarSvg(R)}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
+ ${PVIEW==='heatmap'?heatmapHtml(R):''}
+ <div class="two-col" style="margin-top:28px"><div>${PVIEW==='list'?profList:`<h3>Sub-outcome breakdown</h3>${profList}`}</div>
+ <div>${pillarViz}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
  <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.a.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
- <section><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
- <section><h2>The next 90 days</h2><div class="plan"><div><b>Days 1 to 30 · Baseline</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div><b>Days 31 to 60 · First moves</b>${R.top[0]?`Ship the first move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicator monthly so movement is visible.</div><div><b>Days 61 to 90 · Re-measure</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
+ <section id="sec-pri"><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
+ <section id="sec-90d"><h2>The next 90 days</h2><div class="plan"><div class="pstep"><div class="shead"><span class="sno">1</span>Days 1 to 30 · Baseline</div><b>Verify evidence &amp; lock owners</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div class="pstep"><div class="shead"><span class="sno">2</span>Days 31 to 60 · First moves</div><b>Ship priority #1 &amp; #2</b>${R.top[0]?`Launch the +1 rung move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicators monthly so movement is visible.</div><div class="pstep"><div class="shead"><span class="sno">3</span>Days 61 to 90 · Re-measure</div><b>Snapshot &amp; sponsor brief</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
  ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional until you record the artefact on the Audit tab.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
  ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Return to the Audit tab to pick a rung for each of these, or remove them from scope.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
+ ${(()=>{const nas=SUBS.filter(s=>{const a=h.a[s.id];return a&&!a.in&&a.na});return nas.length?`<section><h2>Intentional exclusions (not applicable by choice)</h2><p class="lede">Capabilities the centre has deliberately chosen not to build for this cohort. Excluded from the index and peer benchmarks without penalty.</p><ul class="pl">${nas.map(s=>{const a=h.a[s.id];return`<li><b>${esc(s.id)} ${esc(s.name)}</b>${(a.nar||'').trim()?` — ${esc(a.nar.trim())}`:' — <span class="mute">Marked N/A by strategic choice</span>'}</li>`}).join('')}</ul></section>`:''})()}
  <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review.</p><ul class="pl">${feed}</ul></section>
  ${xsec}
- <section><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h2>All consultant inputs, by pillar</h2><button class="btn sm noprint" data-a="open" data-id="rawall">${rawOpen?'Hide full record':'Show full record'}</button></div><p class="lede">Full record of every rung, artefact, measured value, note and link captured. Always included in PDF print and downloads.</p><div class="raw-body ${rawOpen?'':'is-collapsed'}" style="${rawOpen?'':'display:none'}">${rawHtml(c,h)}</div></section>
+ <section class="pres-hide"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h2>All consultant inputs, by pillar</h2><button class="btn sm noprint" data-a="open" data-id="rawall">${rawOpen?'Hide full record':'Show full record'}</button></div><p class="lede">Full record of every rung, artefact, measured value, note and link captured. Always included in PDF print and downloads.</p><div class="raw-body ${rawOpen?'':'is-collapsed'}" style="${rawOpen?'':'display:none'}">${rawHtml(c,h)}</div></section>
  ${cmp}
  ${benchBlock(h)}
- <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
+ <section id="sec-hist"><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri pres-hide" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
  ${cmpSec}
- <section class="noprint"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
- <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
+ <section id="sec-exp" class="noprint pres-hide"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
+ <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.1 (51 sub-outcomes) and maturity instrument v1.1. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
 }
 /* ---------- raw consultant inputs ---------- */
 const hasInputs=a=>!!(a&&((a.sc||0)>0||(a.ev||'').trim()||(a.nt||'').trim()||(a.iv||'').trim()||(a.ivd||'')||(a.lk||[]).length||a.vd||a.pr==='f'));
@@ -1159,7 +1659,7 @@ async function loadBench(quiet){
  try{
   const d=await api('GET',`/benchmark?cohort=${h.id}&pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
   BM={for:h.id,data:d};
-  if(S.role==='admin'&&S.tab==='bench')LG=await api('GET',`/league?pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
+  if(S.role==='admin'&&(S.tab==='bench'||S.tab==='report'))LG=await api('GET',`/league?pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
  }catch(e){BM={for:h.id,err:e.message}}
  render(true);
 }
@@ -1188,13 +1688,17 @@ function vBench(){
    <div class="kpi"><div class="m" style="font-size:26px;line-height:1.35">${esc(d.taken_on)}</div><div class="l">Latest snapshot</div><div class="sub">${p.basis==='evidenced'?'Evidenced scores only':'Includes provisional'}</div></div>
    </div>
    ${p.thin?`<p class="warn" style="margin-top:16px">There ${p.n===1?'is':'are'} only ${p.n} cohort${p.n===1?'':'s'} in this pool so far. Treat the position as indicative.</p>`:''}
-   ${strip(i)}
+   ${beeswarmHtml(c,h,d,LG)}
+   ${rankedPeersHtml(c,h,d,LG)}
+   ${waveMatrixSvg(c,h,null,d,LG)}
    <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the sub-outcomes each cohort scored in each pillar.</p>
+   <div class="viz-box"><div class="viz-head"><div><h3>Pillar maturity vs. peer IQR &amp; median</h3><small>Cohort dot against peer range, middle 50% (IQR), and median</small></div><div class="viz-acts">${fsBtn('Pillar maturity vs. peer IQR & median')}</div></div>${pillarDumbbell(null,d)}</div>
    <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your avg rung</th><th>Pool median</th><th>Percentile</th><th style="width:28%">Place in pool</th></tr>
    ${d.pillars.map(x=>`<tr><td><b>${esc(PIL[x.p])}</b></td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'<span class="mute">fewer than 3 peers</span>':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
-   <section><h2>By sub-outcome</h2><p class="lede">A position is shown when at least three cohorts have scored the same sub-outcome.</p>
-   <div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Your rung</th><th>Pool median</th><th>Percentile</th><th>Cohorts scored</th></tr>
-   ${d.subs.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td><b>${esc(s?s.name:x.id)}</b></td><td>${x.v} ${RUNG[x.v]}</td><td>${x.med==null?'n/a':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.n}</td></tr>`}).join('')}</table></div></section>`;
+   <section><h2>By sub-outcome</h2><p class="lede">Like-for-like ranking across only the peers who also audited each sub-outcome (shown when ≥3 cohorts scored it). Intentional exclusions never penalise your rank.</p>
+   <div class="fpills noprint" style="margin:12px 0">${['All pillars'].concat(PIL_SHORT).map((p,pi)=>`<button class="${BSUBPIL===pi?'on':''}" data-a="bsubpil" data-v="${pi}">${pi?`P${pi} ${esc(p)}`:p}</button>`).join('')}</div>
+   <div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Your rung</th><th>Peer median</th><th>Top quartile (P75)</th><th>Rank</th><th>Percentile</th><th style="width:20%">Place in pool</th></tr>
+   ${(()=>{const rows=d.subs.filter(x=>!BSUBPIL||+x.id.split('.')[0]===BSUBPIL);return rows.length?rows.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td><b>${esc(x.id)} ${esc(s?s.name:x.id)}</b></td><td><b>${x.v}</b> <small class="mute">${RUNG[x.v]}</small></td><td>${x.med==null?'<span class="mute">&lt;3 peers</span>':f1(x.med)}</td><td>${x.p75==null?'<span class="mute">—</span>':f1(x.p75)}</td><td>${x.rank!=null?`<b>#${x.rank}</b> <small class="mute">/ ${x.of}</small>`:`<small class="mute">${x.n} peer${x.n===1?'':'s'}</small>`}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar" data-tip="${esc(s?s.name:x.id)}: #${x.rank} of ${x.of} (${ord(x.pct)} pct · median ${f1(x.med)} · P75 ${f1(x.p75)})"><i style="left:${x.pct}%"></i></div>`}</td></tr>`}).join(''):'<tr><td colspan="7" class="mute">No scored sub-outcomes in this pillar.</td></tr>'})()}</table></div></section>`;
   }
  }
  const lg=adm&&LG?`<section><h2>League table</h2><p class="lede">Latest snapshot for each cohort, ranked using the settings above. Only admins see client names.</p>
@@ -1257,7 +1761,10 @@ function vClients(){
   return`<tr class="${sel&&c.id===sel.id?'sel':''}" data-a="selclient" data-id="${c.id}" style="cursor:pointer"><td><b>${esc(c.name)}</b></td><td><span class="chip hot">W${c.wave} ${WNAME(c.wave)}</span></td><td>${c.cohorts.length}</td><td>${latestIdx==null?'<span class="mute">n/a</span>':'<b>'+latestIdx+'</b>'}</td><td>${last||'none saved yet'}</td></tr>`;
  }).join('');
  const acc=sel&&ACC?ACC.filter(a=>a.client_id===sel.id):[];
- const hasMoonshot=S.clients.some(c=>c.name.toLowerCase()==='moonshot inc.');
+ const moonshotClient=S.clients.find(c=>c.name.toLowerCase()==='moonshot inc.');
+ const samplePeers=(window.EBMI_SAMPLE&&window.EBMI_SAMPLE.peers)||[];
+ const missingPeers=DEMO?0:samplePeers.filter(p=>!S.clients.some(c=>c.name.toLowerCase()===p.client.toLowerCase())).length;
+ const sampleCard=(!DEMO&&(!moonshotClient||missingPeers>0))?`<div class="viz-box" style="margin-top:20px;background:var(--tint);border-color:var(--tint-line)"><div class="viz-head" style="margin-bottom:8px"><div><h3 style="font-size:16px">Sample data &amp; peer benchmarking</h3><small>Seed fictional sample data into your workspace to demonstrate end-to-end scoring, reports, and peer benchmarking.</small></div></div><div class="xrow">${!moonshotClient?`<button class="btn pri sm" data-a="seedmoonshot">${ic('spark',15)} Load Moonshot Inc. sample</button>`:''}${missingPeers?`<button class="btn sm" data-a="seedpeers">${ic('spark',15)} Load ${missingPeers} sample peers</button>`:''}</div></div>`:'';
  const panel=sel?`<section><h2>${esc(sel.name)}</h2>
   <div class="ctx" style="margin-top:12px"><div class="f"><label for="rn">Client name</label><input id="rn" data-i="rename" value="${esc(sel.name)}"></div>
   <div class="f"><label for="cw">GCC wave</label>${waveSel(sel,'cw')}</div>
@@ -1270,8 +1777,9 @@ function vClients(){
   <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nal">Label for the new password</label><input id="nal" placeholder="e.g. Ananya Rao (VP Engineering)"></div><button class="btn pri" data-a="mkaccess" data-id="${sel.id}">${ic('key',16)} Create password</button></div>
   <div class="scroll"><table class="tbl"><tr><th>Label</th><th>Created</th><th>Last signed in</th><th>Status</th><th></th></tr>${acc.map(a=>`<tr><td>${esc(a.label)}</td><td>${dshort(a.created_at)}</td><td>${dshort(a.last_login)}</td><td>${a.revoked?'<span class="warn">Revoked</span>':'<span class="ok">Active</span>'}</td><td><button class="ib" data-a="revoke" data-id="${a.id}" data-v="${a.revoked?0:1}" aria-label="${a.revoked?'Restore this password':'Revoke this password'}" title="${a.revoked?'Restore password':'Revoke password'}">${ic(a.revoked?'plus':'x')}</button></td></tr>`).join('')||'<tr><td colspan="5" class="mute">No passwords have been created for this client yet.</td></tr>'}</table></div></section>`:'';
  return`<div class="eyebrow">Admin</div><h1 style="margin-top:8px">Clients</h1>
- <p class="lede">Each client has its own workspace protected by its own password. Add a client below, or load the complete <b>Moonshot Inc.</b> sample dataset to demonstrate end-to-end scoring, audit, report, and snapshot comparisons.</p>
- <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button>${!hasMoonshot?`<button class="btn" data-a="seedmoonshot">${ic('spark',16)} Load Moonshot Inc. sample</button>`:''}</div>
+ <p class="lede">Each client has its own workspace protected by its own password. Add a client below, or use the sample data panel to load <b>Moonshot Inc.</b> and <b>10 peer GCCs</b>.</p>
+ ${sampleCard}
+ <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button></div>
  <div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th>Cohorts</th><th>Latest index</th><th>Last snapshot</th></tr>${rows||'<tr><td colspan="5" class="mute">No clients have been added yet. Add one above or load the Moonshot Inc. sample.</td></tr>'}</table></div>
  ${panel}
  ${(S.archived||[]).length?`<section><h2>Archived clients</h2><p class="lede" style="margin-top:6px">Hidden from the app and benchmarks. Restore anytime or delete permanently.</p><div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th></th></tr>${S.archived.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>W${x.wave} ${WNAME(x.wave)}</td><td><button class="btn sm" data-a="restoreclient" data-id="${x.id}">Restore</button> <button class="btn sm ${ARM==='x'+x.id?'arm':''}" data-a="purgeclient" data-id="${x.id}">${ARM==='x'+x.id?'Click again to delete permanently':'Delete permanently'}</button></td></tr>`).join('')}</table></div></section>`:''}
@@ -1325,7 +1833,8 @@ function cmpSection(c,h){
    const iv=o=>{const y=o[x.id];return y&&(y.iv||'').trim()?esc(y.iv.trim())+(y.ivd?' <small>('+esc(y.ivd)+')</small>':''):'<span class="mute">none</span>'};
    return`<tr><td><b>${esc(x.name)}</b></td><td>${show(p)}</td><td>${show(q)}</td><td>${d}</td><td>${iv(sa.answers)}</td><td>${iv(sb.answers)}</td></tr>`}).join('');
   const ra=compute(c,{a:sa.answers}),rb=compute(c,{a:sb.answers}),f=v=>v==null?'n/a':v;
-  tbl=`<p class="lede">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
+  const lblA=sa.taken_on||'Earlier',lblB=cs.b==='cur'?'Current':(sb.taken_on||'Later');
+  tbl=`${slopegraphHtml(sa,sb,ra,rb,lblA,lblB)}<p class="lede" style="margin-top:16px">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
  }else tbl='<p class="mute">Loading snapshot comparison...</p>';
  return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Compare any earlier snapshot against a later snapshot or your live unsaved scores, including measured indicator values.</p>
  <div class="ctx"><div class="f"><label for="cmpa">Earlier</label><select id="cmpa" data-c="cmpa"><option value="">Choose a snapshot</option>${opts(cs.a)}</select></div><div class="f"><label for="cmpb">Later</label><select id="cmpb" data-c="cmpb"><option value="cur" ${cs.b==='cur'?'selected':''}>Current scores, not yet saved as a snapshot</option>${opts(cs.b)}</select></div></div>${tbl}</section>`;
@@ -1342,13 +1851,36 @@ document.addEventListener('submit',async e=>{
  catch(err){toast(err.message||'We could not change the password. Please try again.')}
  btn.disabled=false;
 });
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){
+  const box=document.getElementById('fsmodal');
+  if(box&&box.innerHTML){closeFs();return}
+  if(PRES){PRES=false;render(true);return}
+ }
+ if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.matches('[role="button"][data-a]')){
+  e.preventDefault();e.target.click();
+ }
+});
 document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-a]');if(!t)return;
  const a=t.dataset.a,id=t.dataset.id,v=t.dataset.v,c=cl(),h=ch();
+ if(a==='fs'){openFs(t);return}
+ if(a==='fsclose'){closeFs();return}
+ if(a==='fsback'){if(e.target===t)closeFs();return}
+ if(a==='hmtile'){openTileModal(id);return}
+ if(a==='pres'){PRES=!PRES;render(true);return}
+ if(a==='jumptocard'){
+  closeFs();S.tab='audit';S.pil=0;AF.q='';AF.f='all';COLL[id]=false;render(false);
+  const el=document.getElementById('card-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  return;
+ }
  const wasArm=ARM;ARM='';let keep=true;
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
   else if(a==='pil'){S.pil=+v}
+  else if(a==='bsubpil'){BSUBPIL=+v}
+  else if(a==='pview'){PVIEW=v}
+  else if(a==='cview'){CVIEW=v}
   else if(a==='afil'){AF.f=v}
   else if(a==='coll'){COLL[id]=!COLL[id]}
   else if(a==='collall'){SUBS.forEach(s=>{if(A(s.id).in)COLL[s.id]=true})}
@@ -1370,9 +1902,11 @@ document.addEventListener('click',async e=>{
   else if(a==='demorole'){DEMO_DB.role=v;S.role=v;if(v==='client'&&S.tab==='clients')S.tab='report';if(S.tab==='bench')loadBench();else if(S.tab==='clients')loadAcc()}
   else if(a==='demoreset'){startDemo(S.tab);toast('Moonshot Inc. demo workspace reset.');return}
   else if(a==='seedmoonshot'){await seedMoonshotLive();return}
+  else if(a==='seedpeers'){await seedPeersLive();return}
   else if(a==='open'){OPEN[id]=!OPEN[id]}
   else if(a==='showrel'){SHOWREL=!SHOWREL}
-  else if(a==='scope'){const x=A(id);x.in=!x.in;dirty(h)}
+  else if(a==='scope'){const x=A(id);x.in=!x.in;if(x.in)x.na=false;dirty(h)}
+  else if(a==='nabychoice'){const x=A(id);x.na=!x.na;if(x.na)x.in=false;dirty(h)}
   else if(a==='pick'){const x=A(id);x.sc=x.sc===+v?0:+v;dirty(h)}
   else if(a==='vd'){const x=A(id);x.vd=x.vd===v?'':v;dirty(h)}
   else if(a==='prio'){A(id).pr=v;dirty(h)}
@@ -1434,11 +1968,42 @@ document.addEventListener('click',async e=>{
  }catch(err){toast(err.message||'Something went wrong. Please try again.')}
  render(keep);
 });
+// Instant floating tooltip (#ctip) for charts & live inline rung strip preview
+function posTip(el,x,y){
+ el.style.left=Math.min(x+14,Math.max(8,window.innerWidth-el.offsetWidth-12))+'px';
+ el.style.top=Math.max(8,(y-el.offsetHeight-12<8?y+16:y-el.offsetHeight-12))+'px';
+}
+document.addEventListener('mouseover',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,+rg.dataset.rn)}
+ const tipEl=e.target.closest&&e.target.closest('[data-tip]');
+ const ct=document.getElementById('ctip');
+ if(tipEl&&ct){ct.textContent=tipEl.dataset.tip;ct.style.display='block';posTip(ct,e.clientX,e.clientY)}
+});
+document.addEventListener('mousemove',e=>{
+ const ct=document.getElementById('ctip');
+ if(ct&&ct.style.display==='block')posTip(ct,e.clientX,e.clientY);
+});
+document.addEventListener('mouseout',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,A(s.id).sc)}
+ const tipEl=e.target.closest&&e.target.closest('[data-tip]');
+ if(tipEl&&(!e.relatedTarget||!tipEl.contains(e.relatedTarget))){const ct=document.getElementById('ctip');if(ct)ct.style.display='none'}
+});
+document.addEventListener('focusin',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,+rg.dataset.rn)}
+});
+document.addEventListener('focusout',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,A(s.id).sc)}
+});
 document.addEventListener('input',e=>{
  const t=e.target,i=t.dataset.i;if(!i)return;
  if(i==='aq'){AF.q=t.value;const pos=t.selectionStart;render(true);const el=document.getElementById('aq');if(el){el.focus();el.setSelectionRange(pos,pos)}return}
  if(i==='fq'){FQ=t.value;const pos=t.selectionStart;render(true);const el=document.getElementById('fq');if(el){el.focus();el.setSelectionRange(pos,pos)}return}
  if(i==='hname'){const h=ch();if(h)h.name=t.value}
+ else if(i==='nar'){A(t.dataset.id).nar=t.value;dirty(ch())}
  else if(i==='iv'){A(t.dataset.id).iv=t.value;dirty(ch())}
  else if(i==='ivd'){A(t.dataset.id).ivd=t.value;dirty(ch())}
  else if(i==='xau'||i==='xad'||i==='xiw'){const h=ch();h.a._x=h.a._x||{};h.a._x[{xau:'au',xad:'ad',xiw:'iw'}[i]]=t.value;dirty(h)}

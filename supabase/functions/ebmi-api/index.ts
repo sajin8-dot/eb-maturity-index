@@ -148,16 +148,39 @@ async function benchmarkFor(cohortId: string, pool: string, basis: string, min: 
     const v = me.pillars[p];
     if (v == null) return { p, v: null, n: list.length };
     const o: any = { p, v: r1(v), n: list.length };
-    if (list.length >= 3) { Object.assign(o, { pct: pctOf(list, v), med: r1(quant([...list].sort((a, b) => a - b), 0.5)) }); }
+    if (list.length >= 3) {
+      const s = [...list].sort((a, b) => a - b);
+      Object.assign(o, {
+        pct: pctOf(list, v),
+        min: r1(s[0]),
+        p25: r1(quant(s, 0.25)),
+        med: r1(quant(s, 0.5)),
+        p75: r1(quant(s, 0.75)),
+        max: r1(s[s.length - 1]),
+      });
+    }
     return o;
   });
   const subs = Object.entries<number>(me.subs).map(([id, v]) => {
     const list = rows.map((r) => r.subs[id]).filter((x: any) => x != null) as number[];
     const o: any = { id, v, n: list.length };
-    if (list.length >= 3) Object.assign(o, { pct: pctOf(list, v), med: r1(quant([...list].sort((a, b) => a - b), 0.5)) });
+    if (list.length >= 3) {
+      const s = [...list].sort((a, b) => a - b);
+      Object.assign(o, {
+        pct: pctOf(list, v),
+        rank: rankOf(list, v),
+        of: list.length,
+        p25: r1(quant(s, 0.25)),
+        med: r1(quant(s, 0.5)),
+        p75: r1(quant(s, 0.75)),
+      });
+    }
     return o;
   }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-  return { eligible: true, pool: { n, thin, mode: pool, basis, min, wave: me.wave }, idx, position: n >= 3 ? label(idx.pct) : null, pillars, subs, taken_on: me.taken_on };
+  const dist = rows.length >= 3
+    ? rows.map((r) => ({ wave: r.wave, idx: r.idx as number, me: r.cohort_id === cohortId })).sort((a, b) => b.idx - a.idx)
+    : [];
+  return { eligible: true, pool: { n, thin, mode: pool, basis, min, wave: me.wave }, idx, position: n >= 3 ? label(idx.pct) : null, pillars, subs, dist, taken_on: me.taken_on };
 }
 
 async function league(pool: string, basis: string, min: number) {

@@ -192,6 +192,43 @@
       iv: '5 technical pieces/quarter; 2 tier-1 conference talks; 1 external citation', ivd: '2026-10-10',
       nt: 'Fastest-improving capability. Establishing a lightweight legal review SLA unlocked principal engineers to publish.',
       lk: [{ t: 'Moonshot Tech Blog', u: 'https://engineering.moonshot-inc.example', d: '2026-10-10' }]
+    },
+    '1.8': { in: false, na: true, nar: 'Lateral-only senior AI & backend hiring model for FY26; campus hiring sits under Product & Design.' },
+    '2.9': { in: false, na: true, nar: 'No campus or intern intake in Engineering & AI this fiscal year by strategic choice.' },
+    '3.10': {
+      in: true, sc: 3, vd: 'm', pr: 'n',
+      ev: 'LMS & AI Academy tracker (Q3 2026): 54% of engineers completed the internal Applied GenAI certification track; quarterly internal gig rotations launched.',
+      iv: '54% certified upskilling completion; 18 internal rotations in Q3', ivd: '2026-10-08',
+      nt: 'Strong proof point in candidate closing conversations — engineers cite the GenAI academy as a retention anchor.',
+      lk: []
+    },
+    '3.11': {
+      in: true, sc: 2, vd: 'b', pr: 'n',
+      ev: 'Q3 Pulse Survey (n=210): annual reviews run on schedule, but only 48% agree promotion criteria across L4–L6 are transparent.',
+      iv: '48% perceived promotion fairness', ivd: '2026-09-30',
+      nt: 'Correlates directly with the bimodal Glassdoor reviews; publishing clear level rubrics is a quick FY27 win.',
+      lk: []
+    },
+    '3.14': {
+      in: true, sc: 2, vd: 'b', pr: 'n',
+      ev: 'Careers page & Q3 onboarding survey (Sept 2026): careers copy promises "flexible, balanced work-life" while 44% of new joiners report surprise at 9pm+ US-West Coast calls 3+ nights/week.',
+      iv: '56% say-do alignment on work-style & timezone reality', ivd: '2026-09-30',
+      nt: 'The brand gap is the promise-reality mismatch — either position the high-pace US-overlap reality candidly during hiring or establish protected async norms.',
+      lk: []
+    },
+    '4.9': {
+      in: true, sc: 3, vd: 'm', pr: 'n',
+      ev: 'GitHub & community log (Q3 2026): hosted 2 Bengaluru ML meetups (180 attendees) and open-sourced 1 internal feature-store utility.',
+      iv: '2 meetups hosted, 1 open-source release in Q3', ivd: '2026-10-10',
+      nt: 'Practitioner-led meetups are outperforming paid job-board ads on senior ML applicant quality.',
+      lk: []
+    },
+    '5.9': {
+      in: true, sc: 3, vd: 'm', pr: 'n',
+      ev: 'FY26 EB Charter reviewed on 2026-10-04: named EB Lead appointed in May 2026 with ring-fenced annual budget and monthly TA–HR–Comms sync.',
+      iv: 'Named EB owner + ring-fenced FY26 budget + monthly governance sync', ivd: '2026-10-04',
+      nt: 'Governance foundation is now in place; next step is elevating to a quarterly executive EB council with CFO-linked KPIs.',
+      lk: []
     }
   };
 
@@ -272,32 +309,93 @@
       iv: '2 quarterly whitepapers published; 1,400+ downloads', ivd: '2026-10-09',
       nt: 'Building real authority in fintech product design.',
       lk: [{ t: 'State of Fintech UX Q3 Report', u: 'https://design.moonshot-inc.example/fintech-ux-q3', d: '2026-10-09' }]
+    },
+    '1.8': {
+      in: true, sc: 3, vd: 'm', pr: 'n',
+      ev: 'Campus calendar tracker (Q3 2026): ran annual Product Designathon across NID, IIT Bombay & IIT Guwahati with 620 student submissions.',
+      iv: 'Year-round calendar on 5 design/product campuses; 620 hackathon entries', ivd: '2026-09-25',
+      nt: 'Strong early-career pull among product design graduates.',
+      lk: []
+    },
+    '2.9': {
+      in: true, sc: 4, vd: 'a', pr: 'n',
+      ev: 'Summer 2026 Design & APM Internship Report: 78% internship-to-PPO conversion rate and +54 campus candidate NPS.',
+      iv: '78% PPO conversion; +54 campus NPS', ivd: '2026-08-30',
+      nt: 'Structured mentorship and live product launches make the internship programme a benchmark.',
+      lk: []
     }
   };
 
-  // Anonymised peer benchmark pool (used in Demo/Preview mode so Benchmark & League tables are rich and realistic)
+  // 10 diverse peer GCC cohorts across Waves 1-4 (used in Demo Mode and by the admin "Load 10 sample peers" seeder)
   const PEER_COHORTS = [
     {
-      client_id: 'peer-1', cohort_id: 'peer-1-h1', client: 'Meridian FinTech GCC', cohort: 'Core Engineering', wave: 3, taken_on: '2026-09-18',
-      subs: { '1.1': 4, '1.2': 3, '1.4': 3, '1.7': 4, '2.1': 4, '2.3': 3, '2.5': 4, '3.3': 3, '3.8': 3, '4.1': 4, '4.3': 3, '5.1': 3 }
+      client_id: 'peer-1', cohort_id: 'peer-1-h1', client: 'Aether Cloud India', cohort: 'Platform & AI', wave: 4, taken_on: '2026-10-02',
+      subs: { '1.1': 5, '1.2': 4, '1.4': 4, '1.7': 5, '1.8': 4, '2.1': 4, '2.3': 4, '2.4': 4, '2.5': 4, '2.7': 4, '2.9': 4, '3.3': 4, '3.4': 4, '3.7': 4, '3.8': 4, '3.10': 5, '3.11': 4, '3.14': 4, '4.1': 4, '4.3': 4, '4.6': 4, '4.9': 5, '5.1': 4, '5.9': 4 }
     },
     {
-      client_id: 'peer-2', cohort_id: 'peer-2-h1', client: 'Helios Health Tech', cohort: 'Whole centre', wave: 2, taken_on: '2026-08-24',
-      subs: { '1.1': 2, '1.2': 2, '1.4': 2, '1.7': 2, '2.1': 2, '2.3': 2, '2.5': 3, '3.3': 1, '3.8': 2, '4.1': 2, '4.3': 2, '5.1': 1 }
+      client_id: 'peer-2', cohort_id: 'peer-2-h1', client: 'Vertex Semiconductor GCC', cohort: 'Silicon & Firmware', wave: 4, taken_on: '2026-09-21',
+      subs: { '1.1': 4, '1.2': 4, '1.4': 4, '1.7': 4, '1.8': 5, '2.1': 4, '2.3': 3, '2.4': 4, '2.5': 4, '2.7': 4, '2.9': 5, '3.3': 3, '3.4': 4, '3.7': 3, '3.8': 4, '3.10': 4, '3.11': 4, '3.14': 4, '4.1': 4, '4.3': 4, '4.6': 4, '4.9': 4, '5.1': 5, '5.9': 4 }
     },
     {
-      client_id: 'peer-3', cohort_id: 'peer-3-h1', client: 'Aether Cloud India', cohort: 'Platform & AI', wave: 4, taken_on: '2026-10-02',
-      subs: { '1.1': 5, '1.2': 4, '1.4': 4, '1.7': 5, '2.1': 4, '2.3': 4, '2.5': 4, '3.3': 4, '3.8': 4, '4.1': 4, '4.3': 4, '5.1': 4, '2.4': 4, '2.7': 4, '3.4': 4, '3.7': 4, '4.6': 4 }
+      client_id: 'peer-3', cohort_id: 'peer-3-h1', client: 'Meridian FinTech GCC', cohort: 'Core Engineering', wave: 3, taken_on: '2026-09-18',
+      subs: { '1.1': 4, '1.2': 3, '1.4': 3, '1.7': 4, '1.8': 3, '2.1': 4, '2.3': 3, '2.4': 3, '2.5': 4, '2.7': 3, '2.9': 3, '3.3': 3, '3.4': 4, '3.7': 3, '3.8': 3, '3.10': 3, '3.11': 3, '3.14': 3, '4.1': 4, '4.3': 3, '4.6': 3, '4.9': 3, '5.1': 3, '5.9': 3 }
     },
     {
-      client_id: 'peer-4', cohort_id: 'peer-4-h1', client: 'Vanguard Mobility Hub', cohort: 'Software & Autonomy', wave: 3, taken_on: '2026-09-05',
-      subs: { '1.1': 3, '1.2': 2, '1.4': 3, '1.7': 3, '2.1': 3, '2.3': 2, '2.5': 3, '3.3': 2, '3.8': 3, '4.1': 3, '4.3': 2, '5.1': 2, '2.4': 2, '2.7': 2, '3.4': 3, '4.6': 3 }
+      client_id: 'peer-4', cohort_id: 'peer-4-h1', client: 'Kestrel Cyber India', cohort: 'Security Research', wave: 3, taken_on: '2026-10-08',
+      // Lateral-only specialist peer: intentionally omits Campus (1.8, 2.9)
+      subs: { '1.1': 3, '1.2': 3, '1.4': 4, '1.7': 3, '2.1': 3, '2.3': 3, '2.4': 3, '2.5': 3, '2.7': 3, '3.3': 3, '3.4': 3, '3.7': 4, '3.8': 3, '3.10': 4, '3.11': 3, '3.14': 4, '4.1': 4, '4.3': 3, '4.6': 4, '4.9': 4, '5.1': 4, '5.9': 3 }
     },
     {
-      client_id: 'peer-5', cohort_id: 'peer-5-h1', client: 'Northstar Retail Centre', cohort: 'Digital & Data', wave: 3, taken_on: '2026-09-29',
-      subs: { '1.1': 2, '1.2': 1, '1.4': 2, '1.7': 3, '2.1': 2, '2.3': 1, '2.5': 2, '3.3': 2, '3.8': 2, '4.1': 2, '4.3': 3, '5.1': 2, '2.4': 3, '2.7': 1, '3.7': 2, '4.6': 2 }
+      client_id: 'peer-5', cohort_id: 'peer-5-h1', client: 'Solstice BioPharma Hub', cohort: 'Clinical Data & AI', wave: 3, taken_on: '2026-09-12',
+      subs: { '1.1': 3, '1.2': 3, '1.4': 3, '1.7': 3, '1.8': 3, '2.1': 3, '2.3': 3, '2.4': 3, '2.5': 3, '2.7': 2, '2.9': 3, '3.3': 3, '3.4': 3, '3.7': 2, '3.8': 3, '3.10': 3, '3.11': 3, '3.14': 3, '4.1': 3, '4.3': 3, '4.6': 3, '4.9': 2, '5.1': 3, '5.9': 3 }
+    },
+    {
+      client_id: 'peer-6', cohort_id: 'peer-6-h1', client: 'Vanguard Mobility Hub', cohort: 'Software & Autonomy', wave: 3, taken_on: '2026-09-05',
+      subs: { '1.1': 3, '1.2': 2, '1.4': 3, '1.7': 3, '1.8': 2, '2.1': 3, '2.3': 2, '2.4': 2, '2.5': 3, '2.7': 2, '2.9': 2, '3.3': 2, '3.4': 3, '3.7': 2, '3.8': 3, '3.10': 3, '3.11': 2, '3.14': 3, '4.1': 3, '4.3': 2, '4.6': 3, '4.9': 3, '5.1': 2, '5.9': 2 }
+    },
+    {
+      client_id: 'peer-7', cohort_id: 'peer-7-h1', client: 'Cascadia Enterprise SaaS', cohort: 'Cloud Delivery', wave: 2, taken_on: '2026-09-27',
+      subs: { '1.1': 3, '1.2': 2, '1.4': 2, '1.7': 3, '1.8': 2, '2.1': 3, '2.3': 3, '2.4': 2, '2.5': 3, '2.7': 2, '2.9': 2, '3.3': 2, '3.4': 3, '3.7': 2, '3.8': 3, '3.10': 2, '3.11': 2, '3.14': 3, '4.1': 3, '4.3': 3, '4.6': 2, '4.9': 2, '5.1': 2, '5.9': 2 }
+    },
+    {
+      client_id: 'peer-8', cohort_id: 'peer-8-h1', client: 'Northstar Retail Centre', cohort: 'Digital & Data', wave: 3, taken_on: '2026-09-29',
+      subs: { '1.1': 2, '1.2': 1, '1.4': 2, '1.7': 3, '2.1': 2, '2.3': 1, '2.4': 3, '2.5': 2, '2.7': 1, '3.3': 2, '3.4': 2, '3.7': 2, '3.8': 2, '3.10': 2, '3.11': 2, '3.14': 2, '4.1': 2, '4.3': 3, '4.6': 2, '4.9': 1, '5.1': 2, '5.9': 2 }
+    },
+    {
+      client_id: 'peer-9', cohort_id: 'peer-9-h1', client: 'Helios Health Tech', cohort: 'Whole centre', wave: 2, taken_on: '2026-08-24',
+      subs: { '1.1': 2, '1.2': 2, '1.4': 2, '1.7': 2, '2.1': 2, '2.3': 2, '2.4': 2, '2.5': 3, '2.7': 1, '3.3': 1, '3.4': 2, '3.7': 1, '3.8': 2, '3.10': 2, '3.11': 2, '3.14': 2, '4.1': 2, '4.3': 2, '4.6': 1, '5.1': 1, '5.9': 1 }
+    },
+    {
+      client_id: 'peer-10', cohort_id: 'peer-10-h1', client: 'Boreal Logistics Outpost', cohort: 'Operations & QA', wave: 1, taken_on: '2026-08-15',
+      subs: { '1.1': 2, '1.2': 1, '1.7': 1, '2.1': 2, '2.5': 2, '3.2': 2, '3.8': 1, '3.10': 1, '3.14': 2, '4.1': 1, '4.3': 2, '4.7': 1, '5.9': 1 }
     }
   ];
+
+  function peerToAnswers(p) {
+    const out = {
+      _x: {
+        au: 'Zinnov EB Benchmark Seed',
+        ad: p.taken_on,
+        iw: 'Anonymised benchmark peer dataset',
+        sum: `Sample benchmark peer (${p.client}, Wave ${p.wave}) seeded to populate peer quartiles, radar overlays, and league tables.`
+      }
+    };
+    Object.entries(p.subs).forEach(([id, sc]) => {
+      const vd = sc < p.wave ? 'b' : sc > p.wave ? 'a' : 'm';
+      out[id] = {
+        in: true,
+        sc,
+        vd,
+        pr: 'n',
+        ev: `Verified benchmark artefact for ${p.client} (${p.cohort}) reviewed on ${p.taken_on}.`,
+        iv: '',
+        ivd: p.taken_on,
+        nt: '',
+        lk: []
+      };
+    });
+    return out;
+  }
 
   global.EBMI_SAMPLE = {
     client: {
@@ -321,6 +419,7 @@
         ]
       }
     ],
-    peers: PEER_COHORTS
+    peers: PEER_COHORTS,
+    peerToAnswers
   };
 })(window);
