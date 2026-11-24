@@ -381,7 +381,7 @@
       }
     };
     Object.entries(p.subs).forEach(([id, sc]) => {
-      const vd = sc < p.wave ? 'b' : sc > p.wave ? 'a' : 'm';
+      const vd = sc < p.wave ? 'b' : (p.wave === 4 || sc === p.wave ? 'm' : 'a');
       out[id] = {
         in: true,
         sc,

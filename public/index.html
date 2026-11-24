@@ -992,20 +992,32 @@ async function boot(){
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&S)flushAll()});
 
 /* ---------- scoring ---------- */
+function defaultVd(sc,wave){
+ if(!sc)return'';
+ if(sc<wave)return'b';
+ if(wave===4)return'm'; // Category (Rung 5) & Authority (Rung 4) both meet Transformation Hub — never "Above" Wave 4
+ return sc>wave?'a':'m';
+}
+function effVd(a,wave){
+ const sc=a&&a.sc?a.sc:0;
+ if(!sc)return'';
+ const raw=a.vd||defaultVd(sc,wave);
+ return(wave===4&&raw==='a')?'m':raw;
+}
 function compute(client,cohort){
  const wave=client.wave,rows=[];
- SUBS.forEach(s=>{const a=cohort.a[s.id];if(a&&a.in)rows.push({s,a,w:1,sc:a.sc||0,ok:!!(a.sc&&(a.ev||'').trim())})});
+ SUBS.forEach(s=>{const a=cohort.a[s.id];if(a&&a.in)rows.push({s,a,w:1,sc:a.sc||0,ok:!!(a.sc&&(a.ev||'').trim()),vd:effVd(a,wave)})});
  const scored=rows.filter(r=>r.sc),valid=scored.filter(r=>r.ok);
  const wm=(arr,f)=>{const t=arr.reduce((x,r)=>x+r.w,0);return t?arr.reduce((x,r)=>x+f(r)*r.w,0)/t:null};
  const avg=wm(scored,r=>r.sc),avgV=wm(valid,r=>r.sc);
  const idx=v=>v==null?null:Math.round((v-1)/4*100);
  const pil=PIL.map((n,p)=>{const g=scored.filter(r=>r.s.p===p),gv=valid.filter(r=>r.s.p===p);return{n,p,cnt:g.length,avg:wm(g,r=>r.sc),avgV:wm(gv,r=>r.sc)}});
- const below=scored.filter(r=>r.a.vd==='b'),above=scored.filter(r=>r.a.vd==='a');
- const cand=scored.filter(r=>r.sc<5&&(r.a.vd!=='a'||r.a.pr==='f')).sort((x,y)=>((y.a.pr==='f')-(x.a.pr==='f'))||((y.a.vd==='b')-(x.a.vd==='b'))||(x.sc-y.sc));
+ const below=scored.filter(r=>r.vd==='b'),above=scored.filter(r=>r.vd==='a');
+ const cand=scored.filter(r=>r.sc<5&&(r.vd!=='a'||r.a.pr==='f')).sort((x,y)=>((y.a.pr==='f')-(x.a.pr==='f'))||((y.vd==='b')-(x.vd==='b'))||(x.sc-y.sc));
  const top=[],used=new Set();
  cand.forEach(r=>{const o=r.s.owner.split(' with ')[0];if(!used.has(o)&&top.length<3){top.push(r);used.add(o)}});
  cand.forEach(r=>{if(top.length<3&&!top.includes(r))top.push(r)});
- const strengths=scored.filter(r=>r.a.vd==='a'||r.sc>=4).sort((x,y)=>y.sc-x.sc).slice(0,4);
+ const strengths=scored.filter(r=>r.vd==='a'||r.sc>=4).sort((x,y)=>y.sc-x.sc).slice(0,4);
  return{wave,rows,scored,valid,avg,avgV,idx:idx(avg),idxV:idx(avgV),pil,below,above,top,strengths,
   missing:scored.filter(r=>!r.ok),unscored:rows.filter(r=>!r.sc),n:rows.length};
 }
@@ -1519,10 +1531,13 @@ function vAudit(){
    }).join('');
    const rail=`<div class="srail-row">${pOpts}<div class="srail" id="srail" role="tablist" aria-label="In-scope sub-outcomes">${railItems}<button class="spill" style="border-style:dashed;color:var(--mut)" data-a="aview" data-v="list">${ic('plus',13)} <span>Scope</span></button></div></div>`;
 
+   const vdCur=effVd(a,wave);
+   const vdPill=vdCur?`<button class="tag ${vdCur}" style="border:0;cursor:pointer" data-a="vdcycle" data-id="${s.id}" data-tip="Auto-set from Rung vs. Wave ${wave} (${WAVES[wave-1].name}) · Click to override">${{b:'Below W'+wave,m:'Meets W'+wave,a:'Above W'+wave}[vdCur]}</button>`:'';
+
    const card=`<article class="gcard" id="card-${s.id}">
     <div class="gcard-meta">
      <div><div class="gcard-step">${idx+1} / ${steps.length} · P${s.p+1} ${esc(PIL_SHORT[s.p])}</div><h2 style="margin:3px 0 0;font-size:22px">${s.id} ${esc(s.name)}</h2></div>
-     <div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from audit" title="Remove from scope">${ic('x')}</button></div>
+     <div class="hrow"><span class="chip">${esc(s.owner)}</span>${vdPill}<span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from audit" title="Remove from scope">${ic('x')}</button></div>
     </div>
     ${irrel?`<p class="rnote" style="margin-top:0">Not normally expected at Wave ${wave}; included because you added it.</p>`:''}
     <button class="acc-bar warm" data-a="open" data-id="ref${s.id}" aria-expanded="${refOpen}">
@@ -1534,13 +1549,12 @@ function vAudit(){
      <div class="wv" style="margin:0">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>
      <div class="gref"><div><label>Indicator</label><p>${esc(s.ind)} <small class="mute">(${esc(s.src)})</small></p></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
     </div>`:''}
-    <label style="margin-top:14px">Rung supported by evidence</label>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap">
+     <label style="margin:0">Rung supported by evidence</label>
+     <div class="seg"><button class="${(a.pr||'n')==='n'?'on':''}" data-a="prio" data-id="${s.id}" data-v="n">Normal</button><button class="${a.pr==='f'?'on':''}" data-a="prio" data-id="${s.id}" data-v="f">★ Focus</button></div>
+    </div>
     <div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" data-rid="${s.id}" data-rn="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}"><b>${n}</b>${RUNG[n]}</button></div>`).join('')}</div>
     <div class="rstrip" id="rs-${s.id}">${rungStripHtml(s,a.sc)}</div>
-    <div class="gpair">
-     <div><label style="margin-top:0">vs. ${WAVES[wave-1].name} expectation</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div>
-     <div><label style="margin-top:0">Priority</label><div class="seg">${[['n','Normal'],['f','★ Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div>
-    </div>
     <label for="ev-${s.id}" style="margin-top:14px">Artefact behind the score</label>
     <textarea class="ev-auto" id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="What you saw and when (careers page, ATS report, survey result, date)...">${esc(a.ev)}</textarea>
     <button class="acc-bar" style="margin-top:12px" data-a="open" data-id="ext${s.id}" aria-expanded="${extOpen}">
@@ -2029,8 +2043,9 @@ document.addEventListener('click',async e=>{
   else if(a==='showrel'){SHOWREL=!SHOWREL}
   else if(a==='scope'){const x=A(id);x.in=!x.in;if(x.in){x.na=false;ASTEP=id}dirty(h)}
   else if(a==='nabychoice'){const x=A(id);x.na=!x.na;if(x.na)x.in=false;dirty(h)}
-  else if(a==='pick'){const x=A(id);x.sc=x.sc===+v?0:+v;dirty(h)}
+  else if(a==='pick'){const x=A(id);x.sc=x.sc===+v?0:+v;x.vd=defaultVd(x.sc,c.wave);dirty(h)}
   else if(a==='vd'){const x=A(id);x.vd=x.vd===v?'':v;dirty(h)}
+  else if(a==='vdcycle'){const x=A(id);const cur=effVd(x,c.wave);const seq=c.wave===4?['b','m']:['b','m','a'];x.vd=seq[(seq.indexOf(cur)+1)%seq.length];dirty(h)}
   else if(a==='prio'){A(id).pr=v;dirty(h)}
   else if(a==='coh'){S.h=id;ASTEP='';BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
   else if(a==='newcohort'){const n=await api('POST','/cohort',{client_id:c.id,name:'Cohort '+(c.cohorts.length+1)});c.cohorts.push(n);S.h=n.id;ASTEP='';BM={}}
