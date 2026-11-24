@@ -1007,17 +1007,17 @@ function openFs(trigger){
  const box=document.getElementById('fsmodal');
  if(!card||!box)return;
  const title=trigger.dataset.v||'Chart';
- box.innerHTML=`<div class="fs-back" data-a="fsclose" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="fs-dialog" onclick="event.stopPropagation()"><div class="fs-head"><h3>${esc(title)}</h3><button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button></div><div class="fs-body">${card.outerHTML}</div></div></div>`;
+ box.innerHTML=`<div class="fs-back" data-a="fsback" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="fs-dialog"><div class="fs-head"><h3>${esc(title)}</h3><button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button></div><div class="fs-body">${card.outerHTML}</div></div></div>`;
 }
-function closeFs(){const box=document.getElementById('fsmodal');if(box)box.innerHTML=''}
+function closeFs(){const box=document.getElementById('fsmodal');if(box)box.innerHTML='';const ct=document.getElementById('ctip');if(ct)ct.style.display='none'}
 function openTileModal(id){
  const c=cl(),h=ch(),s=SUBS.find(x=>x.id===id),box=document.getElementById('fsmodal');
  if(!c||!h||!s||!box)return;
  const a=h.a[id]||{},sc=a.sc||0,ok=!!(a.ev||'').trim();
  const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below wave',m:'Meets wave',a:'Above wave'}[a.vd]}</span>`:'<span class="mute">Not judged against wave</span>';
  const links=(a.lk||[]).filter(l=>(l.t||l.u||'').trim());
- box.innerHTML=`<div class="fs-back" data-a="fsclose" role="dialog" aria-modal="true" aria-label="${esc(s.name)}">
-  <div class="fs-dialog" style="max-width:720px" onclick="event.stopPropagation()">
+ box.innerHTML=`<div class="fs-back" data-a="fsback" role="dialog" aria-modal="true" aria-label="${esc(s.name)}">
+  <div class="fs-dialog" style="max-width:720px">
    <div class="fs-head">
     <div><div class="eyebrow" style="margin-bottom:2px">Pillar ${s.p+1} · ${esc(PIL_SHORT[s.p])} · ${esc(s.id)}</div><h3>${esc(s.name)}</h3></div>
     <button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button>
@@ -1829,6 +1829,7 @@ document.addEventListener('click',async e=>{
  const a=t.dataset.a,id=t.dataset.id,v=t.dataset.v,c=cl(),h=ch();
  if(a==='fs'){openFs(t);return}
  if(a==='fsclose'){closeFs();return}
+ if(a==='fsback'){if(e.target===t)closeFs();return}
  if(a==='hmtile'){openTileModal(id);return}
  if(a==='pres'){PRES=!PRES;render(true);return}
  if(a==='jumptocard'){
