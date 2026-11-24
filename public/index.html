@@ -821,6 +821,27 @@ async function seedMoonshotLive(){
  render();
  loadBench(true);
 }
+async function seedPeersLive(){
+ const sample=window.EBMI_SAMPLE;
+ if(!sample||!sample.peers||!sample.peerToAnswers)return toast('Sample peer data is not loaded.');
+ const existing=new Set(S.clients.map(c=>c.name.toLowerCase()));
+ const toAdd=sample.peers.filter(p=>!existing.has(p.client.toLowerCase()));
+ if(!toAdd.length)return toast('All 10 sample peer GCCs are already in your workspace.');
+ toast(`Seeding ${toAdd.length} peer GCCs into the benchmark pool...`);
+ for(const p of toAdd){
+  const created=await api('POST','/client',{name:p.client,wave:p.wave});
+  const coh=created.cohorts[0];
+  await api('PATCH','/cohort',{id:coh.id,name:p.cohort});
+  const ans=sample.peerToAnswers(p);
+  const r=await api('PATCH','/cohort',{id:coh.id,answers:ans,force:true});
+  const sr=await api('POST','/snapshot',{cohort_id:coh.id,taken_on:p.taken_on,answers:ans});
+  created.cohorts=[{id:coh.id,name:p.cohort,a:ans,u:r.u,hist:[sr]}];
+  S.clients.push(created);
+ }
+ BM={};LG=null;
+ toast(`Added ${toAdd.length} sample peer GCCs. Open Benchmark to explore the full pool.`);
+ render(true);
+}
 async function boot(){
  const params=new URLSearchParams(location.search);
  if(params.get('demo')==='1'){startDemo(params.get('tab')||'report');return}
@@ -1129,7 +1150,7 @@ function trendSvg(hist){
 const $=s=>document.querySelector(s);
 function demoBanner(){
  if(!DEMO)return'';
- return`<div class="demo-bar noprint"><div><b>Interactive Demo</b> · Exploring <b>Moonshot Inc.</b> (Wave 3 Portfolio Hub) with 2 cohorts, historical snapshots &amp; 5 anonymised peer centres. Changes stay in this browser session.</div><div class="db-acts"><div class="seg"><button class="${S.role==='admin'?'on':''}" data-a="demorole" data-v="admin">Admin view</button><button class="${S.role==='client'?'on':''}" data-a="demorole" data-v="client">Client view</button></div><button class="btn sm" data-a="demoreset">Reset sample</button></div></div>`;
+ return`<div class="demo-bar noprint"><div><b>Interactive Demo</b> · Exploring <b>Moonshot Inc.</b> (Wave 3 Portfolio Hub) with 2 cohorts, historical snapshots &amp; 10 anonymised peer centres. Changes stay in this browser session.</div><div class="db-acts"><div class="seg"><button class="${S.role==='admin'?'on':''}" data-a="demorole" data-v="admin">Admin view</button><button class="${S.role==='client'?'on':''}" data-a="demorole" data-v="client">Client view</button></div><button class="btn sm" data-a="demoreset">Reset sample</button></div></div>`;
 }
 function nav(){
  const items=[['frame','Framework','frame'],['audit','Audit','audit'],['report','Report','report'],['bench','Benchmark','bench']];
@@ -1537,6 +1558,8 @@ function vClients(){
  }).join('');
  const acc=sel&&ACC?ACC.filter(a=>a.client_id===sel.id):[];
  const hasMoonshot=S.clients.some(c=>c.name.toLowerCase()==='moonshot inc.');
+ const samplePeers=(window.EBMI_SAMPLE&&window.EBMI_SAMPLE.peers)||[];
+ const missingPeers=DEMO?0:samplePeers.filter(p=>!S.clients.some(c=>c.name.toLowerCase()===p.client.toLowerCase())).length;
  const panel=sel?`<section><h2>${esc(sel.name)}</h2>
   <div class="ctx" style="margin-top:12px"><div class="f"><label for="rn">Client name</label><input id="rn" data-i="rename" value="${esc(sel.name)}"></div>
   <div class="f"><label for="cw">GCC wave</label>${waveSel(sel,'cw')}</div>
@@ -1549,8 +1572,8 @@ function vClients(){
   <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nal">Label for the new password</label><input id="nal" placeholder="e.g. Ananya Rao (VP Engineering)"></div><button class="btn pri" data-a="mkaccess" data-id="${sel.id}">${ic('key',16)} Create password</button></div>
   <div class="scroll"><table class="tbl"><tr><th>Label</th><th>Created</th><th>Last signed in</th><th>Status</th><th></th></tr>${acc.map(a=>`<tr><td>${esc(a.label)}</td><td>${dshort(a.created_at)}</td><td>${dshort(a.last_login)}</td><td>${a.revoked?'<span class="warn">Revoked</span>':'<span class="ok">Active</span>'}</td><td><button class="ib" data-a="revoke" data-id="${a.id}" data-v="${a.revoked?0:1}" aria-label="${a.revoked?'Restore this password':'Revoke this password'}" title="${a.revoked?'Restore password':'Revoke password'}">${ic(a.revoked?'plus':'x')}</button></td></tr>`).join('')||'<tr><td colspan="5" class="mute">No passwords have been created for this client yet.</td></tr>'}</table></div></section>`:'';
  return`<div class="eyebrow">Admin</div><h1 style="margin-top:8px">Clients</h1>
- <p class="lede">Each client has its own workspace protected by its own password. Add a client below, or load the complete <b>Moonshot Inc.</b> sample dataset to demonstrate end-to-end scoring, audit, report, and snapshot comparisons.</p>
- <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button>${!hasMoonshot?`<button class="btn" data-a="seedmoonshot">${ic('spark',16)} Load Moonshot Inc. sample</button>`:''}</div>
+ <p class="lede">Each client has its own workspace protected by its own password. Add a client below, or load <b>Moonshot Inc.</b> and <b>10 sample peer GCCs</b> to demonstrate end-to-end scoring, audit, report, and peer benchmarking.</p>
+ <div class="ctx"><div class="f"><label for="ncn">Name of the new client</label><input id="ncn" placeholder="For example, Acme India GCC"></div><div class="f"><label for="ncw">GCC wave</label><select id="ncw">${WAVES.map((w,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1} ${w.name}</option>`).join('')}</select></div><button class="btn pri" data-a="mkclient">${ic('plus',16)} Add client</button>${!hasMoonshot?`<button class="btn" data-a="seedmoonshot">${ic('spark',16)} Load Moonshot Inc. sample</button>`:''}${missingPeers?`<button class="btn" data-a="seedpeers">${ic('spark',16)} Load ${missingPeers} sample peers</button>`:''}</div>
  <div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th>Cohorts</th><th>Latest index</th><th>Last snapshot</th></tr>${rows||'<tr><td colspan="5" class="mute">No clients have been added yet. Add one above or load the Moonshot Inc. sample.</td></tr>'}</table></div>
  ${panel}
  ${(S.archived||[]).length?`<section><h2>Archived clients</h2><p class="lede" style="margin-top:6px">Hidden from the app and benchmarks. Restore anytime or delete permanently.</p><div class="scroll"><table class="tbl"><tr><th>Client</th><th>Wave</th><th></th></tr>${S.archived.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>W${x.wave} ${WNAME(x.wave)}</td><td><button class="btn sm" data-a="restoreclient" data-id="${x.id}">Restore</button> <button class="btn sm ${ARM==='x'+x.id?'arm':''}" data-a="purgeclient" data-id="${x.id}">${ARM==='x'+x.id?'Click again to delete permanently':'Delete permanently'}</button></td></tr>`).join('')}</table></div></section>`:''}
@@ -1652,6 +1675,7 @@ document.addEventListener('click',async e=>{
   else if(a==='demorole'){DEMO_DB.role=v;S.role=v;if(v==='client'&&S.tab==='clients')S.tab='report';if(S.tab==='bench')loadBench();else if(S.tab==='clients')loadAcc()}
   else if(a==='demoreset'){startDemo(S.tab);toast('Moonshot Inc. demo workspace reset.');return}
   else if(a==='seedmoonshot'){await seedMoonshotLive();return}
+  else if(a==='seedpeers'){await seedPeersLive();return}
   else if(a==='open'){OPEN[id]=!OPEN[id]}
   else if(a==='showrel'){SHOWREL=!SHOWREL}
   else if(a==='scope'){const x=A(id);x.in=!x.in;dirty(h)}

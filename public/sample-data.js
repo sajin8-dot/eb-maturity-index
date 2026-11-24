@@ -275,29 +275,75 @@
     }
   };
 
-  // Anonymised peer benchmark pool (used in Demo/Preview mode so Benchmark & League tables are rich and realistic)
+  // 10 diverse peer GCC cohorts across Waves 1-4 (used in Demo Mode and by the admin "Load 10 sample peers" seeder)
   const PEER_COHORTS = [
     {
-      client_id: 'peer-1', cohort_id: 'peer-1-h1', client: 'Meridian FinTech GCC', cohort: 'Core Engineering', wave: 3, taken_on: '2026-09-18',
-      subs: { '1.1': 4, '1.2': 3, '1.4': 3, '1.7': 4, '2.1': 4, '2.3': 3, '2.5': 4, '3.3': 3, '3.8': 3, '4.1': 4, '4.3': 3, '5.1': 3 }
+      client_id: 'peer-1', cohort_id: 'peer-1-h1', client: 'Aether Cloud India', cohort: 'Platform & AI', wave: 4, taken_on: '2026-10-02',
+      subs: { '1.1': 5, '1.2': 4, '1.4': 4, '1.7': 5, '2.1': 4, '2.3': 4, '2.4': 4, '2.5': 4, '2.7': 4, '3.3': 4, '3.4': 4, '3.7': 4, '3.8': 4, '4.1': 4, '4.3': 4, '4.6': 4, '5.1': 4 }
     },
     {
-      client_id: 'peer-2', cohort_id: 'peer-2-h1', client: 'Helios Health Tech', cohort: 'Whole centre', wave: 2, taken_on: '2026-08-24',
-      subs: { '1.1': 2, '1.2': 2, '1.4': 2, '1.7': 2, '2.1': 2, '2.3': 2, '2.5': 3, '3.3': 1, '3.8': 2, '4.1': 2, '4.3': 2, '5.1': 1 }
+      client_id: 'peer-2', cohort_id: 'peer-2-h1', client: 'Vertex Semiconductor GCC', cohort: 'Silicon & Firmware', wave: 4, taken_on: '2026-09-21',
+      subs: { '1.1': 4, '1.2': 4, '1.4': 4, '1.7': 4, '2.1': 4, '2.3': 3, '2.4': 4, '2.5': 4, '2.7': 4, '3.3': 3, '3.4': 4, '3.7': 3, '3.8': 4, '4.1': 4, '4.3': 4, '4.6': 4, '5.1': 5 }
     },
     {
-      client_id: 'peer-3', cohort_id: 'peer-3-h1', client: 'Aether Cloud India', cohort: 'Platform & AI', wave: 4, taken_on: '2026-10-02',
-      subs: { '1.1': 5, '1.2': 4, '1.4': 4, '1.7': 5, '2.1': 4, '2.3': 4, '2.5': 4, '3.3': 4, '3.8': 4, '4.1': 4, '4.3': 4, '5.1': 4, '2.4': 4, '2.7': 4, '3.4': 4, '3.7': 4, '4.6': 4 }
+      client_id: 'peer-3', cohort_id: 'peer-3-h1', client: 'Meridian FinTech GCC', cohort: 'Core Engineering', wave: 3, taken_on: '2026-09-18',
+      subs: { '1.1': 4, '1.2': 3, '1.4': 3, '1.7': 4, '2.1': 4, '2.3': 3, '2.4': 3, '2.5': 4, '2.7': 3, '3.3': 3, '3.4': 4, '3.7': 3, '3.8': 3, '4.1': 4, '4.3': 3, '4.6': 3, '5.1': 3 }
     },
     {
-      client_id: 'peer-4', cohort_id: 'peer-4-h1', client: 'Vanguard Mobility Hub', cohort: 'Software & Autonomy', wave: 3, taken_on: '2026-09-05',
-      subs: { '1.1': 3, '1.2': 2, '1.4': 3, '1.7': 3, '2.1': 3, '2.3': 2, '2.5': 3, '3.3': 2, '3.8': 3, '4.1': 3, '4.3': 2, '5.1': 2, '2.4': 2, '2.7': 2, '3.4': 3, '4.6': 3 }
+      client_id: 'peer-4', cohort_id: 'peer-4-h1', client: 'Kestrel Cyber India', cohort: 'Security Research', wave: 3, taken_on: '2026-10-08',
+      subs: { '1.1': 3, '1.2': 3, '1.4': 4, '1.7': 3, '2.1': 3, '2.3': 3, '2.4': 3, '2.5': 3, '2.7': 3, '3.3': 3, '3.4': 3, '3.7': 4, '3.8': 3, '4.1': 4, '4.3': 3, '4.6': 4, '5.1': 4 }
     },
     {
-      client_id: 'peer-5', cohort_id: 'peer-5-h1', client: 'Northstar Retail Centre', cohort: 'Digital & Data', wave: 3, taken_on: '2026-09-29',
-      subs: { '1.1': 2, '1.2': 1, '1.4': 2, '1.7': 3, '2.1': 2, '2.3': 1, '2.5': 2, '3.3': 2, '3.8': 2, '4.1': 2, '4.3': 3, '5.1': 2, '2.4': 3, '2.7': 1, '3.7': 2, '4.6': 2 }
+      client_id: 'peer-5', cohort_id: 'peer-5-h1', client: 'Solstice BioPharma Hub', cohort: 'Clinical Data & AI', wave: 3, taken_on: '2026-09-12',
+      subs: { '1.1': 3, '1.2': 3, '1.4': 3, '1.7': 3, '2.1': 3, '2.3': 3, '2.4': 3, '2.5': 3, '2.7': 2, '3.3': 3, '3.4': 3, '3.7': 2, '3.8': 3, '4.1': 3, '4.3': 3, '4.6': 3, '5.1': 3 }
+    },
+    {
+      client_id: 'peer-6', cohort_id: 'peer-6-h1', client: 'Vanguard Mobility Hub', cohort: 'Software & Autonomy', wave: 3, taken_on: '2026-09-05',
+      subs: { '1.1': 3, '1.2': 2, '1.4': 3, '1.7': 3, '2.1': 3, '2.3': 2, '2.4': 2, '2.5': 3, '2.7': 2, '3.3': 2, '3.4': 3, '3.7': 2, '3.8': 3, '4.1': 3, '4.3': 2, '4.6': 3, '5.1': 2 }
+    },
+    {
+      client_id: 'peer-7', cohort_id: 'peer-7-h1', client: 'Cascadia Enterprise SaaS', cohort: 'Cloud Delivery', wave: 2, taken_on: '2026-09-27',
+      subs: { '1.1': 3, '1.2': 2, '1.4': 2, '1.7': 3, '2.1': 3, '2.3': 3, '2.4': 2, '2.5': 3, '2.7': 2, '3.3': 2, '3.4': 3, '3.7': 2, '3.8': 3, '4.1': 3, '4.3': 3, '4.6': 2, '5.1': 2 }
+    },
+    {
+      client_id: 'peer-8', cohort_id: 'peer-8-h1', client: 'Northstar Retail Centre', cohort: 'Digital & Data', wave: 3, taken_on: '2026-09-29',
+      subs: { '1.1': 2, '1.2': 1, '1.4': 2, '1.7': 3, '2.1': 2, '2.3': 1, '2.4': 3, '2.5': 2, '2.7': 1, '3.3': 2, '3.4': 2, '3.7': 2, '3.8': 2, '4.1': 2, '4.3': 3, '4.6': 2, '5.1': 2 }
+    },
+    {
+      client_id: 'peer-9', cohort_id: 'peer-9-h1', client: 'Helios Health Tech', cohort: 'Whole centre', wave: 2, taken_on: '2026-08-24',
+      subs: { '1.1': 2, '1.2': 2, '1.4': 2, '1.7': 2, '2.1': 2, '2.3': 2, '2.4': 2, '2.5': 3, '2.7': 1, '3.3': 1, '3.4': 2, '3.7': 1, '3.8': 2, '4.1': 2, '4.3': 2, '4.6': 1, '5.1': 1 }
+    },
+    {
+      client_id: 'peer-10', cohort_id: 'peer-10-h1', client: 'Boreal Logistics Outpost', cohort: 'Operations & QA', wave: 1, taken_on: '2026-08-15',
+      subs: { '1.1': 2, '1.2': 1, '1.7': 1, '2.1': 2, '2.5': 2, '3.2': 2, '3.8': 1, '4.1': 1, '4.3': 2, '4.7': 1 }
     }
   ];
+
+  function peerToAnswers(p) {
+    const out = {
+      _x: {
+        au: 'Zinnov EB Benchmark Seed',
+        ad: p.taken_on,
+        iw: 'Anonymised benchmark peer dataset',
+        sum: `Sample benchmark peer (${p.client}, Wave ${p.wave}) seeded to populate peer quartiles, radar overlays, and league tables.`
+      }
+    };
+    Object.entries(p.subs).forEach(([id, sc]) => {
+      const vd = sc < p.wave ? 'b' : sc > p.wave ? 'a' : 'm';
+      out[id] = {
+        in: true,
+        sc,
+        vd,
+        pr: 'n',
+        ev: `Verified benchmark artefact for ${p.client} (${p.cohort}) reviewed on ${p.taken_on}.`,
+        iv: '',
+        ivd: p.taken_on,
+        nt: '',
+        lk: []
+      };
+    });
+    return out;
+  }
 
   global.EBMI_SAMPLE = {
     client: {
@@ -321,6 +367,7 @@
         ]
       }
     ],
-    peers: PEER_COHORTS
+    peers: PEER_COHORTS,
+    peerToAnswers
   };
 })(window);
