@@ -346,6 +346,44 @@ main{padding:24px 18px 110px}h1{font-size:28px}
 .prog-mini{display:flex;align-items:center;gap:8px;min-width:130px}
 .prog-mini .ptrack{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden;min-width:68px}
 .prog-mini .ptrack i{display:block;height:100%;background:var(--ok);border-radius:99px}
+/* modular guided audit stepper */
+.ghead{margin-top:16px;padding:16px 20px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--sh-sm)}
+.ghead-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.gstat{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.gstat .gpct{font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:700;color:var(--ink);line-height:1}
+.gstat small{font-size:12.5px;color:var(--mut)}
+.gprog{position:relative;height:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-top:12px}
+.gprog .gp-sc{position:absolute;inset:0 auto 0 0;background:rgba(233,154,16,.42);border-radius:99px;transition:width .25s ease}
+.gprog .gp-ev{position:absolute;inset:0 auto 0 0;background:var(--ok);border-radius:99px;transition:width .25s ease}
+.gpills-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px}
+.gpill{border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:4px 11px;font-size:12px;font-weight:500;color:var(--mut);display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.gpill:hover{border-color:var(--acc);color:var(--ink)}
+.gpill.on{background:var(--tint);border-color:var(--acc);color:var(--acch);font-weight:600}
+.gpill .gc{font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.gpill.on .gc{color:var(--acch)}
+.srail-wrap{position:relative;margin-top:14px}
+.srail{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.srail::-webkit-scrollbar{height:6px}
+.srail::-webkit-scrollbar-thumb{background:#D6D6DF;border-radius:99px}
+.spill{flex:none;scroll-snap-align:center;display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:11px;border:1.5px solid var(--line);background:#fff;font-size:12.5px;color:var(--ink);cursor:pointer;transition:all .15s;max-width:230px}
+.spill:hover{border-color:var(--acc);transform:translateY(-1px)}
+.spill.on{border-color:var(--acc);background:var(--tint);box-shadow:0 3px 10px rgba(211,84,0,.14)}
+.spill .snm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.spill.on .snm{font-weight:700;color:var(--ink)}
+.spill .srg{font-size:11px;font-weight:700;padding:1px 6px;border-radius:6px;background:var(--paper);color:var(--mut);flex:none}
+.spill.on .srg{background:#fff;color:var(--acch)}
+.sdot-st{width:8px;height:8px;border-radius:50%;flex:none;background:#C8C8D4}
+.sdot-st.ok{background:var(--ok)}
+.sdot-st.warn{background:var(--gold)}
+.gcard{margin-top:8px;padding:24px 28px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--sh-md)}
+.gcard-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.gcard-step{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.gref{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:12px 16px;border-radius:11px;background:var(--paper);border:1px solid var(--line);margin-bottom:14px;font-size:13px}
+.gref label{margin-top:0;font-size:10.5px}
+.gref p{margin:3px 0 0;line-height:1.45}
+.gpair{display:grid;grid-template-columns:1fr auto;gap:16px 24px;align-items:end;margin-top:14px}
+.gfoot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+@media(max-width:720px){.gref,.gpair{grid-template-columns:1fr}.gcard{padding:18px}}
 /* report editorial summary, section jump bar & presentation mode */
 .exec-prose{border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:20px 24px;background:var(--paper);margin-top:16px}
 .exec-prose .ep-text{font-size:15.5px;line-height:1.7;color:var(--ink);white-space:pre-wrap}
@@ -974,7 +1012,7 @@ function nextMove(r){
 }
 
 /* ---------- charts & infographics (all 6 visual formats) ---------- */
-let PVIEW='heatmap',CVIEW='radar',PRES=false,BSUBPIL=0;
+let PVIEW='heatmap',CVIEW='radar',PRES=false,BSUBPIL=0,AVIEW='guided',ASTEP='';
 const PIL_SHORT=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
 
 function execInfographic(c,h,R,bm){
@@ -1345,6 +1383,8 @@ function render(keepScroll){
  else v=S.tab==='frame'?vFrame():S.tab==='audit'?vAudit():S.tab==='report'?vReport():S.tab==='bench'?vBench():vClients();
  $('#app').innerHTML=demoBanner()+v;
  window.scrollTo(0,keepScroll?y:0);
+ const actPill=document.querySelector&&document.querySelector('#srail .spill.on');
+ if(actPill&&actPill.scrollIntoView)actPill.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
 }
 function waveClassifierResult(){
  const picked=WQ.filter(Boolean);
@@ -1405,75 +1445,137 @@ function rungStripHtml(s,n){
 }
 function vAudit(){
  const c=cl(),h=ch(),R=compute(c,h),wave=c.wave;
- const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
- const isHid=s=>!s.rel[wave-1]&&!A(s.id).in&&!A(s.id).na;
- const hidN=inPil.filter(isHid).length,hidAll=SUBS.filter(isHid).length;
- let list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
- const q=AF.q.trim().toLowerCase();
- if(q)list=list.filter(s=>(s.id+' '+s.name+' '+s.owner+' '+s.ind+' '+s.means).toLowerCase().includes(q));
- if(AF.f==='in')list=list.filter(s=>A(s.id).in);
- else if(AF.f==='missing')list=list.filter(s=>{const a=A(s.id);return a.in&&a.sc&&!(a.ev||'').trim()});
- else if(AF.f==='unscored')list=list.filter(s=>{const a=A(s.id);return a.in&&!a.sc});
- else if(AF.f==='below')list=list.filter(s=>{const a=A(s.id);return a.in&&a.vd==='b'});
- else if(AF.f==='focus')list=list.filter(s=>{const a=A(s.id);return a.in&&a.pr==='f'});
- else if(AF.f==='na')list=list.filter(s=>{const a=A(s.id);return !a.in&&!!a.na});
+ const mode=R.n?AVIEW:'list';
+ const scPct=R.n?Math.round((R.scored.length/R.n)*100):0;
+ const evPct=R.n?Math.round((R.valid.length/R.n)*100):0;
+ const needAttn=R.unscored.length+R.missing.length;
+ const pStats=PIL.map((_,pi)=>{
+  const rows=R.rows.filter(r=>r.s.p===pi);
+  return{n:rows.length,ev:rows.filter(r=>r.ok&&r.sc).length};
+ });
 
- const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below that are marked as hidden by default are not relevant at the ${WAVES[wave-1].name} wave, because a centre at this wave is not expected to show anything for them. They are not counted in the index unless you add them.`:`${hidAll} of the ${SUBS.length} sub-outcomes are hidden because they are not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} of them in this pillar)`:''}. Nothing has been deleted.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
- const body=list.length?list.map(s=>{const a=A(s.id);
-  const irrel=!s.rel[wave-1];
-  if(!a.in){const t=s.w[wave-1];return`<div class="off" style="${a.na?'border-style:dashed;background:#fff':''}"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span>${a.na?' <span class="chip" style="background:var(--paper);color:var(--ink);border:1px solid var(--line)">N/A — by choice</span>':''}<small>${irrel?`Hidden by default at ${WAVES[wave-1].name} wave. `:''}${WAVES[wave-1].name} expectation: ${esc(t)}${LOW.test(t)?' (little expected at this wave)':''}</small>${a.na?`<div style="margin-top:8px"><input data-i="nar" data-id="${s.id}" value="${esc(a.nar||'')}" placeholder="Optional rationale (e.g. Lateral-only hiring model — no campus intake)" style="max-width:460px;font-size:12.5px;padding:6px 10px" aria-label="Reason marked not applicable by choice"></div>`:''}</div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm ${a.na?'':'ghost'}" data-a="nabychoice" data-id="${s.id}" title="${a.na?'Remove N/A by choice tag':'Mark as intentionally not applicable (does not penalise score)'}">${a.na?'Undo N/A':'N/A by choice'}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add this sub-outcome to the audit">${ic('plus')}</button></div></div>`}
-  const col=!!COLL[s.id];
-  const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below',m:'Meets',a:'Above'}[a.vd]}</span>`:'';
-  const rungChip=a.sc?`<span class="chip hot">Rung ${a.sc} · ${RUNG[a.sc]}</span>`:'';
-  if(col){
-   return`<article class="card collapsed" id="card-${s.id}"><header><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="id">${s.id}</span><h3 style="font-size:16px">${esc(s.name)}</h3><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">Focus</span>':''}</div><div class="hrow"><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Expand ${esc(s.name)}" title="Expand card">${ic('chev')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header></article>`;
+ const howToggle=`<button class="lnk" style="margin-top:0" data-a="open" data-id="how">${OPEN.how?'Hide guide':'How scoring works'}</button>`;
+ const howBox=OPEN.how?`<div class="how" style="margin-top:12px"><div><b>1 Set context</b>Confirm client, wave &amp; cohort.</div><div><b>2 Pick scope</b>Add the 9–15 sub-outcomes in play (mark intentional omissions N/A by choice).</div><div><b>3 Pick rung &amp; verdict</b>Hover a rung for its threshold, then mark Below, Meets or Above wave.</div><div><b>4 Record artefact</b>A score counts as evidenced once you log what you saw and when.</div></div>`:'';
+
+ const gHead=`<div class="ghead" id="ghead">
+  <div class="ghead-top">
+   <div class="gstat">
+    <span class="gpct" id="gpct">${evPct}%</span>
+    <div>
+     <div style="font-weight:600;font-size:13.5px" id="gstat-l">${R.valid.length} of ${R.n} evidenced${R.scored.length>R.valid.length?` · <span class="warn">${R.scored.length-R.valid.length} provisional</span>`:''}</div>
+     <small>Index: <strong style="color:var(--ink)" id="gidx">${R.idx==null?'n/a':R.idx}</strong>/100${scopeWarn(R.n)?` · ${scopeWarn(R.n)}`:''}</small>
+    </div>
+   </div>
+   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="seg"><button class="${mode==='guided'?'on':''}" data-a="aview" data-v="guided" ${R.n?'':'disabled'}>Guided view</button><button class="${mode==='list'?'on':''}" data-a="aview" data-v="list">Manage scope (${SUBS.length})</button></div>
+    <button class="btn pri sm" data-a="tab" data-v="report">See the report ${ic('arrow',15)}</button>
+   </div>
+  </div>
+  <div class="gprog" data-tip="Green: ${evPct}% evidenced (${R.valid.length}/${R.n}) · Amber: ${scPct}% scored (${R.scored.length}/${R.n})"><i class="gp-sc" id="gp-sc" style="width:${scPct}%"></i><i class="gp-ev" id="gp-ev" style="width:${evPct}%"></i></div>
+  <div class="gpills-row">
+   <button class="gpill ${S.pil===0?'on':''}" data-a="pil" data-v="0">All pillars <span class="gc">${R.valid.length}/${R.n}</span></button>
+   ${PIL_SHORT.map((pn,pi)=>`<button class="gpill ${S.pil===pi+1?'on':''}" data-a="pil" data-v="${pi+1}">P${pi+1} ${esc(pn)} <span class="gc">${pStats[pi].ev}/${pStats[pi].n}</span></button>`).join('')}
+  </div>
+ </div>`;
+
+ let mainBody='';
+ if(mode==='guided'){
+  const steps=R.rows.filter(r=>!S.pil||r.s.p===S.pil-1);
+  if(!steps.length){
+   mainBody=`<div class="empty" style="margin-top:16px">No sub-outcomes are in scope for <b>${esc(PIL[S.pil-1])}</b> yet.<br><br><button class="btn pri sm" data-a="aview" data-v="list">Add sub-outcomes from this pillar</button> <button class="btn sm" data-a="pil" data-v="0">Show all pillars</button></div>`;
+  }else{
+   let idx=steps.findIndex(r=>r.s.id===ASTEP);
+   if(idx<0){
+    const firstGap=steps.findIndex(r=>!r.sc||!r.ok);
+    idx=firstGap>=0?firstGap:0;
+    ASTEP=steps[idx].s.id;
+   }
+   const cur=steps[idx],s=cur.s,a=cur.a,irrel=!s.rel[wave-1];
+   const prevId=idx>0?steps[idx-1].s.id:'',nextId=idx<steps.length-1?steps[idx+1].s.id:'';
+   const wvOpen=!!OPEN['wv'+s.id],extOpen=!!OPEN['ext'+s.id];
+   const extParts=[];
+   if((a.iv||'').trim())extParts.push('Measured');
+   if((a.nt||'').trim())extParts.push('Notes');
+   const lkN=(a.lk||[]).filter(l=>(l.t||l.u||'').trim()).length;
+   if(lkN)extParts.push(`${lkN} link${lkN===1?'':'s'}`);
+   const extBadge=extParts.length?`<span class="chip" style="margin-left:4px">${extParts.join(' · ')}</span>`:'';
+
+   const rail=`<div class="srail-wrap"><div class="srail" id="srail" role="tablist" aria-label="In-scope sub-outcomes">${steps.map(r=>{
+    const st=r.sc?(r.ok?'ok':'warn'):'';
+    return`<button class="spill ${r.s.id===s.id?'on':''}" data-a="astep" data-id="${r.s.id}" role="tab" aria-selected="${r.s.id===s.id}" data-tip="${esc(r.s.id+' '+r.s.name)} — ${r.sc?(r.ok?'Evidenced Rung '+r.sc:'Provisional Rung '+r.sc+' (needs artefact)'):'Not scored yet'}"><i class="sdot-st ${st}"></i><span class="snm">${r.s.id} ${esc(r.s.name)}</span>${r.sc?`<span class="srg">R${r.sc}</span>`:''}</button>`;
+   }).join('')}<button class="spill" style="border-style:dashed;color:var(--mut)" data-a="aview" data-v="list">${ic('plus',14)} <span>Add / scope</span></button></div></div>`;
+
+   const card=`<article class="gcard" id="card-${s.id}">
+    <div class="gcard-meta">
+     <div><div class="gcard-step">Step ${idx+1} of ${steps.length} · Pillar ${s.p+1}: ${esc(PIL_SHORT[s.p])}</div><h2 style="margin:4px 0 0;font-size:24px">${s.id} ${esc(s.name)}</h2></div>
+     <div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div>
+    </div>
+    <p class="means" style="margin-bottom:12px">${esc(s.means)}</p>${irrel?`<p class="rnote">Not normally expected at the ${WAVES[wave-1].name} wave; included because you added it to scope.</p>`:''}
+    <div class="wv-one"><div><b>Wave ${wave} (${WAVES[wave-1].name}) expectation</b>${esc(s.w[wave-1])}</div><button class="lnk" style="margin-top:0;white-space:nowrap" data-a="open" data-id="wv${s.id}">${wvOpen?'Hide all 4 waves':'Compare all 4 waves'}</button></div>
+    ${wvOpen?`<div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>`:''}
+    <div class="gref"><div><label>Indicator</label><p>${esc(s.ind)} <small class="mute">(${esc(s.src)})</small></p></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
+    <label style="margin-top:4px">Which rung does the evidence support?</label>
+    <div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" data-rid="${s.id}" data-rn="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}"><b>${n}</b>${RUNG[n]}</button></div>`).join('')}</div>
+    <div class="rstrip" id="rs-${s.id}">${rungStripHtml(s,a.sc)}</div>
+    <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} all 5 rung thresholds</button>
+    ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}</div>`:''}
+    <div class="gpair">
+     <div><label style="margin-top:0">Compared with ${WAVES[wave-1].name} expectation</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div>
+     <div><label style="margin-top:0">Priority</label><div class="seg">${[['n','Normal'],['f','★ Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div>
+    </div>
+    <label for="ev-${s.id}">Artefact behind the score (required for evidenced index)</label>
+    <textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" style="min-height:76px" placeholder="What you saw and when you saw it (careers page, ATS report, survey result, date)...">${esc(a.ev)}</textarea>
+    <div><button class="ext-toggle" data-a="open" data-id="ext${s.id}" aria-expanded="${extOpen?'true':'false'}">${ic(extOpen?'chevu':'chev',14)} ${extOpen?'Hide':'Measured value, notes &amp; links'}${extBadge}</button></div>
+    ${extOpen?`<div class="ext-drawer">
+     <label style="margin-top:0">Latest measured value (optional)</label><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="e.g. 18% unaided awareness" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date measured"></div>
+     <label for="nt-${s.id}">Consultant notes (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" style="min-height:66px" placeholder="Interview notes, sponsor context, or caveats for the report.">${esc(a.nt||'')}</textarea>
+     <label>Evidence links (optional)</label>
+     ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="Link title" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date seen"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove link">${ic('x')}</button></div>`).join('')}
+     ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">Maximum of 5 links reached.</p>'}
+    </div>`:''}
+    <div class="gfoot">
+     <button class="btn" data-a="astep" data-id="${prevId}" ${prevId?'':'disabled'}>← Previous</button>
+     ${needAttn?`<button class="btn sm ghost" data-a="nextgap">Jump to incomplete (${needAttn})</button>`:`<span class="ok" style="font-size:13px;font-weight:600">✓ All ${R.n} sub-outcomes evidenced</span>`}
+     ${nextId?`<button class="btn pri" data-a="astep" data-id="${nextId}">Next sub-outcome →</button>`:`<button class="btn pri" data-a="tab" data-v="report">Finish &amp; view report ${ic('arrow',16)}</button>`}
+    </div>
+   </article>`;
+   mainBody=rail+card;
   }
-  const wvOpen=!!OPEN['wv'+s.id],extOpen=!!OPEN['ext'+s.id];
-  const extParts=[];
-  if((a.iv||'').trim())extParts.push('Measured');
-  if((a.nt||'').trim())extParts.push('Notes');
-  const lkN=(a.lk||[]).filter(l=>(l.t||l.u||'').trim()).length;
-  if(lkN)extParts.push(`${lkN} link${lkN===1?'':'s'}`);
-  const extBadge=extParts.length?`<span class="chip" style="margin-left:4px">${extParts.join(' · ')}</span>`:'';
-  return`<article class="card" id="card-${s.id}"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Collapse ${esc(s.name)}" title="Collapse card">${ic('chevu')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
-  <p class="means">${esc(s.means)}</p>${irrel?`<p class="rnote">This sub-outcome is not normally relevant at the ${WAVES[wave-1].name} wave. It is shown because you added it, and it counts towards the index while it stays in the audit.</p>`:''}
-  <div class="wv-one"><div><b>Wave ${wave} (${WAVES[wave-1].name}) expectation</b>${esc(s.w[wave-1])}</div><button class="lnk" style="margin-top:0;white-space:nowrap" data-a="open" data-id="wv${s.id}">${wvOpen?'Hide all 4 waves':'Compare all 4 waves'}</button></div>
-  ${wvOpen?`<div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>`:''}
-  <div class="two"><div><label>Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
-  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" data-rid="${s.id}" data-rn="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}"><b>${n}</b>${RUNG[n]}</button></div>`).join('')}</div>
-  <div class="rstrip" id="rs-${s.id}">${rungStripHtml(s,a.sc)}</div>
-  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} all 5 rung thresholds</button>
-  ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
-  <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
-  <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
-  <div><button class="ext-toggle" data-a="open" data-id="ext${s.id}" aria-expanded="${extOpen?'true':'false'}">${ic(extOpen?'chevu':'chev',14)} ${extOpen?'Hide':'Measured value, notes &amp; links'}${extBadge}</button></div>
-  ${extOpen?`<div class="ext-drawer">
-   <label style="margin-top:0">Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Record the actual number the client gave you, with the date, to compare cycle over cycle.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
-   <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Interview notes, sponsor context, or caveats for the report.">${esc(a.nt||'')}</textarea>
-   <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Add clickable source links with the date you saw them.</p>
-   ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
-   ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
-  </div>`:''}
-  <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. Moves it up the priority list without changing the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join(''):'<div class="empty">No sub-outcomes match your current filter. Clear the search or switch back to "All".</div>';
+ }else{
+  const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
+  const isHid=s=>!s.rel[wave-1]&&!A(s.id).in&&!A(s.id).na;
+  const hidN=inPil.filter(isHid).length,hidAll=SUBS.filter(isHid).length;
+  let list=SHOWREL?inPil:inPil.filter(s=>!isHid(s));
+  const q=AF.q.trim().toLowerCase();
+  if(q)list=list.filter(s=>(s.id+' '+s.name+' '+s.owner+' '+s.ind+' '+s.means).toLowerCase().includes(q));
+  if(AF.f==='in')list=list.filter(s=>A(s.id).in);
+  else if(AF.f==='missing')list=list.filter(s=>{const a=A(s.id);return a.in&&a.sc&&!(a.ev||'').trim()});
+  else if(AF.f==='unscored')list=list.filter(s=>{const a=A(s.id);return a.in&&!a.sc});
+  else if(AF.f==='below')list=list.filter(s=>{const a=A(s.id);return a.in&&a.vd==='b'});
+  else if(AF.f==='focus')list=list.filter(s=>{const a=A(s.id);return a.in&&a.pr==='f'});
+  else if(AF.f==='na')list=list.filter(s=>{const a=A(s.id);return !a.in&&!!a.na});
 
- const pCounts=[R.n].concat(PIL.map((_,pi)=>R.rows.filter(r=>r.s.p===pi).length));
- const naCnt=SUBS.filter(s=>{const a=A(s.id);return !a.in&&!!a.na}).length;
- const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]].concat(naCnt?[['na',`N/A by choice (${naCnt})`]]:[]);
- const anyOpen=R.rows.some(r=>!COLL[r.s.id]);
- return`<div class="eyebrow">Audit</div><h1 style="margin-top:8px">Place the brand on the curve</h1>
- <p class="lede">Work through the four steps below. Your answers save automatically as you go. When you have scored enough sub-outcomes, open the Report tab to see the executive summary, radar profile, and recommended moves.</p>
- <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung to preview its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
+  const naCnt=SUBS.filter(s=>{const a=A(s.id);return !a.in&&!!a.na}).length;
+  const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]].concat(naCnt?[['na',`N/A by choice (${naCnt})`]]:[]);
+  const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`The ${hidAll} sub-outcomes below marked hidden by default are not expected at the ${WAVES[wave-1].name} wave.`:`${hidAll} of ${SUBS.length} sub-outcomes are hidden as not relevant at the ${WAVES[wave-1].name} wave${S.pil?` (${hidN} in this pillar)`:''}.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide them again':'Show hidden sub-outcomes'}</button></div>`:'';
+  const rowsHtml=list.length?list.map(s=>{const a=A(s.id),irrel=!s.rel[wave-1];
+   if(!a.in){const t=s.w[wave-1];return`<div class="off" style="${a.na?'border-style:dashed;background:#fff':''}"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span>${a.na?' <span class="chip" style="background:var(--paper);color:var(--ink);border:1px solid var(--line)">N/A — by choice</span>':''}<small>${irrel?`Hidden by default at ${WAVES[wave-1].name} wave. `:''}${WAVES[wave-1].name} expectation: ${esc(t)}${LOW.test(t)?' (little expected at this wave)':''}</small>${a.na?`<div style="margin-top:8px"><input data-i="nar" data-id="${s.id}" value="${esc(a.nar||'')}" placeholder="Optional rationale (e.g. Lateral-only hiring model — no campus intake)" style="max-width:460px;font-size:12.5px;padding:6px 10px" aria-label="Reason marked not applicable by choice"></div>`:''}</div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm ${a.na?'':'ghost'}" data-a="nabychoice" data-id="${s.id}">${a.na?'Undo N/A':'N/A by choice'}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to this audit" title="Add to audit">${ic('plus')}</button></div></div>`}
+   const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below',m:'Meets',a:'Above'}[a.vd]}</span>`:'';
+   const rungChip=a.sc?`<span class="chip hot">Rung ${a.sc} · ${RUNG[a.sc]}</span>`:'';
+   return`<div class="off" style="background:#fff;border-color:var(--tint-line)"><div class="t"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>${s.id} ${esc(s.name)}</b><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">★ Focus</span>':''}<span id="bd-${s.id}">${badge(a)}</span></div><small>${esc(s.means)}</small></div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm" data-a="openstep" data-id="${s.id}">Score →</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from audit" title="Remove from audit">${ic('x')}</button></div></div>`;
+  }).join(''):'<div class="empty">No sub-outcomes match your current filter.</div>';
+  mainBody=`<div class="atool"><div class="sbox">${ic('search',15)}<input id="aq" data-i="aq" value="${esc(AF.q)}" placeholder="Search 51 sub-outcomes to add to scope or mark N/A..." aria-label="Filter sub-outcomes"></div><div class="fpills">${fOpts.map(([k,l])=>`<button class="${AF.f===k?'on':''}" data-a="afil" data-v="${k}">${l}</button>`).join('')}</div></div>${hidBox}${rowsHtml}`;
+ }
+
+ return`<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div class="eyebrow">Audit</div><h1 style="margin-top:6px">Place the brand on the curve</h1></div>${howToggle}</div>
+ ${howBox}
  ${ctxBar()}
- <div class="sum" id="sum">${sumInner(R,scopeWarn(R.n))}</div>
- <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}<span class="cnt">${pCounts[i]}</span></button>`).join('')}</div>
- <div class="atool"><div class="sbox">${ic('search',15)}<input id="aq" data-i="aq" value="${esc(AF.q)}" placeholder="Filter by sub-outcome, owner or indicator..." aria-label="Filter sub-outcomes"></div><div class="fpills">${fOpts.map(([k,l])=>`<button class="${AF.f===k?'on':''}" data-a="afil" data-v="${k}">${l}</button>`).join('')}</div>${R.n?`<button class="btn sm ghost" data-a="${anyOpen?'collall':'expall'}">${anyOpen?'Collapse all':'Expand all'}</button>`:''}</div>
- ${hidBox}
- ${body}`;
+ ${gHead}
+ ${mainBody}`;
 }
 function sumInner(R,warn){
- const needAttn=R.unscored.length+R.missing.length;
- const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
- return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div class="prog-mini" data-tip="Evidence integrity: ${R.valid.length} of ${R.scored.length} scored items backed by artefact"><div class="ptrack"><i style="width:${evPct}%"></i></div><small>${evPct}%</small></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:30ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
+ const evPct=R.n?Math.round((R.valid.length/R.n)*100):0;
+ return`${evPct}% (${R.valid.length}/${R.n} evidenced)`;
 }
 function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on'+i:''}"></i>`).join('')}</div>`}
 function vReport(){
@@ -1870,14 +1972,16 @@ document.addEventListener('click',async e=>{
  if(a==='hmtile'){openTileModal(id);return}
  if(a==='pres'){PRES=!PRES;render(true);return}
  if(a==='jumptocard'){
-  closeFs();S.tab='audit';S.pil=0;AF.q='';AF.f='all';COLL[id]=false;render(false);
-  const el=document.getElementById('card-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  closeFs();S.tab='audit';S.pil=0;AVIEW='guided';ASTEP=id;render(false);
   return;
  }
  const wasArm=ARM;ARM='';let keep=true;
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
   else if(a==='pil'){S.pil=+v}
+  else if(a==='aview'){AVIEW=v}
+  else if(a==='astep'){if(id){ASTEP=id;keep=false}}
+  else if(a==='openstep'){AVIEW='guided';ASTEP=id;S.pil=0;keep=false}
   else if(a==='bsubpil'){BSUBPIL=+v}
   else if(a==='pview'){PVIEW=v}
   else if(a==='cview'){CVIEW=v}
@@ -1888,9 +1992,7 @@ document.addEventListener('click',async e=>{
   else if(a==='nextgap'){
    const R=compute(c,h),tgt=R.unscored[0]||R.missing[0];
    if(tgt){
-    S.pil=0;AF.q='';AF.f='all';COLL[tgt.s.id]=false;render(true);
-    const el=document.getElementById('card-'+tgt.s.id);
-    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+    S.pil=0;AVIEW='guided';ASTEP=tgt.s.id;render(false);
     return;
    }
   }
@@ -1905,15 +2007,15 @@ document.addEventListener('click',async e=>{
   else if(a==='seedpeers'){await seedPeersLive();return}
   else if(a==='open'){OPEN[id]=!OPEN[id]}
   else if(a==='showrel'){SHOWREL=!SHOWREL}
-  else if(a==='scope'){const x=A(id);x.in=!x.in;if(x.in)x.na=false;dirty(h)}
+  else if(a==='scope'){const x=A(id);x.in=!x.in;if(x.in){x.na=false;ASTEP=id}dirty(h)}
   else if(a==='nabychoice'){const x=A(id);x.na=!x.na;if(x.na)x.in=false;dirty(h)}
   else if(a==='pick'){const x=A(id);x.sc=x.sc===+v?0:+v;dirty(h)}
   else if(a==='vd'){const x=A(id);x.vd=x.vd===v?'':v;dirty(h)}
   else if(a==='prio'){A(id).pr=v;dirty(h)}
-  else if(a==='coh'){S.h=id;BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
-  else if(a==='newcohort'){const n=await api('POST','/cohort',{client_id:c.id,name:'Cohort '+(c.cohorts.length+1)});c.cohorts.push(n);S.h=n.id;BM={}}
+  else if(a==='coh'){S.h=id;ASTEP='';BM={};if(S.tab==='bench')loadBench();else if(S.tab==='report')loadBench(true)}
+  else if(a==='newcohort'){const n=await api('POST','/cohort',{client_id:c.id,name:'Cohort '+(c.cohorts.length+1)});c.cohorts.push(n);S.h=n.id;ASTEP='';BM={}}
   else if(a==='delcohort'){
-   if(wasArm==='h'+h.id){await api('DELETE','/cohort?id='+h.id);c.cohorts=c.cohorts.filter(x=>x.id!==h.id);S.h=c.cohorts[0].id;BM={}}
+   if(wasArm==='h'+h.id){await api('DELETE','/cohort?id='+h.id);c.cohorts=c.cohorts.filter(x=>x.id!==h.id);S.h=c.cohorts[0].id;ASTEP='';BM={}}
    else ARM='h'+h.id;
   }
   else if(a==='snap'){await flush(h);const r=await api('POST','/snapshot',{cohort_id:h.id});h.hist.push(r);BM={};delete CMP[h.id];toast('Snapshot saved. You can now see it under History.');if(S.tab==='bench')loadBench();else loadBench(true)}
@@ -1940,7 +2042,7 @@ document.addEventListener('click',async e=>{
   else if(a==='copy'){const tx=$('#rtxt');tx.select();try{const p=navigator.clipboard&&navigator.clipboard.writeText(tx.value);if(p&&p.catch)p.catch(()=>{})}catch(err){}toast('Report copied to clipboard.');return}
   else if(a==='mkclient'){
    const name=($('#ncn').value||'').trim()||'New client',wave=+$('#ncw').value;
-   const n=await api('POST','/client',{name,wave});S.clients.push(n);S.c=n.id;S.h=n.cohorts[0].id;toast('Client added. Choose it in the table to create a password.');
+   const n=await api('POST','/client',{name,wave});S.clients.push(n);S.c=n.id;S.h=n.cohorts[0].id;ASTEP='';toast('Client added. Choose it in the table to create a password.');
   }
   else if(a==='wavego'){const to=WCH.to;WCH=null;await api('PATCH','/client',{id:c.id,wave:to});c.wave=to;BM={};LG=null;toast('The wave has been changed. Your scores and evidence are all still here.')}
   else if(a==='wavecancel'){WCH=null}
@@ -1952,9 +2054,9 @@ document.addEventListener('click',async e=>{
    if(wasArm==='k'+id){await api('DELETE','/cohort?id='+id);c.cohorts=c.cohorts.filter(x=>x.id!==id);if(!c.cohorts.find(x=>x.id===S.h))S.h=c.cohorts[0].id;BM={};LG=null;toast('The cohort has been deleted.')}
    else ARM='k'+id;
   }
-  else if(a==='selclient'){WCH=null;S.c=id;S.h=cl().cohorts[0].id;BM={};NEWPW=null}
+  else if(a==='selclient'){WCH=null;S.c=id;S.h=cl().cohorts[0].id;ASTEP='';BM={};NEWPW=null}
   else if(a==='delclient'){
-   if(wasArm==='c'+id){await api('DELETE','/client?id='+id);S.clients=S.clients.filter(x=>x.id!==id);pickDefaults();BM={};LG=null;toast('The client has been deleted.')}
+   if(wasArm==='c'+id){await api('DELETE','/client?id='+id);S.clients=S.clients.filter(x=>x.id!==id);pickDefaults();ASTEP='';BM={};LG=null;toast('The client has been deleted.')}
    else ARM='c'+id;
   }
   else if(a==='mkaccess'){
@@ -2010,7 +2112,15 @@ document.addEventListener('input',e=>{
  else if(i==='nt'){A(t.dataset.id).nt=t.value;dirty(ch())}
  else if(i==='xsum'){const h=ch();h.a._x=h.a._x||{};h.a._x.sum=t.value;dirty(h);const pp=document.getElementById('xsum-p');if(pp)pp.textContent=t.value}
  else if(i==='lkt'||i==='lku'||i==='lkd'){const x=A(t.dataset.id),l=(x.lk||[])[+t.dataset.k];if(l){l[{lkt:'t',lku:'u',lkd:'d'}[i]]=t.value;dirty(ch())}}
- else if(i==='ev'){const h=ch();A(t.dataset.id).ev=t.value;dirty(h);const b=document.getElementById('bd-'+t.dataset.id);if(b)b.innerHTML=badge(A(t.dataset.id));const s=$('#sum');if(s){const R=compute(cl(),ch());s.innerHTML=sumInner(R,scopeWarn(R.n))}}
+ else if(i==='ev'){
+  const h=ch();A(t.dataset.id).ev=t.value;dirty(h);
+  const b=document.getElementById('bd-'+t.dataset.id);if(b)b.innerHTML=badge(A(t.dataset.id));
+  const R=compute(cl(),ch()),evPct=R.n?Math.round((R.valid.length/R.n)*100):0,scPct=R.n?Math.round((R.scored.length/R.n)*100):0;
+  const gp=document.getElementById('gpct'),ge=document.getElementById('gp-ev'),gs=document.getElementById('gp-sc'),gl=document.getElementById('gstat-l'),gi=document.getElementById('gidx');
+  if(gp)gp.textContent=evPct+'%';if(ge)ge.style.width=evPct+'%';if(gs)gs.style.width=scPct+'%';
+  if(gl)gl.innerHTML=`${R.valid.length} of ${R.n} evidenced${R.scored.length>R.valid.length?` · <span class="warn">${R.scored.length-R.valid.length} provisional</span>`:''}`;
+  if(gi)gi.textContent=R.idx==null?'n/a':R.idx;
+ }
 });
 document.addEventListener('change',async e=>{
  const t=e.target,k=t.dataset.c,i=t.dataset.i;
