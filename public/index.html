@@ -218,9 +218,77 @@ small{font-size:12px;color:var(--mut)}
 .pb dd{margin:0}
 .tag{display:inline-block;border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:600}
 .tag.b{background:var(--tint);color:var(--acch)}.tag.m{background:var(--paper);color:var(--mut)}.tag.a{background:var(--ok-bg);color:var(--ok)}
-.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px}
-.plan div{border-top:2px solid var(--acc);padding:14px 16px;background:var(--paper);border-radius:0 0 12px 12px}
-.plan b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:6px}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:16px}
+.plan .pstep{border:1px solid var(--line);border-top:3px solid var(--acc);padding:16px 18px;background:#fff;border-radius:12px;box-shadow:var(--sh-sm)}
+.plan .pstep .sno{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font:700 11px Inter,sans-serif;margin-right:8px}
+.plan .pstep .shead{display:flex;align-items:center;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:8px}
+.plan .pstep b{font-family:'Playfair Display',serif;font-size:16px;display:block;margin-bottom:6px;color:var(--ink)}
+/* executive infographic & visual analytics */
+.viz-box{border:1px solid var(--line);border-radius:14px;padding:20px 22px;background:#fff;box-shadow:var(--sh-sm);margin-top:16px}
+.viz-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.viz-head h3{font-size:17px}
+.info-grid{display:grid;grid-template-columns:5fr 7fr;gap:18px;margin-top:22px;align-items:stretch}
+.gauge-card{border:1px solid var(--tint-line);background:linear-gradient(180deg,var(--tint) 0%,#fff 58%);border-radius:14px;padding:20px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+.gauge-foot{width:100%;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:10px;font-size:12px;color:var(--mut)}
+.info-right{display:flex;flex-direction:column;gap:14px;justify-content:space-between}
+.info-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ring-card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;box-shadow:var(--sh-sm);display:flex;align-items:center;gap:14px}
+.wgap-card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:16px;box-shadow:var(--sh-sm);display:flex;flex-direction:column;justify-content:center}
+.wgap-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--line);gap:2px;margin:10px 0 6px}
+.move-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.move-card{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--paper);font-size:12px}
+.move-card .mtop{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-bottom:4px}
+.move-card .mtop b{color:var(--acc);font-family:'Playfair Display',serif;font-size:14px}
+.move-card .mname{font-weight:600;color:var(--ink);line-height:1.3}
+.move-card .mcfo{font-size:11px;color:var(--mut);margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+/* pillar dumbbell gap chart */
+.db-wrap{display:flex;flex-direction:column;gap:14px}
+.db-head,.db-row{display:grid;grid-template-columns:1.6fr 2.4fr 96px;gap:12px;align-items:center;font-size:12.5px}
+.db-head{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:600;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.db-ticks{display:flex;justify-content:space-between}
+.db-track{position:relative;height:26px;display:flex;align-items:center}
+.db-axis{position:absolute;left:0;right:0;height:2px;background:var(--line);border-radius:99px}
+.db-whisk{position:absolute;height:4px;background:#D6D6E0;border-radius:99px}
+.db-iqr{position:absolute;height:12px;background:var(--r2);opacity:.72;border-radius:6px}
+.db-med{position:absolute;width:2px;height:20px;background:var(--ink)}
+.db-me{position:absolute;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--acc);border:2px solid #fff;box-shadow:0 1px 4px rgba(211,84,0,.4)}
+.db-val{text-align:right;font-variant-numeric:tabular-nums}
+/* sub-outcome rung tile heatmap */
+.hm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.hm-col{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.hm-col-h{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.hm-tile{border-radius:9px;padding:9px 10px;font-size:12px;line-height:1.3;border:1px solid transparent}
+.hm-tile.unv{border:1.5px dashed var(--acch)}
+.hm-tile.t1{background:var(--r1);color:var(--ink)}
+.hm-tile.t2{background:var(--r2);color:var(--ink)}
+.hm-tile.t3{background:var(--r3);color:var(--ink)}
+.hm-tile.t4{background:var(--r4);color:#fff}
+.hm-tile.t5{background:var(--r5);color:#fff}
+.hm-tile.t0{background:#fff;border-color:var(--line);color:var(--mut)}
+.hm-top{display:flex;justify-content:space-between;font-weight:700;font-size:11px;opacity:.9}
+.hm-nm{font-weight:600;margin-top:3px}
+.hm-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.hm-badges span{background:rgba(255,255,255,.92);color:var(--ink);border-radius:4px;padding:1px 5px;font-size:10px;font-weight:600}
+.hm-badges span.hb{color:var(--acch)}
+.hm-badges span.ha{color:var(--ok)}
+/* peer beeswarm & ranked bars */
+.bee-wrap{position:relative;height:78px;margin-top:16px}
+.bee-zones{position:absolute;left:0;right:0;top:24px;height:30px;border-radius:8px;overflow:hidden;display:flex;border:1px solid var(--line)}
+.bee-zones i{display:block;height:100%}
+.bee-med{position:absolute;top:14px;bottom:14px;width:2px;background:var(--ink)}
+.bee-med span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.bee-dot{position:absolute;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.bee-dot.me{background:var(--acc);width:18px;height:18px;z-index:5}
+.bee-dot.peer{background:#7A7A8C;width:11px;height:11px;opacity:.78;z-index:2}
+.bee-pin{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:700;color:var(--acc);white-space:nowrap}
+.rk-list{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.rk-row{display:grid;grid-template-columns:2fr 3fr 78px;gap:12px;align-items:center;font-size:12.5px}
+.rk-row.me{font-weight:700}
+.rk-track{height:12px;background:var(--paper);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.rk-fill{height:100%;border-radius:99px;background:#9A9AAA}
+.rk-row.me .rk-fill{background:var(--acc)}
+/* slopegraph */
+.slope-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:center}
 ul.pl{margin:8px 0;padding-left:18px}
 .empty{padding:40px 24px;color:var(--mut);background:var(--paper);border-radius:14px;border:1px dashed var(--line);margin-top:16px}
 .txt{width:100%;min-height:240px;font:12px/1.5 ui-monospace,Menlo,monospace}
@@ -245,7 +313,7 @@ ul.pl{margin:8px 0;padding-left:18px}
 .note{white-space:pre-wrap}
 .xlist{list-style:none;padding:0;margin:8px 0}.xlist li{border-top:1px solid var(--line);padding:10px 0}
 .xrow{display:flex;gap:10px;flex-wrap:wrap}
-@media(max-width:1100px){.kpis{grid-template-columns:1fr 1fr}.waves{grid-template-columns:1fr 1fr}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
+@media(max-width:1100px){.kpis{grid-template-columns:1fr 1fr}.info-grid,.slope-grid{grid-template-columns:1fr}.hm-grid{grid-template-columns:repeat(2,1fr)}.waves{grid-template-columns:1fr 1fr}.axes,.two-col,.det,.two{grid-template-columns:1fr;gap:24px}.how{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.notes{columns:1}}
 @media(max-width:760px){
 body{display:block}
 aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:0;z-index:30;border-top:1px solid var(--line);border-right:0}
@@ -253,6 +321,7 @@ aside{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction
 .nav{flex-direction:row;width:100%;gap:0}.nav button{flex:1;flex-direction:column;gap:2px;font-size:11px;padding:10px 4px;border-left:0;border-top:2px solid transparent;align-items:center}
 .nav button.on{border-top-color:var(--acc);box-shadow:none}
 main{padding:24px 18px 110px}h1{font-size:28px}
+.info-pair,.move-grid,.hm-grid,.db-head,.db-row,.rk-row{grid-template-columns:1fr}
 .kpis,.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
 .how{grid-template-columns:1fr}.big{gap:28px}.pb dl{grid-template-columns:1fr}.lk{grid-template-columns:1fr}
 }
@@ -617,7 +686,7 @@ function demoApi(method,path,body){
    const list=rows.map(r=>r.pillars[pi]).filter(x=>x!=null),v=me.pillars[pi];
    if(v==null)return{p:pi,v:null,n:list.length};
    const o={p:pi,v:r1(v),n:list.length};
-   if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
+   if(list.length>=3){const s=[...list].sort((a,b)=>a-b);Object.assign(o,{pct:pctOf(list,v),min:r1(s[0]),p25:r1(quant(s,0.25)),med:r1(quant(s,0.5)),p75:r1(quant(s,0.75)),max:r1(s[s.length-1])})}
    return o;
   });
   const subs=Object.entries(me.subs).map(([id,v])=>{
@@ -625,7 +694,8 @@ function demoApi(method,path,body){
    if(list.length>=3)Object.assign(o,{pct:pctOf(list,v),med:r1(quant([...list].sort((a,b)=>a-b),0.5))});
    return o;
   }).sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
-  return{eligible:true,pool:{n,thin,mode:pool,basis,min,wave:me.wave},idx,position:n>=3?lbl(idx.pct):null,pillars,subs,taken_on:me.taken_on};
+  const dist=rows.length>=3?rows.map(r=>({wave:r.wave,idx:r.idx,me:r.cohort_id===cid})).sort((a,b)=>b.idx-a.idx):[];
+  return{eligible:true,pool:{n,thin,mode:pool,basis,min,wave:me.wave},idx,position:n>=3?lbl(idx.pct):null,pillars,subs,dist,taken_on:me.taken_on};
  }
  if(p==='/league'&&method==='GET'){
   const pool=q.get('pool')==='wave'?'wave':'all',basis=q.get('basis')==='provisional'?'provisional':'evidenced',min=Math.max(1,Math.min(15,+(q.get('min')||5)|0));
@@ -802,9 +872,114 @@ function nextMove(r){
  return`Move from ${RUNG[r.sc]} to ${RUNG[to]}. This is one rung only, which is the most a centre can realistically climb in a year.`;
 }
 
-/* ---------- charts (SVG: radar, rung distribution, snapshot trend) ---------- */
-function radarSvg(R){
- const cx=160,cy=138,rmax=92,labels=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
+/* ---------- charts & infographics (all 6 visual formats) ---------- */
+let PVIEW='heatmap',CVIEW='radar';
+const PIL_SHORT=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
+
+function execInfographic(c,h,R,bm){
+ const W=WAVES[c.wave-1].name,evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
+ const idxV=R.idxV!=null?R.idxV:(R.idx!=null?R.idx:0),idxP=R.idx!=null?R.idx:0;
+ const stage=R.avg==null?'Not scored':R.avg<1.5?'Presence':R.avg<2.5?'Consistency':R.avg<3.5?'Evidence':R.avg<4.5?'Authority':'Category';
+ const r=82,halfC=Math.PI*r,dashP=(idxP/100)*halfC,dashV=(idxV/100)*halfC;
+ const med=bm&&bm.idx&&bm.idx.med!=null?bm.idx.med:null;
+ let medTick='';
+ if(med!=null){
+  const ang=Math.PI-(med/100)*Math.PI;
+  const x1=120+(r-12)*Math.cos(ang),y1=108-(r-12)*Math.sin(ang),x2=120+(r+10)*Math.cos(ang),y2=108-(r+10)*Math.sin(ang);
+  medTick=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#1A1A24" stroke-width="2.4"/>`;
+ }
+ const dr=32,dc=2*Math.PI*dr,dFill=(evPct/100)*dc;
+ const tot=Math.max(R.scored.length,1),mCnt=Math.max(0,R.scored.length-R.below.length-R.above.length);
+ const topCards=R.top.length?`<div class="viz-box" style="margin-top:0;padding:14px 16px"><div class="lab" style="margin:0">Top ${R.top.length} priority moves (next 12 months · +1 rung each)</div><div class="move-grid">${R.top.map((x,i)=>`<div class="move-card"><div class="mtop"><b>#${i+1}</b><span>${esc(x.s.owner)}</span></div><div class="mname">${esc(x.s.name)}</div><div style="margin-top:4px;color:var(--mut)">Rung ${x.sc} → <strong style="color:var(--ink)">${Math.min(x.sc+1,5)}</strong></div><div class="mcfo">CFO: ${esc(CFO[x.s.p])}</div></div>`).join('')}</div></div>`:'';
+ return`<div class="info-grid">
+  <div class="gauge-card">
+   <div class="lab" style="margin:0;align-self:flex-start">Employer Brand Index (0–100)</div>
+   <svg viewBox="0 0 240 132" width="100%" style="max-width:260px;display:block;margin-top:4px" role="img" aria-label="Employer Brand Maturity Index gauge">
+    <path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#E2E2E8" stroke-width="15" stroke-linecap="round"/>
+    ${R.idx!=null?`<path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#E99A10" stroke-width="15" stroke-linecap="round" stroke-dasharray="${dashP.toFixed(1)} ${halfC.toFixed(1)}" opacity="0.45"/>`:''}
+    ${R.idxV!=null?`<path d="M 38 108 A 82 82 0 0 1 202 108" fill="none" stroke="#D35400" stroke-width="15" stroke-linecap="round" stroke-dasharray="${dashV.toFixed(1)} ${halfC.toFixed(1)}"/>`:''}
+    ${medTick}
+    <text x="120" y="84" text-anchor="middle" fill="#1A1A24" font-family="'Playfair Display',Georgia,serif" font-size="36" font-weight="700">${R.idxV!=null?R.idxV:(R.idx!=null?R.idx:'n/a')}</text>
+    <text x="120" y="102" text-anchor="middle" fill="#525263" font-size="10.5" font-weight="600">${esc(stage.toUpperCase())} STAGE</text>
+    <text x="30" y="126" text-anchor="middle" fill="#8A8A98" font-size="10">0</text>
+    <text x="120" y="126" text-anchor="middle" fill="#525263" font-size="10">${med!=null?'Peer median '+f1(med):'Evidenced index'}</text>
+    <text x="210" y="126" text-anchor="middle" fill="#8A8A98" font-size="10">100</text>
+   </svg>
+   <div class="gauge-foot">
+    <span>Provisional: <strong style="color:var(--ink)">${R.idx==null?'n/a':R.idx}</strong></span>
+    <span>Avg rung: <strong style="color:var(--ink)">${R.avg==null?'n/a':R.avg.toFixed(1)}/5</strong></span>
+    ${bm&&bm.idx?`<span style="color:var(--acc);font-weight:700">${ord(bm.idx.pct)} pct</span>`:`<span>W${c.wave} ${esc(W)}</span>`}
+   </div>
+  </div>
+  <div class="info-right">
+   <div class="info-pair">
+    <div class="ring-card">
+     <svg viewBox="0 0 80 80" width="72" height="72" style="flex:none" role="img" aria-label="Evidence integrity ring">
+      <circle cx="40" cy="40" r="${dr}" fill="none" stroke="#E2E2E8" stroke-width="7"/>
+      <circle cx="40" cy="40" r="${dr}" fill="none" stroke="#1D6B3A" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke-dasharray="${dFill.toFixed(1)} ${dc.toFixed(1)}"/>
+      <text x="40" y="44" text-anchor="middle" fill="#1A1A24" font-size="15" font-weight="700">${evPct}%</text>
+     </svg>
+     <div><div class="lab" style="margin:0">Evidence integrity</div><div style="font-weight:600;margin-top:2px">${R.valid.length} of ${R.scored.length} verified</div><small>${R.missing.length?`${R.missing.length} provisional score${R.missing.length===1?'':'s'} need artefact`:'All scored items backed'}</small></div>
+    </div>
+    <div class="wgap-card">
+     <div class="lab" style="margin:0">Wave ${c.wave} gap signal</div>
+     <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b style="font-family:'Playfair Display',serif;font-size:26px;line-height:1;color:var(--acc)">${R.below.length}</b><small>below · <strong style="color:var(--ok)">${R.above.length} above</strong> · ${mCnt} meets</small></div>
+     <div class="wgap-bar"><i style="width:${(R.below.length/tot*100).toFixed(1)}%;background:var(--acc)"></i><i style="width:${(mCnt/tot*100).toFixed(1)}%;background:#C4C4D0"></i><i style="width:${(R.above.length/tot*100).toFixed(1)}%;background:var(--ok)"></i></div>
+     <small>${bm&&bm.idx?`Peer rank <strong style="color:var(--ink)">#${bm.idx.rank} of ${bm.idx.of}</strong>`:`Measured against ${esc(W)} expectations`}</small>
+    </div>
+   </div>
+   ${topCards}
+  </div>
+ </div>`;
+}
+
+function waveMatrixSvg(c,h,R,bm,lg){
+ const curIdx=R&&(R.idxV!=null?R.idxV:R.idx);
+ if(curIdx==null&&!(bm&&bm.idx))return'';
+ const myIdx=curIdx!=null?curIdx:bm.idx.v;
+ const W=640,H=296,pL=54,pR=28,pT=22,pB=46,pw=W-pL-pR,ph=H-pT-pB;
+ const xW=w=>pL+((w-0.5)/4)*pw,yI=v=>pT+ph-(Math.max(0,Math.min(100,v))/100)*ph;
+ const bandPts=[`${xW(0.6)},${yI(32)}`,`${xW(4.4)},${yI(98)}`,`${xW(4.4)},${yI(68)}`,`${xW(0.6)},${yI(5)}`].join(' ');
+ const gridY=[0,25,50,75,100].map(v=>`<line x1="${pL}" y1="${yI(v).toFixed(1)}" x2="${W-pR}" y2="${yI(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${pL-8}" y="${(yI(v)+3).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#8A8A98">${v}</text>`).join('');
+ const gridX=[1,2,3,4].map(w=>`<line x1="${xW(w).toFixed(1)}" y1="${pT}" x2="${xW(w).toFixed(1)}" y2="${H-pB}" stroke="#E2E2E8" stroke-dasharray="3 3"/><text x="${xW(w).toFixed(1)}" y="${H-22}" text-anchor="middle" font-size="11" font-weight="600" fill="#1A1A24">Wave ${w}</text><text x="${xW(w).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#525263">${WAVES[w-1].name}</text>`).join('');
+
+ // Build peer dots: admin uses LG (named), client uses bm.dist (anonymised)
+ const peerPts=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach((r,i)=>peerPts.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort})`,short:r.client,sameClient:r.client_id===c.id,j:((i%5)-2)*0.07}));
+ }else if(bm&&bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.filter(r=>!r.me).forEach((r,i)=>{pn++;peerPts.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave})`,short:'',sameClient:false,j:((i%5)-2)*0.07})});
+ }
+ const dots=peerPts.map(p=>{
+  const cx=xW(p.wave+p.j),cy=yI(p.idx),fill=p.sameClient?'#E99A10':'#8A8A98';
+  return`<g><title>${esc(p.lbl)} · Index ${p.idx}</title><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${p.sameClient?6:5}" fill="${fill}" opacity="${p.sameClient?0.9:0.65}" stroke="#fff" stroke-width="1.5"/>${p.short?`<text x="${(cx+8).toFixed(1)}" y="${(cy+3).toFixed(1)}" font-size="9.5" fill="#525263">${esc(p.short)}</text>`:''}</g>`;
+ }).join('');
+
+ // Trajectory arrow from earliest snapshot to current if 2+ snapshots
+ let traj='';
+ if(h.hist&&h.hist.length>=2){
+  const first=h.hist[0],fIdx=first.idxv!=null?first.idxv:first.idx;
+  if(fIdx!=null&&fIdx!==myIdx){
+   const x1=xW(c.wave+0.04),y1=yI(fIdx),y2=yI(myIdx)+(myIdx>fIdx?10:-10);
+   traj=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#D35400" stroke-width="2" stroke-dasharray="4 3"/><circle cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="4.5" fill="#fff" stroke="#D35400" stroke-width="2"/><text x="${(x1+9).toFixed(1)}" y="${(y1+3).toFixed(1)}" font-size="10" fill="#525263">${esc(first.d)} (${fIdx})</text>`;
+  }
+ }
+ const mx=xW(c.wave+0.04),my=yI(myIdx);
+ const meDot=`<g><title>${esc(c.name)} — ${esc(h.name)} · Wave ${c.wave} · Index ${myIdx}</title><circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="8" fill="#D35400" stroke="#fff" stroke-width="2"/><text x="${(mx+12).toFixed(1)}" y="${(my+4).toFixed(1)}" font-size="11" font-weight="700" fill="#1A1A24">${esc(h.name)} (${myIdx})</text></g>`;
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Wave mandate vs. brand maturity matrix</h3><small>Centres below the shaded diagonal have outgrown their employer brand story</small></div></div>
+  <div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:500px;max-height:310px;display:block" role="img" aria-label="Wave mandate versus brand maturity scatter matrix">
+   <polygon points="${bandPts}" fill="#1D6B3A" opacity="0.08"/>
+   ${gridY}${gridX}
+   <text x="${pL+10}" y="${pT+16}" font-size="9.5" font-weight="700" fill="#1D6B3A">BRAND-LED (AHEAD OF WAVE)</text>
+   <text x="${W-pR-8}" y="${H-pB-10}" text-anchor="end" font-size="9.5" font-weight="700" fill="#B34500">MANDATE OUTPACING BRAND (OPPORTUNITY ZONE)</text>
+   ${traj}${dots}${meDot}
+  </svg></div>
+  <div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>${esc(c.name)} · ${esc(h.name)}</span>${peerPts.length?`<span><i style="background:#8A8A98;border-radius:50%"></i>Peer centres (${S.role==='admin'&&lg?'named':'anonymised'})</span>`:''}<span><i style="background:rgba(29,107,58,.22)"></i>Mandate–brand alignment band</span></div></div>`;
+}
+
+function radarSvg(R,bm){
+ const cx=165,cy=142,rmax=92;
  const pt=(i,val)=>{const ang=-Math.PI/2+i*(2*Math.PI/5),r=(val/5)*rmax;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
  const rings=[1,2,3,4,5].map(lv=>{
   const pts=[0,1,2,3,4].map(i=>pt(i,lv).map(n=>n.toFixed(1)).join(',')).join(' ');
@@ -813,18 +988,120 @@ function radarSvg(R){
  const axes=[0,1,2,3,4].map(i=>{
   const[x,y]=pt(i,5),[lx,ly]=pt(i,5.95);
   const anc=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
-  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11" font-weight="600" fill="#525263">${labels[i]}</text>`;
+  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11" font-weight="600" fill="#525263">${PIL_SHORT[i]}</text>`;
  }).join('');
- const poly=(vals,fill,stroke,dash)=>{
-  if(!vals.some(v=>v>0))return'';
+ const poly=(vals,fill,stroke,dash,w=2)=>{
+  if(!vals||!vals.some(v=>v>0))return'';
   const pts=vals.map((v,i)=>pt(i,v||0).map(n=>n.toFixed(1)).join(',')).join(' ');
-  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${stroke}"/>`}).join('');
-  return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
+  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.2" fill="${stroke}"/>`}).join('');
+  return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="${w}" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const prov=R.pil.map(p=>p.avg||0),evid=R.pil.map(p=>p.avgV||0);
+ const hasPeer=bm&&bm.pillars&&bm.pillars.some(x=>x.med!=null);
+ const peerMed=hasPeer?bm.pillars.map(x=>x.med||0):null;
+ const peerP75=hasPeer&&bm.pillars.some(x=>x.p75!=null)?bm.pillars.map(x=>x.p75||0):null;
  const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+4}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9" fill="#8A8A98">${lv}</text>`).join('');
- return`<div class="radar-wrap"><h3>Pillar maturity radar</h3><small>Average rung (1 to 5) per pillar</small><svg viewBox="0 0 320 268" width="100%" style="max-width:340px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${poly(prov,'rgba(233,154,16,0.18)','#E99A10',true)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span></div></div>`;
+ return`<svg viewBox="0 0 330 276" width="100%" style="max-width:350px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
 }
+
+function pillarDumbbell(R,bm){
+ const pct=n=>Math.max(0,Math.min(100,((n-1)/4)*100));
+ const rows=PIL.map((name,i)=>{
+  const bp=bm&&bm.pillars?bm.pillars.find(x=>x.p===i):null;
+  const me=R?(R.pil[i].avgV!=null?R.pil[i].avgV:R.pil[i].avg):(bp?bp.v:null);
+  const med=bp&&bp.med!=null?bp.med:null;
+  const diff=me!=null&&med!=null?me-med:null;
+  const dStr=diff==null?'':`<span class="${diff>=0?'ok':'warn'}" style="margin-left:5px">(${diff>=0?'+':''}${diff.toFixed(1)})</span>`;
+  return`<div class="db-row">
+   <div><b>${esc(PIL_SHORT[i])}</b></div>
+   <div class="db-track">
+    <i class="db-axis"></i>
+    ${bp&&bp.min!=null&&bp.max!=null?`<i class="db-whisk" style="left:${pct(bp.min)}%;width:${Math.max(pct(bp.max)-pct(bp.min),1)}%" title="Peer range: ${f1(bp.min)}–${f1(bp.max)}"></i>`:''}
+    ${bp&&bp.p25!=null&&bp.p75!=null?`<i class="db-iqr" style="left:${pct(bp.p25)}%;width:${Math.max(pct(bp.p75)-pct(bp.p25),2)}%" title="Peer IQR: ${f1(bp.p25)}–${f1(bp.p75)}"></i>`:''}
+    ${med!=null?`<i class="db-med" style="left:${pct(med)}%" title="Peer median: ${f1(med)}"></i>`:''}
+    ${me!=null?`<i class="db-me" style="left:${pct(me)}%" title="Your avg rung: ${f1(me)}"></i>`:''}
+   </div>
+   <div class="db-val"><b>${me==null?'n/a':f1(me)}</b>${dStr}</div>
+  </div>`;
+ }).join('');
+ return`<div class="db-wrap"><div class="db-head"><div>Pillar</div><div class="db-ticks"><span>R1</span><span>2</span><span>3</span><span>4</span><span>R5</span></div><div style="text-align:right">You (vs med)</div></div>${rows}<div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>Your cohort</span><span><i style="background:#1A1A24;width:3px"></i>Peer median</span><span><i style="background:var(--r2)"></i>Peer middle 50% (IQR)</span></div></div>`;
+}
+
+function heatmapHtml(R){
+ const cols=PIL.map((pn,pi)=>{
+  const items=R.rows.filter(r=>r.s.p===pi);
+  return`<div class="hm-col"><div class="hm-col-h">P${pi+1} · ${esc(PIL_SHORT[pi])}</div>${items.length?items.map(r=>`<div class="hm-tile t${r.sc||0} ${r.sc&&!r.ok?'unv':''}" title="${esc(r.s.name)}: ${r.sc?'Rung '+r.sc+' '+RUNG[r.sc]:'Not scored'}"><div class="hm-top"><span>${r.s.id}</span><span>${r.sc?'R'+r.sc:'—'}</span></div><div class="hm-nm">${esc(r.s.name)}</div><div class="hm-badges">${r.a.vd==='b'?'<span class="hb">Below</span>':r.a.vd==='a'?'<span class="ha">Above</span>':''}${r.a.pr==='f'?'<span>★ Focus</span>':''}${r.sc&&!r.ok?'<span class="hb">No artefact</span>':''}</div></div>`).join(''):'<small class="mute">None in scope</small>'}</div>`;
+ }).join('');
+ return`<div class="hm-grid">${cols}</div><div class="radar-leg" style="margin-top:12px"><span><i style="background:var(--r1)"></i>1 Presence</span><span><i style="background:var(--r2)"></i>2 Consistency</span><span><i style="background:var(--r3)"></i>3 Evidence</span><span><i style="background:var(--r4)"></i>4 Authority</span><span><i style="background:var(--r5)"></i>5 Category</span><span><i style="border:1.5px dashed var(--acch);background:#fff"></i>Missing artefact</span></div>`;
+}
+
+function beeswarmHtml(c,h,bm,lg){
+ const i=bm.idx;
+ const pts=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible).forEach(r=>pts.push({idx:r.idx,me:r.cohort_id===h.id,lbl:`${r.client} (${r.cohort}): ${r.idx}`}));
+ }else if(bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.forEach(r=>{if(r.me)pts.push({idx:r.idx,me:true,lbl:`${c.name} (${h.name}): ${r.idx}`});else{pn++;pts.push({idx:r.idx,me:false,lbl:`Peer ${String.fromCharCode(64+pn)} (W${r.wave}): ${r.idx}`})}});
+ }else{
+  pts.push({idx:i.v,me:true,lbl:`${c.name} (${h.name}): ${i.v}`});
+ }
+ const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:(k%2?32:46)}px" title="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Peer pool quartile distribution</h3><small>Pool of ${bm.pool.n} cohorts · ${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · `:''}Median ${f1(i.med)}</small></div></div>
+  <div class="bee-wrap">
+   <div class="bee-zones"><i style="width:25%;background:rgba(211,84,0,.09)" title="Bottom quartile (0–25)"></i><i style="width:25%;background:rgba(82,82,99,.05)" title="Lower half (25–50)"></i><i style="width:25%;background:rgba(233,154,16,.11)" title="Upper half (50–75)"></i><i style="width:25%;background:rgba(29,107,58,.12)" title="Top quartile (75–100)"></i></div>
+   ${i.med!=null?`<div class="bee-med" style="left:${i.med}%"><span>Med ${f1(i.med)}</span></div>`:''}
+   ${dots}
+  </div>
+  <div class="strip-l" style="margin-top:14px"><span>0 · Presence</span><span>25 · Consistency</span><span>50 · Evidence</span><span>75 · Authority</span><span>100 · Category</span></div></div>`;
+}
+
+function rankedPeersHtml(c,h,bm,lg){
+ const rows=[];
+ if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
+  lg.rows.filter(r=>r.eligible).forEach(r=>rows.push({lbl:`${r.client} — ${r.cohort}`,wave:r.wave,idx:r.idx,me:r.cohort_id===h.id}));
+ }else if(bm.dist&&bm.dist.length){
+  let pn=0;
+  bm.dist.forEach(r=>{if(r.me)rows.push({lbl:`${c.name} — ${h.name}`,wave:r.wave,idx:r.idx,me:true});else{pn++;rows.push({lbl:`Peer ${String.fromCharCode(64+pn)}`,wave:r.wave,idx:r.idx,me:false})}});
+ }
+ if(rows.length<2)return'';
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Ranked peer comparison</h3><small>${S.role==='admin'&&lg?'Admin view: all peer names visible':'Client view: peer identities are anonymised'}</small></div></div>
+  <div class="rk-list">${rows.map((r,i)=>`<div class="rk-row ${r.me?'me':''}"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="mute" style="margin-right:8px">#${i+1}</span>${esc(r.lbl)}</div><div class="rk-track"><div class="rk-fill" style="width:${r.idx}%"></div></div><div style="text-align:right;font-variant-numeric:tabular-nums"><b>${r.idx}</b> <span class="mute">W${r.wave}</span></div></div>`).join('')}</div></div>`;
+}
+
+function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
+ const pairs=SUBS.map(s=>{
+  const a=sa.answers[s.id],b=sb.answers[s.id];
+  const p=a&&a.in&&a.sc?a.sc:0,q=b&&b.in&&b.sc?b.sc:0;
+  return p&&q?{s,p,q}:null;
+ }).filter(Boolean);
+ if(!pairs.length)return'';
+ const W=520,H=230,x1=135,x2=385,pT=30,pB=22;
+ const yR=r=>pT+((5-r)/4)*(H-pT-pB);
+ const lines=pairs.map((x,i)=>{
+  const up=x.q>x.p,dn=x.q<x.p,j=((i%3)-1)*3,yA=yR(x.p)+j,yB=yR(x.q)+j;
+  const col=up?'#1D6B3A':dn?'#D35400':'#9A9AAA';
+  return`<g><title>${esc(x.s.name)}: Rung ${x.p} → Rung ${x.q}</title><line x1="${x1}" y1="${yA.toFixed(1)}" x2="${x2}" y2="${yB.toFixed(1)}" stroke="${col}" stroke-width="${up||dn?2.2:1.2}" opacity="${up||dn?0.85:0.38}"/><circle cx="${x1}" cy="${yA.toFixed(1)}" r="3.5" fill="${col}"/><circle cx="${x2}" cy="${yB.toFixed(1)}" r="4" fill="${col}"/></g>`;
+ }).join('');
+ const upList=pairs.filter(x=>x.q>x.p),dnList=pairs.filter(x=>x.q<x.p);
+ const dIdx=ra.idx!=null&&rb.idx!=null?rb.idx-ra.idx:null;
+ return`<div class="viz-box"><div class="slope-grid">
+  <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle over cycle sub-outcome rung slopegraph">
+   <text x="${x1}" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#525263">${esc(lblA)} (${ra.idx==null?'n/a':ra.idx})</text>
+   <text x="${x2}" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1A1A24">${esc(lblB)} (${rb.idx==null?'n/a':rb.idx})</text>
+   <line x1="${x1}" y1="${pT}" x2="${x1}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
+   <line x1="${x2}" y1="${pT}" x2="${x2}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
+   ${[1,2,3,4,5].map(r=>`<text x="${x1-10}" y="${(yR(r)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#525263">R${r} ${RUNG[r]}</text><text x="${x2+10}" y="${(yR(r)+3).toFixed(1)}" text-anchor="start" font-size="10" fill="#525263">R${r}</text>`).join('')}
+   ${lines}
+  </svg>
+  <div>
+   <h3 style="font-size:16px">${upList.length} of ${pairs.length} sub-outcomes climbed</h3>
+   <p class="mute" style="margin:6px 0 10px">${dIdx!=null?`Overall index moved <strong style="color:${dIdx>=0?'var(--ok)':'var(--acc)'}">${dIdx>0?'+':''}${dIdx} pts</strong> (${ra.idx} → ${rb.idx}). `:''}Green lines show rung gains; grey lines stayed flat${dnList.length?'; orange lines declined.':'.'}</p>
+   <div style="display:flex;flex-wrap:wrap;gap:6px">${upList.map(x=>`<span class="chip ok">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}${dnList.map(x=>`<span class="chip hot">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}</div>
+  </div>
+ </div></div>`;
+}
+
 function rungDist(R){
  if(!R.scored.length)return'';
  const counts=[1,2,3,4,5].map(n=>R.scored.filter(r=>r.sc===n).length);
@@ -992,8 +1269,8 @@ function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'
 function vReport(){
  const c=cl(),h=ch(),R=compute(c,h),W=WAVES[c.wave-1].name,name=c.name||'The client',adm=S.role==='admin';
  if(!R.n)return`<div class="eyebrow">Report</div><h1 style="margin-top:8px">Report</h1>${ctxBar()}<div class="empty">Nothing is being audited yet for ${esc(h.name||'this cohort')}, so there is nothing to report on. Open the Audit tab, add the sub-outcomes the client has a stake in, and score them. The report will then fill in on its own.</div><button class="btn pri" data-a="tab" data-v="audit">${ic('audit',16)} Go to the audit</button>`;
+ const bm=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
  const verdict=R.scored.length?`${name}, ${h.name||'cohort'}: ${R.avg<1.5?'a Presence':R.avg<2.5?'a Consistency':R.avg<3.5?'an Evidence':R.avg<4.5?'an Authority':'a Category'}-stage employer brand inside a ${W} centre.`:'No scores have been entered yet.';
- const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
  const pri=R.top.map((r,i)=>{const s=r.s;return`<div class="pb"><h3><span class="no">${i+1}</span>${esc(s.name)} <span class="chip hot">${esc(s.owner)}</span></h3>
   <dl><dt>Where it stands now</dt><dd>Rung ${r.sc}, ${RUNG[r.sc]}. ${r.a.vd==='b'?'<span class="tag b">Below wave expectation</span>':r.a.vd==='m'?'<span class="tag m">Meets</span>':''}${r.a.pr==='f'?' <span class="tag m">Client focus</span>':''}</dd>
   <dt>The next move</dt><dd>${esc(nextMove(r))}</dd>
@@ -1015,6 +1292,8 @@ function vReport(){
  const txt=reportText(c,h,R);
  const xm=h.a._x||{},xs=xm.sum||'';
  const rawOpen=!!OPEN.rawall;
+ const profList=`<div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div>`;
+ const pillarViz=`<div class="radar-wrap"><div class="viz-head"><div><h3>Pillar maturity${bm?' vs. peers':''}</h3><small>${CVIEW==='radar'?'Average rung (1 to 5) per pillar':'Cohort vs. peer median &amp; IQR band'}</small></div><div class="seg noprint"><button class="${CVIEW==='radar'?'on':''}" data-a="cview" data-v="radar">Radar</button><button class="${CVIEW==='dumbbell'?'on':''}" data-a="cview" data-v="dumbbell">Dumbbell</button></div></div>${CVIEW==='radar'?radarSvg(R,bm):pillarDumbbell(R,bm)}</div>`;
  return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
  <div class="noprint">${ctxBar()}</div>
  <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
@@ -1023,20 +1302,17 @@ function vReport(){
  <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
  ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="printonly"><small>${xm.au?'Auditor: '+esc(xm.au)+'. ':''}${xm.ad?'Audit date: '+esc(xm.ad)+'. ':''}${(xm.iw||'').trim()?'Interviewed or sources: '+esc(xm.iw.trim())+'.':''}</small></div>`:''}</section>
  <div class="verdict">${esc(verdict)}</div>
- <div class="kpis">
-  <div class="kpi hi"><div class="m">${R.idxV==null?'n/a':R.idxV}</div><div class="l">Evidenced index</div><div class="sub">${R.valid.length} of ${R.scored.length} scored backed by artefact (${evPct}%)</div><div class="ev-bar"><i style="width:${evPct}%"></i></div></div>
-  <div class="kpi"><div class="m">${R.idx==null?'n/a':R.idx}</div><div class="l">Provisional index</div><div class="sub">0 to 100, counting every score</div></div>
-  <div class="kpi"><div class="m">${R.avg==null?'n/a':R.avg.toFixed(1)}</div><div class="l">Average rung</div><div class="sub">Out of 5 across ${R.scored.length} scored</div></div>
-  <div class="kpi"><div class="m">${R.below.length}</div><div class="l">Below ${esc(W)} wave</div><div class="sub">${R.above.length} above · ${R.scored.length-R.below.length-R.above.length} meets/unjudged</div></div>
- </div>
+ ${execInfographic(c,h,R,bm)}
  <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
- <section><div class="two-col"><div><h2>The profile</h2><p class="lede" style="margin-top:6px">One row for every sub-outcome audited. An uneven, spiky profile is usually the real consulting finding.</p>
+ <section><h2>Strategic positioning</h2><p class="lede">Wave is the centre's mandate; the maturity index is what the employer brand has actually built. Plotting both shows whether the brand is keeping pace with the mandate.</p>${waveMatrixSvg(c,h,R,bm,LG)}</section>
+ <section><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited sub-outcomes as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
  ${rungDist(R)}
- <div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div></div>
- <div>${radarSvg(R)}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
+ ${PVIEW==='heatmap'?heatmapHtml(R):''}
+ <div class="two-col" style="margin-top:28px"><div>${PVIEW==='list'?profList:`<h3>Sub-outcome breakdown</h3>${profList}`}</div>
+ <div>${pillarViz}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
  <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.a.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
  <section><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
- <section><h2>The next 90 days</h2><div class="plan"><div><b>Days 1 to 30 · Baseline</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div><b>Days 31 to 60 · First moves</b>${R.top[0]?`Ship the first move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicator monthly so movement is visible.</div><div><b>Days 61 to 90 · Re-measure</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
+ <section><h2>The next 90 days</h2><div class="plan"><div class="pstep"><div class="shead"><span class="sno">1</span>Days 1 to 30 · Baseline</div><b>Verify evidence &amp; lock owners</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div class="pstep"><div class="shead"><span class="sno">2</span>Days 31 to 60 · First moves</div><b>Ship priority #1 &amp; #2</b>${R.top[0]?`Launch the +1 rung move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicators monthly so movement is visible.</div><div class="pstep"><div class="shead"><span class="sno">3</span>Days 61 to 90 · Re-measure</div><b>Snapshot &amp; sponsor brief</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
  ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional until you record the artefact on the Audit tab.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
  ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Return to the Audit tab to pick a rung for each of these, or remove them from scope.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
  <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review.</p><ul class="pl">${feed}</ul></section>
@@ -1159,7 +1435,7 @@ async function loadBench(quiet){
  try{
   const d=await api('GET',`/benchmark?cohort=${h.id}&pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
   BM={for:h.id,data:d};
-  if(S.role==='admin'&&S.tab==='bench')LG=await api('GET',`/league?pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
+  if(S.role==='admin'&&(S.tab==='bench'||S.tab==='report'))LG=await api('GET',`/league?pool=${BO.pool}&basis=${BO.basis}&min=${BO.min}`);
  }catch(e){BM={for:h.id,err:e.message}}
  render(true);
 }
@@ -1188,8 +1464,11 @@ function vBench(){
    <div class="kpi"><div class="m" style="font-size:26px;line-height:1.35">${esc(d.taken_on)}</div><div class="l">Latest snapshot</div><div class="sub">${p.basis==='evidenced'?'Evidenced scores only':'Includes provisional'}</div></div>
    </div>
    ${p.thin?`<p class="warn" style="margin-top:16px">There ${p.n===1?'is':'are'} only ${p.n} cohort${p.n===1?'':'s'} in this pool so far. Treat the position as indicative.</p>`:''}
-   ${strip(i)}
+   ${beeswarmHtml(c,h,d,LG)}
+   ${rankedPeersHtml(c,h,d,LG)}
+   ${waveMatrixSvg(c,h,null,d,LG)}
    <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the sub-outcomes each cohort scored in each pillar.</p>
+   <div class="viz-box">${pillarDumbbell(null,d)}</div>
    <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your avg rung</th><th>Pool median</th><th>Percentile</th><th style="width:28%">Place in pool</th></tr>
    ${d.pillars.map(x=>`<tr><td><b>${esc(PIL[x.p])}</b></td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'<span class="mute">fewer than 3 peers</span>':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
    <section><h2>By sub-outcome</h2><p class="lede">A position is shown when at least three cohorts have scored the same sub-outcome.</p>
@@ -1325,7 +1604,8 @@ function cmpSection(c,h){
    const iv=o=>{const y=o[x.id];return y&&(y.iv||'').trim()?esc(y.iv.trim())+(y.ivd?' <small>('+esc(y.ivd)+')</small>':''):'<span class="mute">none</span>'};
    return`<tr><td><b>${esc(x.name)}</b></td><td>${show(p)}</td><td>${show(q)}</td><td>${d}</td><td>${iv(sa.answers)}</td><td>${iv(sb.answers)}</td></tr>`}).join('');
   const ra=compute(c,{a:sa.answers}),rb=compute(c,{a:sb.answers}),f=v=>v==null?'n/a':v;
-  tbl=`<p class="lede">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
+  const lblA=sa.taken_on||'Earlier',lblB=cs.b==='cur'?'Current':(sb.taken_on||'Later');
+  tbl=`${slopegraphHtml(sa,sb,ra,rb,lblA,lblB)}<p class="lede" style="margin-top:16px">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
  }else tbl='<p class="mute">Loading snapshot comparison...</p>';
  return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Compare any earlier snapshot against a later snapshot or your live unsaved scores, including measured indicator values.</p>
  <div class="ctx"><div class="f"><label for="cmpa">Earlier</label><select id="cmpa" data-c="cmpa"><option value="">Choose a snapshot</option>${opts(cs.a)}</select></div><div class="f"><label for="cmpb">Later</label><select id="cmpb" data-c="cmpb"><option value="cur" ${cs.b==='cur'?'selected':''}>Current scores, not yet saved as a snapshot</option>${opts(cs.b)}</select></div></div>${tbl}</section>`;
@@ -1349,6 +1629,8 @@ document.addEventListener('click',async e=>{
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
   else if(a==='pil'){S.pil=+v}
+  else if(a==='pview'){PVIEW=v}
+  else if(a==='cview'){CVIEW=v}
   else if(a==='afil'){AF.f=v}
   else if(a==='coll'){COLL[id]=!COLL[id]}
   else if(a==='collall'){SUBS.forEach(s=>{if(A(s.id).in)COLL[s.id]=true})}
