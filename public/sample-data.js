@@ -211,9 +211,9 @@
     },
     '3.14': {
       in: true, sc: 2, vd: 'b', pr: 'n',
-      ev: 'Q3 Pulse Survey & calendar audit (Sept 2026): hybrid 3-day policy is published, but 44% of senior engineers log 9pm+ US-West Coast calls 3+ nights/week with no formal async norms.',
-      iv: '56% work-life balance score; 44% frequent late-night HQ calls', ivd: '2026-09-30',
-      nt: 'Top theme in Glassdoor cons; agreeing protected async windows with US product teams will lift both retention and review-site spread.',
+      ev: 'Careers page & Q3 onboarding survey (Sept 2026): careers copy promises "flexible, balanced work-life" while 44% of new joiners report surprise at 9pm+ US-West Coast calls 3+ nights/week.',
+      iv: '56% say-do alignment on work-style & timezone reality', ivd: '2026-09-30',
+      nt: 'The brand gap is the promise-reality mismatch — either position the high-pace US-overlap reality candidly during hiring or establish protected async norms.',
       lk: []
     },
     '4.9': {
