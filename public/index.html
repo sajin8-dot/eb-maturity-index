@@ -11,7 +11,7 @@
 :root{
   --ink:#1A1A24;--mut:#525263;--line:#E2E2E8;--paper:#F6F6F8;--bg:#FFFFFF;--surface:#FFFFFF;
   --acc:#D35400;--acch:#B34500;--gold:#E99A10;--tint:#FDF2E9;--tint-line:#F4D3B8;
-  --ok:#1D6B3A;--ok-bg:#E8F5EC;
+  --ok:#1D6B3A;--ok-bg:#E8F5EC;--gap:#B83B2A;--gap-bg:#FDF0EE;
   --r1:#D6D6DD;--r2:#F3CF8F;--r3:#E99A10;--r4:#E0770C;--r5:#D35400;
   --sh-sm:0 1px 2px rgba(26,26,36,.04),0 1px 3px rgba(26,26,36,.03);
   --sh-md:0 4px 14px rgba(26,26,36,.07),0 1px 3px rgba(26,26,36,.04);
@@ -325,6 +325,41 @@ main{padding:24px 18px 110px}h1{font-size:28px}
 .kpis,.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
 .how{grid-template-columns:1fr}.big{gap:28px}.pb dl{grid-template-columns:1fr}.lk{grid-template-columns:1fr}
 }
+.tag.b{background:var(--gap-bg);color:var(--gap)}
+.hm-badges span.hb{color:var(--gap)}
+.hm-tile{cursor:pointer;transition:transform .12s,box-shadow .12s}
+.hm-tile:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+/* compact global context bar */
+.ctx-slim{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:10px 14px;background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-top:18px}
+.ctx-slim .f{display:flex;align-items:center;gap:8px;flex-direction:row}
+.ctx-slim .f label{margin:0;white-space:nowrap}
+.ctx-slim select,.ctx-slim input{padding:5px 10px;font-size:13px}
+.ctx-slim .cohorts{margin-top:0;gap:6px;padding-left:12px;border-left:1px solid var(--line)}
+/* audit progressive disclosure & live rung strip */
+.wv-one{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;border:1px solid var(--tint-line);background:var(--tint);font-size:12.5px;margin-bottom:12px}
+.wv-one b{color:var(--acch);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.rstrip{margin-top:8px;padding:9px 13px;border-radius:10px;background:var(--paper);border:1px solid var(--line);font-size:12.5px;color:var(--ink);min-height:38px;display:flex;align-items:center;gap:8px}
+.rstrip b{color:var(--acc);white-space:nowrap}
+.ext-toggle{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--paper);font-size:12.5px;font-weight:500;color:var(--ink)}
+.ext-toggle:hover{border-color:var(--acc);color:var(--acc);background:#fff}
+.ext-drawer{margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+.prog-mini{display:flex;align-items:center;gap:8px;min-width:130px}
+.prog-mini .ptrack{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden;min-width:68px}
+.prog-mini .ptrack i{display:block;height:100%;background:var(--ok);border-radius:99px}
+/* report editorial summary, section jump bar & presentation mode */
+.exec-prose{border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:20px 24px;background:var(--paper);margin-top:16px}
+.exec-prose .ep-text{font-size:15.5px;line-height:1.7;color:var(--ink);white-space:pre-wrap}
+.exec-prose .ep-meta{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);display:flex;flex-wrap:wrap;gap:6px 18px}
+.rjump{position:sticky;top:0;z-index:12;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 0;margin-top:16px;border-bottom:1px solid var(--line)}
+.rjump a{text-decoration:none;color:var(--mut);font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:99px;border:1px solid transparent;transition:all .15s}
+.rjump a:hover{color:var(--acc);background:var(--tint);border-color:var(--tint-line)}
+.rjump .rj-sp{margin-left:auto;display:flex;gap:8px;align-items:center}
+body.pres{display:block}
+body.pres aside,body.pres .demo-bar,body.pres .pres-hide{display:none!important}
+body.pres main{max-width:1180px;margin:0 auto;padding:36px 40px 80px}
+.pres-exit{position:fixed;top:16px;right:20px;z-index:50;box-shadow:var(--sh-md)}
+/* instant custom chart tooltip */
+#ctip{position:fixed;z-index:80;pointer-events:none;display:none;max-width:280px;background:var(--ink);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;line-height:1.4;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .fs-back{position:fixed;inset:0;z-index:60;background:rgba(26,26,36,.68);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px}
 .fs-dialog{width:min(1360px,95vw);max-height:92vh;background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.32);display:flex;flex-direction:column;overflow:hidden}
 .fs-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--paper)}
@@ -338,13 +373,13 @@ main{padding:24px 18px 110px}h1{font-size:28px}
 @page{margin:16mm 14mm}
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{display:block;font-size:11.5px;color:#000}
-aside,.noprint,.demo-bar,.toast,.fs-back,button,.ib{display:none!important}
+aside,.noprint,.demo-bar,.toast,.fs-back,.rjump,.pres-exit,#ctip,button,.ib{display:none!important}
 main{padding:0;max-width:none}
 .printhead{display:block;border-bottom:2px solid var(--acc);padding-bottom:8px;margin-bottom:18px}
 .printhead b{font-family:'Playfair Display',Georgia,serif;font-size:20px}
 .printonly{display:block}
 .raw-body.is-collapsed{display:block!important}
-section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap,.viz-box{break-inside:avoid}
+section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap,.viz-box,.exec-prose{break-inside:avoid}
 h2,h3{break-after:avoid}
 a{color:inherit;text-decoration:none}
 .scroll{overflow:visible}
@@ -360,6 +395,7 @@ a{color:inherit;text-decoration:none}
 </aside>
 <main id="app"></main>
 <div id="fsmodal"></div>
+<div id="ctip" role="tooltip"></div>
 <script src="sample-data.js"></script>
 <script>
 /* ---------- icons (Lucide style, inline) ---------- */
@@ -905,7 +941,7 @@ function nextMove(r){
 }
 
 /* ---------- charts & infographics (all 6 visual formats) ---------- */
-let PVIEW='heatmap',CVIEW='radar';
+let PVIEW='heatmap',CVIEW='radar',PRES=false;
 const PIL_SHORT=['Awareness','Hiring & CX','Employee XP','Advocacy','Trust'];
 
 function execInfographic(c,h,R,bm){
@@ -955,8 +991,8 @@ function execInfographic(c,h,R,bm){
     </div>
     <div class="wgap-card">
      <div class="lab" style="margin:0">Wave ${c.wave} gap signal</div>
-     <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b style="font-family:'Playfair Display',serif;font-size:26px;line-height:1;color:var(--acc)">${R.below.length}</b><small>below · <strong style="color:var(--ok)">${R.above.length} above</strong> · ${mCnt} meets</small></div>
-     <div class="wgap-bar"><i style="width:${(R.below.length/tot*100).toFixed(1)}%;background:var(--acc)"></i><i style="width:${(mCnt/tot*100).toFixed(1)}%;background:#C4C4D0"></i><i style="width:${(R.above.length/tot*100).toFixed(1)}%;background:var(--ok)"></i></div>
+     <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><b style="font-family:'Playfair Display',serif;font-size:26px;line-height:1;color:var(--gap)">${R.below.length}</b><small>below · <strong style="color:var(--ok)">${R.above.length} above</strong> · ${mCnt} meets</small></div>
+     <div class="wgap-bar"><i style="width:${(R.below.length/tot*100).toFixed(1)}%;background:var(--gap)"></i><i style="width:${(mCnt/tot*100).toFixed(1)}%;background:#C4C4D0"></i><i style="width:${(R.above.length/tot*100).toFixed(1)}%;background:var(--ok)"></i></div>
      <small>${bm&&bm.idx?`Peer rank <strong style="color:var(--ink)">#${bm.idx.rank} of ${bm.idx.of}</strong>`:`Measured against ${esc(W)} expectations`}</small>
     </div>
    </div>
@@ -974,6 +1010,39 @@ function openFs(trigger){
  box.innerHTML=`<div class="fs-back" data-a="fsclose" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="fs-dialog" onclick="event.stopPropagation()"><div class="fs-head"><h3>${esc(title)}</h3><button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button></div><div class="fs-body">${card.outerHTML}</div></div></div>`;
 }
 function closeFs(){const box=document.getElementById('fsmodal');if(box)box.innerHTML=''}
+function openTileModal(id){
+ const c=cl(),h=ch(),s=SUBS.find(x=>x.id===id),box=document.getElementById('fsmodal');
+ if(!c||!h||!s||!box)return;
+ const a=h.a[id]||{},sc=a.sc||0,ok=!!(a.ev||'').trim();
+ const vdTag=a.vd?`<span class="tag ${a.vd}">${{b:'Below wave',m:'Meets wave',a:'Above wave'}[a.vd]}</span>`:'<span class="mute">Not judged against wave</span>';
+ const links=(a.lk||[]).filter(l=>(l.t||l.u||'').trim());
+ box.innerHTML=`<div class="fs-back" data-a="fsclose" role="dialog" aria-modal="true" aria-label="${esc(s.name)}">
+  <div class="fs-dialog" style="max-width:720px" onclick="event.stopPropagation()">
+   <div class="fs-head">
+    <div><div class="eyebrow" style="margin-bottom:2px">Pillar ${s.p+1} · ${esc(PIL_SHORT[s.p])} · ${esc(s.id)}</div><h3>${esc(s.name)}</h3></div>
+    <button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button>
+   </div>
+   <div class="fs-body" style="padding:22px 26px">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px">
+     <span class="chip">${esc(s.owner)}</span>
+     ${sc?`<span class="chip hot">Rung ${sc} · ${RUNG[sc]}</span>`:'<span class="chip">Not scored</span>'}
+     ${vdTag}
+     ${a.pr==='f'?'<span class="chip">★ Client focus</span>':''}
+     ${sc?(ok?'<span class="ok">Evidenced</span>':'<span class="warn">Needs artefact</span>'):''}
+    </div>
+    <div class="wv-one" style="margin-bottom:16px"><div><b>Wave ${c.wave} (${esc(WAVES[c.wave-1].name)}) expectation</b>${esc(s.w[c.wave-1])}</div></div>
+    <dl style="display:grid;grid-template-columns:150px 1fr;gap:10px 18px;font-size:13.5px;margin:0">
+     <dt style="color:var(--mut);font-weight:600">Artefact</dt><dd style="margin:0">${ok?esc(a.ev.trim()):'<span class="warn">No artefact recorded yet.</span>'}</dd>
+     ${(a.iv||'').trim()?`<dt style="color:var(--mut);font-weight:600">Measured value</dt><dd style="margin:0"><b>${esc(a.iv.trim())}</b>${a.ivd?` <small class="mute">(${esc(a.ivd)})</small>`:''}</dd>`:''}
+     ${(a.nt||'').trim()?`<dt style="color:var(--mut);font-weight:600">Consultant notes</dt><dd style="margin:0;white-space:pre-wrap">${esc(a.nt.trim())}</dd>`:''}
+     ${links.length?`<dt style="color:var(--mut);font-weight:600">Evidence links</dt><dd style="margin:0"><ul class="pl" style="margin:0">${links.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u)}${l.d?` <small class="mute">(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul></dd>`:''}
+     <dt style="color:var(--mut);font-weight:600">Indicator</dt><dd style="margin:0">${esc(s.ind)} <small class="mute">(${esc(s.src)})</small></dd>
+    </dl>
+    ${!PRES?`<div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:flex-end"><button class="btn sm" data-a="jumptocard" data-id="${s.id}">Edit on Audit tab ${ic('arrow',14)}</button></div>`:''}
+   </div>
+  </div>
+ </div>`;
+}
 
 function waveMatrixSvg(c,h,R,bm,lg){
  const curIdx=R&&(R.idxV!=null?R.idxV:R.idx);
@@ -988,16 +1057,16 @@ function waveMatrixSvg(c,h,R,bm,lg){
  // Collect all plotted nodes (peers + current cohort + optional baseline)
  const nodes=[];
  if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
-  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach(r=>nodes.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort})`,short:r.client,kind:r.client_id===c.id?'same':'peer'}));
+  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach(r=>nodes.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort}) · Wave ${r.wave} · Index ${r.idx}`,short:r.client,kind:r.client_id===c.id?'same':'peer'}));
  }else if(bm&&bm.dist&&bm.dist.length){
   let pn=0;
-  bm.dist.filter(r=>!r.me).forEach(r=>{pn++;nodes.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave})`,short:'',kind:'peer'})});
+  bm.dist.filter(r=>!r.me).forEach(r=>{pn++;nodes.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} · Wave ${r.wave} · Index ${r.idx}`,short:'',kind:'peer'})});
  }
  let baseNode=null;
  if(h.hist&&h.hist.length>=2){
   const first=h.hist[0],fIdx=first.idxv!=null?first.idxv:first.idx;
   if(fIdx!=null&&fIdx!==myIdx){
-   baseNode={wave:c.wave,idx:fIdx,lbl:`${first.d} baseline (${fIdx})`,short:`${first.d} (${fIdx})`,kind:'base'};
+   baseNode={wave:c.wave,idx:fIdx,lbl:`${first.d} baseline · Index ${fIdx}`,short:`${first.d} (${fIdx})`,kind:'base'};
    nodes.push(baseNode);
   }
  }
@@ -1008,17 +1077,15 @@ function waveMatrixSvg(c,h,R,bm,lg){
  const byWave={1:[],2:[],3:[],4:[]};
  nodes.forEach(n=>(byWave[n.wave]||byWave[3]).push(n));
  Object.entries(byWave).forEach(([w,arr])=>{
-  arr.sort((a,b)=>b.idx-a.idx); // top to bottom in SVG (higher idx = smaller y)
+  arr.sort((a,b)=>b.idx-a.idx);
   const wNum=+w;
   arr.forEach((n,i)=>{
    const off=n.kind==='me'||n.kind==='base'?0.03:((i%3)-1)*0.09;
    n.cx=xW(wNum+off);
    n.cy=yI(n.idx);
    n.ly=n.cy;
-   // Alternate left/right in crowded middle waves; keep Wave 1 right and Wave 4 right (using extra pR)
    n.side=wNum===1?1:(n.kind==='me'?1:(i%2===0?1:-1));
   });
-  // Separate vertical relaxation for left-labeled and right-labeled items in this wave
   [1,-1].forEach(side=>{
    const grp=arr.filter(n=>n.short&&n.side===side).sort((a,b)=>a.ly-b.ly);
    const minGap=16,lo=pT+14,hi=H-pB-14;
@@ -1032,7 +1099,6 @@ function waveMatrixSvg(c,h,R,bm,lg){
   });
  });
 
- // Trajectory line if baseline exists
  let traj='';
  if(baseNode){
   traj=`<line x1="${baseNode.cx.toFixed(1)}" y1="${baseNode.cy.toFixed(1)}" x2="${meNode.cx.toFixed(1)}" y2="${meNode.cy.toFixed(1)}" stroke="#D35400" stroke-width="2" stroke-dasharray="4 3"/>`;
@@ -1051,7 +1117,7 @@ function waveMatrixSvg(c,h,R,bm,lg){
    const leader=Math.abs(n.ly-n.cy)>2?`<line x1="${(n.cx+(n.side>0?r:-r)).toFixed(1)}" y1="${n.cy.toFixed(1)}" x2="${(lx+(n.side>0?-3:3)).toFixed(1)}" y2="${n.ly.toFixed(1)}" stroke="#C4C4D2" stroke-width="1"/>`:'';
    lblSvg=`${leader}<text x="${lx.toFixed(1)}" y="${(n.ly+3.5).toFixed(1)}" text-anchor="${anc}" font-size="${isMe?11:10}" font-weight="${isMe?700:500}" fill="${isMe?'#1A1A24':'#525263'}">${esc(n.short)}</text>`;
   }
-  return`<g><title>${esc(n.lbl)}</title><circle cx="${n.cx.toFixed(1)}" cy="${n.cy.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op}" stroke="${stroke}" stroke-width="${sw}"/>${lblSvg}</g>`;
+  return`<g data-tip="${esc(n.lbl)}" style="cursor:pointer"><circle cx="${n.cx.toFixed(1)}" cy="${n.cy.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op}" stroke="${stroke}" stroke-width="${sw}"/>${lblSvg}</g>`;
  }).join('');
 
  const peerCnt=nodes.filter(n=>n.kind==='peer'||n.kind==='same').length;
@@ -1078,10 +1144,10 @@ function radarSvg(R,bm){
   const anc=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
   return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11.5" font-weight="600" fill="#525263">${PIL_SHORT[i]}</text>`;
  }).join('');
- const poly=(vals,fill,stroke,dash,w=2)=>{
+ const poly=(vals,fill,stroke,dash,w=2,lbl='')=>{
   if(!vals||!vals.some(v=>v>0))return'';
   const pts=vals.map((v,i)=>pt(i,v||0).map(n=>n.toFixed(1)).join(',')).join(' ');
-  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.4" fill="${stroke}"/>`}).join('');
+  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${stroke}" data-tip="${esc(PIL_SHORT[i])} · ${esc(lbl)}: ${v.toFixed(1)}/5" style="cursor:pointer"/>`}).join('');
   return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="${w}" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const prov=R.pil.map(p=>p.avg||0),evid=R.pil.map(p=>p.avgV||0);
@@ -1089,7 +1155,7 @@ function radarSvg(R,bm){
  const peerMed=hasPeer?bm.pillars.map(x=>x.med||0):null;
  const peerP75=hasPeer&&bm.pillars.some(x=>x.p75!=null)?bm.pillars.map(x=>x.p75||0):null;
  const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+5}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9.5" fill="#8A8A98">${lv}</text>`).join('');
- return`<svg viewBox="0 0 380 306" width="100%" style="max-width:380px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
+ return`<svg viewBox="0 0 380 306" width="100%" style="max-width:380px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3,'Peer P75'):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5,'Peer median'):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8,'Provisional')}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2,'Evidenced')}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
 }
 
 function pillarDumbbell(R,bm){
@@ -1104,10 +1170,10 @@ function pillarDumbbell(R,bm){
    <div><b>${esc(PIL_SHORT[i])}</b></div>
    <div class="db-track">
     <i class="db-axis"></i>
-    ${bp&&bp.min!=null&&bp.max!=null?`<i class="db-whisk" style="left:${pct(bp.min)}%;width:${Math.max(pct(bp.max)-pct(bp.min),1)}%" title="Peer range: ${f1(bp.min)}–${f1(bp.max)}"></i>`:''}
-    ${bp&&bp.p25!=null&&bp.p75!=null?`<i class="db-iqr" style="left:${pct(bp.p25)}%;width:${Math.max(pct(bp.p75)-pct(bp.p25),2)}%" title="Peer IQR: ${f1(bp.p25)}–${f1(bp.p75)}"></i>`:''}
-    ${med!=null?`<i class="db-med" style="left:${pct(med)}%" title="Peer median: ${f1(med)}"></i>`:''}
-    ${me!=null?`<i class="db-me" style="left:${pct(me)}%" title="Your avg rung: ${f1(me)}"></i>`:''}
+    ${bp&&bp.min!=null&&bp.max!=null?`<i class="db-whisk" style="left:${pct(bp.min)}%;width:${Math.max(pct(bp.max)-pct(bp.min),1)}%" data-tip="${esc(PIL_SHORT[i])} peer range: ${f1(bp.min)}–${f1(bp.max)}"></i>`:''}
+    ${bp&&bp.p25!=null&&bp.p75!=null?`<i class="db-iqr" style="left:${pct(bp.p25)}%;width:${Math.max(pct(bp.p75)-pct(bp.p25),2)}%" data-tip="${esc(PIL_SHORT[i])} peer IQR (middle 50%): ${f1(bp.p25)}–${f1(bp.p75)}"></i>`:''}
+    ${med!=null?`<i class="db-med" style="left:${pct(med)}%" data-tip="${esc(PIL_SHORT[i])} peer median: ${f1(med)}"></i>`:''}
+    ${me!=null?`<i class="db-me" style="left:${pct(me)}%" data-tip="${esc(PIL_SHORT[i])} your avg rung: ${f1(me)}"></i>`:''}
    </div>
    <div class="db-val"><b>${me==null?'n/a':f1(me)}</b>${dStr}</div>
   </div>`;
@@ -1118,27 +1184,27 @@ function pillarDumbbell(R,bm){
 function heatmapHtml(R){
  const cols=PIL.map((pn,pi)=>{
   const items=R.rows.filter(r=>r.s.p===pi);
-  return`<div class="hm-col"><div class="hm-col-h">P${pi+1} · ${esc(PIL_SHORT[pi])}</div>${items.length?items.map(r=>`<div class="hm-tile t${r.sc||0} ${r.sc&&!r.ok?'unv':''}" title="${esc(r.s.name)}: ${r.sc?'Rung '+r.sc+' '+RUNG[r.sc]:'Not scored'}"><div class="hm-top"><span>${r.s.id}</span><span>${r.sc?'R'+r.sc:'—'}</span></div><div class="hm-nm">${esc(r.s.name)}</div><div class="hm-badges">${r.a.vd==='b'?'<span class="hb">Below</span>':r.a.vd==='a'?'<span class="ha">Above</span>':''}${r.a.pr==='f'?'<span>★ Focus</span>':''}${r.sc&&!r.ok?'<span class="hb">No artefact</span>':''}</div></div>`).join(''):'<small class="mute">None in scope</small>'}</div>`;
+  return`<div class="hm-col"><div class="hm-col-h">P${pi+1} · ${esc(PIL_SHORT[pi])}</div>${items.length?items.map(r=>`<div class="hm-tile t${r.sc||0} ${r.sc&&!r.ok?'unv':''}" data-a="hmtile" data-id="${r.s.id}" role="button" tabindex="0" data-tip="${esc(r.s.name)} — ${r.sc?'Rung '+r.sc+' '+RUNG[r.sc]:'Not scored'} · Click for evidence &amp; notes"><div class="hm-top"><span>${r.s.id}</span><span>${r.sc?'R'+r.sc:'—'}</span></div><div class="hm-nm">${esc(r.s.name)}</div><div class="hm-badges">${r.a.vd==='b'?'<span class="hb">Below</span>':r.a.vd==='a'?'<span class="ha">Above</span>':''}${r.a.pr==='f'?'<span>★ Focus</span>':''}${r.sc&&!r.ok?'<span class="hb">No artefact</span>':''}</div></div>`).join(''):'<small class="mute">None in scope</small>'}</div>`;
  }).join('');
- return`<div class="hm-grid">${cols}</div><div class="radar-leg" style="margin-top:12px"><span><i style="background:var(--r1)"></i>1 Presence</span><span><i style="background:var(--r2)"></i>2 Consistency</span><span><i style="background:var(--r3)"></i>3 Evidence</span><span><i style="background:var(--r4)"></i>4 Authority</span><span><i style="background:var(--r5)"></i>5 Category</span><span><i style="border:1.5px dashed var(--acch);background:#fff"></i>Missing artefact</span></div>`;
+ return`<div class="hm-grid">${cols}</div><div class="radar-leg" style="margin-top:12px"><span><i style="background:var(--r1)"></i>1 Presence</span><span><i style="background:var(--r2)"></i>2 Consistency</span><span><i style="background:var(--r3)"></i>3 Evidence</span><span><i style="background:var(--r4)"></i>4 Authority</span><span><i style="background:var(--r5)"></i>5 Category</span><span><i style="border:1.5px dashed var(--acch);background:#fff"></i>Missing artefact</span><span style="margin-left:auto;color:var(--mut)">Click any tile to inspect artefact &amp; notes</span></div>`;
 }
 
 function beeswarmHtml(c,h,bm,lg){
  const i=bm.idx;
  const pts=[];
  if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
-  lg.rows.filter(r=>r.eligible).forEach(r=>pts.push({idx:r.idx,me:r.cohort_id===h.id,lbl:`${r.client} (${r.cohort}): ${r.idx}`}));
+  lg.rows.filter(r=>r.eligible).forEach(r=>pts.push({idx:r.idx,me:r.cohort_id===h.id,lbl:`${r.client} (${r.cohort}) · Wave ${r.wave} · Index ${r.idx}`}));
  }else if(bm.dist&&bm.dist.length){
   let pn=0;
-  bm.dist.forEach(r=>{if(r.me)pts.push({idx:r.idx,me:true,lbl:`${c.name} (${h.name}): ${r.idx}`});else{pn++;pts.push({idx:r.idx,me:false,lbl:`Peer ${String.fromCharCode(64+pn)} (W${r.wave}): ${r.idx}`})}});
+  bm.dist.forEach(r=>{if(r.me)pts.push({idx:r.idx,me:true,lbl:`${c.name} (${h.name}) · Index ${r.idx}`});else{pn++;pts.push({idx:r.idx,me:false,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave}) · Index ${r.idx}`})}});
  }else{
-  pts.push({idx:i.v,me:true,lbl:`${c.name} (${h.name}): ${i.v}`});
+  pts.push({idx:i.v,me:true,lbl:`${c.name} (${h.name}) · Index ${i.v}`});
  }
  const lanes=[30,39,48];
- const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:lanes[k%3]}px" title="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
+ const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:lanes[k%3]}px" data-tip="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
  return`<div class="viz-box"><div class="viz-head"><div><h3>Peer pool quartile distribution</h3><small>Pool of ${bm.pool.n} cohorts · ${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · `:''}Median ${f1(i.med)}</small></div><div class="viz-acts">${fsBtn('Peer pool quartile distribution')}</div></div>
   <div class="bee-wrap">
-   <div class="bee-zones"><i style="width:25%;background:rgba(211,84,0,.09)" title="Bottom quartile (0–25)"></i><i style="width:25%;background:rgba(82,82,99,.05)" title="Lower half (25–50)"></i><i style="width:25%;background:rgba(233,154,16,.11)" title="Upper half (50–75)"></i><i style="width:25%;background:rgba(29,107,58,.12)" title="Top quartile (75–100)"></i></div>
+   <div class="bee-zones"><i style="width:25%;background:rgba(211,84,0,.09)" data-tip="Bottom quartile (0–25)"></i><i style="width:25%;background:rgba(82,82,99,.05)" data-tip="Lower half (25–50)"></i><i style="width:25%;background:rgba(233,154,16,.11)" data-tip="Upper half (50–75)"></i><i style="width:25%;background:rgba(29,107,58,.12)" data-tip="Top quartile (75–100)"></i></div>
    ${i.med!=null?`<div class="bee-med" style="left:${i.med}%"><span>Med ${f1(i.med)}</span></div>`:''}
    ${dots}
   </div>
@@ -1169,8 +1235,8 @@ function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
  const yR=r=>pT+((5-r)/4)*(H-pT-pB);
  const lines=pairs.map((x,i)=>{
   const up=x.q>x.p,dn=x.q<x.p,j=((i%5)-2)*2.6,yA=yR(x.p)+j,yB=yR(x.q)+j;
-  const col=up?'#1D6B3A':dn?'#D35400':'#9A9AAA';
-  return`<g><title>${esc(x.s.name)}: Rung ${x.p} → Rung ${x.q}</title><line x1="${x1}" y1="${yA.toFixed(1)}" x2="${x2}" y2="${yB.toFixed(1)}" stroke="${col}" stroke-width="${up||dn?2.2:1.2}" opacity="${up||dn?0.85:0.38}"/><circle cx="${x1}" cy="${yA.toFixed(1)}" r="3.5" fill="${col}"/><circle cx="${x2}" cy="${yB.toFixed(1)}" r="4" fill="${col}"/></g>`;
+  const col=up?'#1D6B3A':dn?'#B83B2A':'#9A9AAA';
+  return`<g data-tip="${esc(x.s.name)}: Rung ${x.p} (${RUNG[x.p]}) → Rung ${x.q} (${RUNG[x.q]})" style="cursor:pointer"><line x1="${x1}" y1="${yA.toFixed(1)}" x2="${x2}" y2="${yB.toFixed(1)}" stroke="${col}" stroke-width="${up||dn?2.2:1.2}" opacity="${up||dn?0.85:0.38}"/><circle cx="${x1}" cy="${yA.toFixed(1)}" r="3.5" fill="${col}"/><circle cx="${x2}" cy="${yB.toFixed(1)}" r="4" fill="${col}"/></g>`;
  }).join('');
  const upList=pairs.filter(x=>x.q>x.p),dnList=pairs.filter(x=>x.q<x.p);
  const dIdx=ra.idx!=null&&rb.idx!=null?rb.idx-ra.idx:null;
@@ -1185,7 +1251,7 @@ function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
   </svg>
   <div>
    <h3 style="font-size:16px">${upList.length} of ${pairs.length} sub-outcomes climbed</h3>
-   <p class="mute" style="margin:6px 0 10px">${dIdx!=null?`Overall index moved <strong style="color:${dIdx>=0?'var(--ok)':'var(--acc)'}">${dIdx>0?'+':''}${dIdx} pts</strong> (${ra.idx} → ${rb.idx}). `:''}Green lines show rung gains; grey lines stayed flat${dnList.length?'; orange lines declined.':'.'}</p>
+   <p class="mute" style="margin:6px 0 10px">${dIdx!=null?`Overall index moved <strong style="color:${dIdx>=0?'var(--ok)':'var(--gap)'}">${dIdx>0?'+':''}${dIdx} pts</strong> (${ra.idx} → ${rb.idx}). `:''}Green lines show rung gains; grey lines stayed flat${dnList.length?'; red lines declined.':'.'}</p>
    <div style="display:flex;flex-wrap:wrap;gap:6px">${upList.map(x=>`<span class="chip ok">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}${dnList.map(x=>`<span class="chip hot">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}</div>
   </div>
  </div></div>`;
@@ -1195,7 +1261,7 @@ function rungDist(R){
  if(!R.scored.length)return'';
  const counts=[1,2,3,4,5].map(n=>R.scored.filter(r=>r.sc===n).length);
  const tot=R.scored.length,cols=['var(--r1)','var(--r2)','var(--r3)','var(--r4)','var(--r5)'];
- return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" title="Rung ${i+1} ${RUNG[i+1]}: ${c}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
+ return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" data-tip="Rung ${i+1} ${RUNG[i+1]}: ${c} sub-outcome${c===1?'':'s'}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
 }
 function trendSvg(hist){
  if(!hist||hist.length<2)return'';
@@ -1203,15 +1269,15 @@ function trendSvg(hist){
  const xAt=i=>padL+(hist.length===1?pw/2:(i/(hist.length-1))*pw);
  const yAt=v=>padT+ph-((Math.max(0,Math.min(100,v)))/100)*ph;
  const grid=[0,25,50,75,100].map(v=>`<line x1="${padL}" y1="${yAt(v).toFixed(1)}" x2="${W-padR}" y2="${yAt(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${padL-6}" y="${(yAt(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A8A98">${v}</text>`).join('');
- const line=(key,color,dash)=>{
+ const line=(key,color,dash,lbl)=>{
   const pts=hist.map((x,i)=>x[key]==null?null:[xAt(i),yAt(x[key]),x[key],x.d]).filter(Boolean);
   if(pts.length<2)return'';
   const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="${color}" stroke="#fff" stroke-width="1.5" data-tip="${esc(p[3])} · ${lbl}: ${p[2]}" style="cursor:pointer"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
   return`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const xlabels=hist.map((x,i)=>`<text x="${xAt(i).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#525263">${esc(x.d)}</text>`).join('');
- return`<div class="trend-wrap"><div class="viz-head" style="margin-bottom:8px"><div><div class="lab" style="margin:0">Index trajectory across saved snapshots</div></div><div class="viz-acts">${fsBtn('Index trajectory across saved snapshots')}</div></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true)}${line('idxv','#D35400',false)}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
+ return`<div class="trend-wrap"><div class="viz-head" style="margin-bottom:8px"><div><div class="lab" style="margin:0">Index trajectory across saved snapshots</div></div><div class="viz-acts">${fsBtn('Index trajectory across saved snapshots')}</div></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true,'Provisional index')}${line('idxv','#D35400',false,'Evidenced index')}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
 }
 
 /* ---------- views ---------- */
@@ -1236,7 +1302,11 @@ function nav(){
  }
 }
 function render(keepScroll){
- const y=window.scrollY;nav();
+ const y=window.scrollY;
+ if(S.tab!=='report')PRES=false;
+ if(document.body)document.body.classList.toggle('pres',!!PRES&&S.tab==='report');
+ const ct=document.getElementById('ctip');if(ct)ct.style.display='none';
+ nav();
  let v;
  if(['audit','report','bench'].includes(S.tab)&&!cl())v=vNoClient();
  else v=S.tab==='frame'?vFrame():S.tab==='audit'?vAudit():S.tab==='report'?vReport():S.tab==='bench'?vBench():vClients();
@@ -1288,15 +1358,18 @@ function vFrame(){
 }
 function ctxBar(){
  const c=cl(),h=ch(),adm=S.role==='admin';
- const top=adm
-  ?`<div class="ctx"><div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
-   <div class="f"><label for="wv">GCC wave</label>${waveSel(c,'wv')}</div></div>${waveConfirm(c)}`
-  :`<div class="ctx"><div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>GCC wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div></div>`;
- return conflictBox(h)+top+`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn sm" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',15)} Add cohort</button>
- <input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Name this cohort, for example Engineers" style="margin-left:8px;width:200px">
- ${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
+ const clientPart=adm
+  ?`<div class="f"><label for="cs">Client</label><select id="cs" data-c="client" aria-label="Choose client">${S.clients.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></div>
+   <div class="f"><label for="wv">Wave</label>${waveSel(c,'wv')}</div>`
+  :`<div class="f"><label>Client</label><b>${esc(c.name)}</b></div><div class="f"><label>Wave</label><b>${c.wave} ${WNAME(c.wave)}</b></div>`;
+ const cohPart=`<div class="cohorts"><span class="lab" style="margin:0">Cohort</span>${c.cohorts.map(x=>`<button class="pill ${x.id===h.id?'on':''}" data-a="coh" data-id="${x.id}">${esc(x.name||'Unnamed cohort')}</button>`).join('')}<button class="btn sm" data-a="newcohort" title="Add a cohort, which is a separate talent segment you will score on its own, such as engineers or support staff">${ic('plus',14)} Add</button><input data-i="hname" value="${esc(h.name)}" aria-label="Cohort name" placeholder="Cohort name" style="width:165px">${c.cohorts.length>1?`<button class="ib ${ARM==='h'+h.id?'arm':''}" data-a="delcohort" aria-label="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}" title="${ARM==='h'+h.id?'Click again to confirm. This deletes the cohort and its scores.':'Delete this cohort'}">${ic('trash')}</button>`:''}</div>`;
+ return conflictBox(h)+`<div class="ctx-slim">${clientPart}${cohPart}</div>`+(adm?waveConfirm(c):'');
 }
 function badge(a){return a.sc?((a.ev||'').trim()?'<span class="ok">Evidenced</span>':'<span class="warn">Needs artefact</span>'):'<span class="mute">Not scored yet</span>'}
+function rungStripHtml(s,n){
+ if(!n)return`<span class="mute">Hover or select a rung (1–5) to preview its evidence threshold.</span>`;
+ return`<b>Rung ${n} · ${RUNG[n]}</b><span>${esc(s.thr.r[n-1])}${s.thr.basis==='p'?' <em style="color:var(--mut)">(proposed)</em>':''}</span>`;
+}
 function vAudit(){
  const c=cl(),h=ch(),R=compute(c,h),wave=c.wave;
  const inPil=SUBS.filter(s=>!S.pil||s.p===S.pil-1);
@@ -1321,20 +1394,32 @@ function vAudit(){
   if(col){
    return`<article class="card collapsed" id="card-${s.id}"><header><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="id">${s.id}</span><h3 style="font-size:16px">${esc(s.name)}</h3><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">Focus</span>':''}</div><div class="hrow"><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Expand ${esc(s.name)}" title="Expand card">${ic('chev')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header></article>`;
   }
+  const wvOpen=!!OPEN['wv'+s.id],extOpen=!!OPEN['ext'+s.id];
+  const extParts=[];
+  if((a.iv||'').trim())extParts.push('Measured');
+  if((a.nt||'').trim())extParts.push('Notes');
+  const lkN=(a.lk||[]).filter(l=>(l.t||l.u||'').trim()).length;
+  if(lkN)extParts.push(`${lkN} link${lkN===1?'':'s'}`);
+  const extBadge=extParts.length?`<span class="chip" style="margin-left:4px">${extParts.join(' · ')}</span>`:'';
   return`<article class="card" id="card-${s.id}"><header><div><span class="id">${s.id}</span><h3>${esc(s.name)}</h3></div><div class="hrow"><span class="chip">${esc(s.owner)}</span><span id="bd-${s.id}">${badge(a)}</span><button class="ib" data-a="coll" data-id="${s.id}" aria-label="Collapse ${esc(s.name)}" title="Collapse card">${ic('chevu')}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from this audit" title="Remove this sub-outcome from the audit">${ic('x')}</button></div></header>
   <p class="means">${esc(s.means)}</p>${irrel?`<p class="rnote">This sub-outcome is not normally relevant at the ${WAVES[wave-1].name} wave. It is shown because you added it, and it counts towards the index while it stays in the audit.</p>`:''}
-  <div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>
+  <div class="wv-one"><div><b>Wave ${wave} (${WAVES[wave-1].name}) expectation</b>${esc(s.w[wave-1])}</div><button class="lnk" style="margin-top:0;white-space:nowrap" data-a="open" data-id="wv${s.id}">${wvOpen?'Hide all 4 waves':'Compare all 4 waves'}</button></div>
+  ${wvOpen?`<div class="wv">${s.w.map((t,i)=>`<div class="${i+1===wave?'cur':''} ${LOW.test(t)?'low':''}"><b>${WAVES[i].name}</b>${esc(t)}</div>`).join('')}</div>`:''}
   <div class="two"><div><label>Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label>Reading the indicator</label><p>${esc(s.read)}</p></div></div>
-  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}" aria-describedby="tp-${s.id}-${n}"><b>${n}</b>${RUNG[n]}</button><span class="tip" role="tooltip" id="tp-${s.id}-${n}"><b>Rung ${n} · ${RUNG[n]}</b>${esc(s.thr.r[n-1])}${s.thr.basis==='p'?'<i>Proposed threshold, not yet confirmed.</i>':''}</span></div>`).join('')}</div>
-  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} what each rung means for this sub-outcome</button>
+  <label>Which rung does the evidence support?</label><div class="rungs">${[1,2,3,4,5].map(n=>`<div class="rgw"><button class="rg r${n} ${a.sc===n?'on':''}" data-a="pick" data-id="${s.id}" data-v="${n}" data-rid="${s.id}" data-rn="${n}" aria-label="Rung ${n} ${RUNG[n]}. ${esc(s.thr.r[n-1])}"><b>${n}</b>${RUNG[n]}</button></div>`).join('')}</div>
+  <div class="rstrip" id="rs-${s.id}">${rungStripHtml(s,a.sc)}</div>
+  <button class="lnk" data-a="open" data-id="rt${s.id}" aria-expanded="${OPEN['rt'+s.id]?'true':'false'}">${OPEN['rt'+s.id]?'Hide':'Show'} all 5 rung thresholds</button>
   ${OPEN['rt'+s.id]?`<div class="rdef">${[1,2,3,4,5].map(n=>`<p><b>${n} ${RUNG[n]}.</b> ${esc(s.thr.r[n-1])}</p>`).join('')}${s.thr.basis==='p'?'<p><small>These thresholds are a proposal and have not yet been confirmed.</small></p>':'<p><small>These thresholds follow the reading guide above.</small></p>'}</div>`:''}
   <label>How does this compare with what a ${WAVES[wave-1].name} centre is expected to show?</label><div class="seg">${[['b','Below'],['m','Meets'],['a','Above']].map(([k,l])=>`<button class="${a.vd===k?'on':''}" data-a="vd" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div>
   <label for="ev-${s.id}">Artefact behind the score (required for the score to count as evidenced)</label><textarea id="ev-${s.id}" data-i="ev" data-id="${s.id}" placeholder="Describe what you saw and when you saw it, for example a careers page, report, dashboard or survey result. Include the date, so someone else can check it later.">${esc(a.ev)}</textarea>
-  <label>Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 4px">Record the actual number the client gave you, such as "18 per cent of target candidates know the brand", with the date. Next cycle you can compare the new number with this one.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
-  <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Write anything you want to remember or say to the client about this sub-outcome, for example what you heard in interviews or what the sponsor cares about.">${esc(a.nt||'')}</textarea>
-  <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 4px">Add a link for each source you relied on, with the date you saw it. Links appear in the report as clickable entries.</p>
-  ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
-  ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
+  <div><button class="ext-toggle" data-a="open" data-id="ext${s.id}" aria-expanded="${extOpen?'true':'false'}">${ic(extOpen?'chevu':'chev',14)} ${extOpen?'Hide':'Measured value, notes &amp; links'}${extBadge}</button></div>
+  ${extOpen?`<div class="ext-drawer">
+   <label style="margin-top:0">Latest measured value of the indicator (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Record the actual number the client gave you, with the date, to compare cycle over cycle.</p><div class="lk" style="grid-template-columns:2fr 150px"><input data-i="iv" data-id="${s.id}" value="${esc(a.iv||'')}" placeholder="The measured value, in your own words" aria-label="Measured value" maxlength="200"><input type="date" data-i="ivd" data-id="${s.id}" value="${esc(a.ivd||'')}" aria-label="Date it was measured"></div>
+   <label for="nt-${s.id}">Your notes and commentary (optional)</label><textarea id="nt-${s.id}" data-i="nt" data-id="${s.id}" placeholder="Interview notes, sponsor context, or caveats for the report.">${esc(a.nt||'')}</textarea>
+   <label>Evidence links (optional)</label><p class="mute" style="margin:0 0 6px;font-size:12.5px">Add clickable source links with the date you saw them.</p>
+   ${(a.lk||[]).map((l,k)=>`<div class="lk"><input data-i="lkt" data-id="${s.id}" data-k="${k}" value="${esc(l.t)}" placeholder="What it is, e.g. Careers page" aria-label="Link title"><input data-i="lku" data-id="${s.id}" data-k="${k}" value="${esc(l.u)}" placeholder="https://" aria-label="Link address"><input type="date" data-i="lkd" data-id="${s.id}" data-k="${k}" value="${esc(l.d)}" aria-label="Date you saw it"><button class="ib" data-a="dellink" data-id="${s.id}" data-v="${k}" aria-label="Remove this link" title="Remove this link">${ic('x')}</button></div>`).join('')}
+   ${(a.lk||[]).length<5?`<button class="lnk" data-a="addlink" data-id="${s.id}">Add an evidence link</button>`:'<p class="mute">You have added the maximum of five links for this sub-outcome.</p>'}
+  </div>`:''}
   <div class="foot"><div><label>Priority <span style="text-transform:none;letter-spacing:0;font-weight:400">(Choose Focus if the client cares most about this one. Moves it up the priority list without changing the index.)</span></label><div class="seg">${[['n','Normal'],['f','Focus']].map(([k,l])=>`<button class="${(a.pr||'n')===k?'on':''}" data-a="prio" data-id="${s.id}" data-v="${k}">${l}</button>`).join('')}</div></div></div></article>`}).join(''):'<div class="empty">No sub-outcomes match your current filter. Clear the search or switch back to "All".</div>';
 
  const pCounts=[R.n].concat(PIL.map((_,pi)=>R.rows.filter(r=>r.s.p===pi).length));
@@ -1342,7 +1427,7 @@ function vAudit(){
  const anyOpen=R.rows.some(r=>!COLL[r.s.id]);
  return`<div class="eyebrow">Audit</div><h1 style="margin-top:8px">Place the brand on the curve</h1>
  <p class="lede">Work through the four steps below. Your answers save automatically as you go. When you have scored enough sub-outcomes, open the Report tab to see the executive summary, radar profile, and recommended moves.</p>
- <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung for its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
+ <div class="how"><div><b>1 Set the context</b>Confirm the client and its wave below. Add a cohort for each talent segment you score separately.</div><div><b>2 Choose what to audit</b>Add the 9–15 sub-outcomes the client genuinely has a stake in. Irrelevant wave items are hidden automatically.</div><div><b>3 Score the indicator</b>Pick the rung the evidence supports — hover a rung to preview its threshold — then judge Below, Meets or Above wave.</div><div><b>4 Record the artefact</b>A score only counts as evidenced when you record what you saw and when you saw it.</div></div>
  ${ctxBar()}
  <div class="sum" id="sum">${sumInner(R,scopeWarn(R.n))}</div>
  <div class="ptabs">${['All pillars'].concat(PIL).map((p,i)=>`<button class="${S.pil===i?'on':''}" data-a="pil" data-v="${i}">${esc(i?i+' '+p.split(' (')[0]:p)}<span class="cnt">${pCounts[i]}</span></button>`).join('')}</div>
@@ -1352,7 +1437,8 @@ function vAudit(){
 }
 function sumInner(R,warn){
  const needAttn=R.unscored.length+R.missing.length;
- return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:34ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
+ const evPct=R.scored.length?Math.round((R.valid.length/R.scored.length)*100):0;
+ return`<div><b>${R.n}</b> <span>in scope</span></div><div><b>${R.scored.length}</b> <span>scored</span></div><div><b>${R.valid.length}</b> <span>evidenced</span></div><div class="prog-mini" data-tip="Evidence integrity: ${R.valid.length} of ${R.scored.length} scored items backed by artefact"><div class="ptrack"><i style="width:${evPct}%"></i></div><small>${evPct}%</small></div><div><b>${R.idx==null?'n/a':R.idx}</b> <span>index (0–100)</span></div><span style="max-width:30ch">${warn||''}</span><div class="sp">${needAttn?`<button class="btn sm" data-a="nextgap">Next incomplete (${needAttn})</button>`:''}<button class="btn pri" data-a="tab" data-v="report">See the report ${ic('arrow',16)}</button></div>`;
 }
 function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on'+i:''}"></i>`).join('')}</div>`}
 function vReport(){
@@ -1371,7 +1457,7 @@ function vReport(){
  const hist=h.hist.slice().reverse().map((x,i,arr)=>{
   const prev=arr[i+1];const d=prev&&x.idx!=null&&prev.idx!=null?x.idx-prev.idx:null;
   const arm=ARM==='s'+x.id;
-  return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope · ${x.s} scored · ${x.v} evidenced · avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div style="display:flex;align-items:center;gap:10px"><div style="text-align:right"><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <span class="${d>0?'ok':d<0?'warn':'mute'}">${d>0?'+':''}${d}</span>`}</div>${adm?`<button class="ib noprint ${arm?'arm':''}" data-a="delsnap" data-id="${x.id}" aria-label="${arm?'Click again to delete this snapshot':'Delete snapshot'}" title="${arm?'Click again to confirm deleting this snapshot':'Delete snapshot'}">${ic('trash',16)}</button>`:''}</div></div>`;
+  return`<div class="off"><div class="t"><b>${esc(x.d)}</b><small>${x.n} in scope · ${x.s} scored · ${x.v} evidenced · avg rung ${x.avg==null?'n/a':x.avg.toFixed(1)}</small></div><div style="display:flex;align-items:center;gap:10px"><div style="text-align:right"><b style="font-family:'Playfair Display',serif;font-size:20px">${x.idx==null?'n/a':x.idx}</b>${x.idxv!=null?` <small>evidenced ${x.idxv}</small>`:''}${d==null?'':` <span class="${d>0?'ok':d<0?'warn':'mute'}">${d>0?'+':''}${d}</span>`}</div>${adm?`<button class="ib noprint pres-hide ${arm?'arm':''}" data-a="delsnap" data-id="${x.id}" aria-label="${arm?'Click again to delete this snapshot':'Delete snapshot'}" title="${arm?'Click again to confirm deleting this snapshot':'Delete snapshot'}">${ic('trash',16)}</button>`:''}</div></div>`;
  }).join('');
  const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Evidenced</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr class="${x.id===h.id?'sel':''}"><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.valid.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td><b>${q.idx==null?'n/a':q.idx}</b></td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
  const xrows=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
@@ -1379,39 +1465,52 @@ function vReport(){
  const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">Notes and sources recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
  const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small>${(r.a.iv||'').trim()?`<br><small>Last recorded: ${esc(r.a.iv.trim())}${r.a.ivd?' ('+esc(r.a.ivd)+')':''}</small>`:''}</li>`).join('');
  const txt=reportText(c,h,R);
- const xm=h.a._x||{},xs=xm.sum||'';
+ const xm=h.a._x||{},xs=(xm.sum||'').trim();
+ const editSum=!!OPEN.editsum&&!PRES;
  const rawOpen=!!OPEN.rawall;
  const profList=`<div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div>`;
  const pillarViz=`<div class="radar-wrap"><div class="viz-head"><div><h3>Pillar maturity${bm?' vs. peers':''}</h3><small>${CVIEW==='radar'?'Average rung (1 to 5) per pillar':'Cohort vs. peer median &amp; IQR band'}</small></div><div class="viz-acts"><div class="seg noprint"><button class="${CVIEW==='radar'?'on':''}" data-a="cview" data-v="radar">Radar</button><button class="${CVIEW==='dumbbell'?'on':''}" data-a="cview" data-v="dumbbell">Dumbbell</button></div>${fsBtn('Pillar maturity'+(bm?' vs. peers':''))}</div></div>${CVIEW==='radar'?radarSvg(R,bm):pillarDumbbell(R,bm)}</div>`;
- return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
- <div class="noprint">${ctxBar()}</div>
- <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
- <h3 class="noprint" style="margin-top:20px">About this audit</h3>
- <div class="ctx noprint" style="margin-top:8px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
- <label class="noprint" for="xiw">People interviewed or sources used</label><textarea class="noprint" id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea>
- ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="printonly"><small>${xm.au?'Auditor: '+esc(xm.au)+'. ':''}${xm.ad?'Audit date: '+esc(xm.ad)+'. ':''}${(xm.iw||'').trim()?'Interviewed or sources: '+esc(xm.iw.trim())+'.':''}</small></div>`:''}</section>
- <div class="verdict">${esc(verdict)}</div>
- ${execInfographic(c,h,R,bm)}
- <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
- <section><h2>Strategic positioning</h2><p class="lede">Wave is the centre's mandate; the maturity index is what the employer brand has actually built. Plotting both shows whether the brand is keeping pace with the mandate.</p>${waveMatrixSvg(c,h,R,bm,LG)}</section>
- <section><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited sub-outcomes as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
+ const execCard=editSum
+  ?`<div class="exec-prose noprint"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px"><div class="lab" style="margin:0">Edit executive summary &amp; audit details</div><button class="btn sm pri" data-a="open" data-id="editsum">Done editing</button></div>
+   <textarea id="xsum" data-i="xsum" style="min-height:110px" placeholder="Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.">${esc(xm.sum||'')}</textarea>
+   <div class="ctx" style="margin-top:12px"><div class="f"><label for="xau">Auditor</label><input id="xau" data-i="xau" value="${esc(xm.au||'')}" placeholder="Your name" maxlength="120"></div><div class="f"><label for="xad">Audit date</label><input id="xad" type="date" data-i="xad" value="${esc(xm.ad||'')}"></div></div>
+   <label for="xiw">People interviewed or sources used</label><textarea id="xiw" data-i="xiw" style="min-height:66px" maxlength="1000" placeholder="For example: Priya (CHRO), Rahul (TA head), the careers site, the last engagement survey">${esc(xm.iw||'')}</textarea></div>`
+  :`<div class="exec-prose"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px"><div class="lab" style="margin:0">Executive summary</div><button class="btn sm ghost noprint pres-hide" data-a="open" data-id="editsum">Edit summary</button></div>
+   <div class="ep-text" id="xsum-p">${xs?esc(xs):'<span class="mute">No executive summary written yet. Click "Edit summary" to add a sponsor brief, auditor name, and interview sources.</span>'}</div>
+   ${(xm.au||xm.ad||(xm.iw||'').trim())?`<div class="ep-meta">${xm.au?`<span><b>Auditor:</b> ${esc(xm.au)}</span>`:''}${xm.ad?`<span><b>Audit date:</b> ${esc(xm.ad)}</span>`:''}${(xm.iw||'').trim()?`<span><b>Sources &amp; interviews:</b> ${esc(xm.iw.trim())}</span>`:''}</div>`:''}</div>`;
+ return`${PRES?`<button class="btn pri sm pres-exit noprint" data-a="pres">${ic('x',14)} Exit presentation mode</button>`:''}
+ <div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div>
+ <div class="eyebrow noprint">Report${PRES?` · ${esc(name)} · ${esc(h.name||'Cohort')}`:''}</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
+ <div class="noprint pres-hide">${ctxBar()}</div>
+ <nav class="rjump noprint" aria-label="Report sections">
+  <a href="#sec-score">Scorecard</a><a href="#sec-pos">Positioning</a><a href="#sec-prof">Profile</a><a href="#sec-pri">Priorities</a><a href="#sec-90d">90-Day Plan</a><a href="#sec-hist">History</a><a href="#sec-exp" class="pres-hide">Export</a>
+  <div class="rj-sp"><button class="btn sm ${PRES?'pri':''}" data-a="pres">${ic('expand',13)} ${PRES?'Exit presentation':'Presentation mode'}</button><button class="btn sm ghost pres-hide" data-a="print">PDF</button></div>
+ </nav>
+ <section id="sec-score" style="margin-top:24px">
+  <div class="verdict" style="margin-top:0">${esc(verdict)}</div>
+  ${execInfographic(c,h,R,bm)}
+  <p class="lede" style="margin-top:20px">${esc(waveLine(c,R))}</p>
+  ${execCard}
+ </section>
+ <section id="sec-pos"><h2>Strategic positioning</h2><p class="lede">Wave is the centre's mandate; the maturity index is what the employer brand has actually built. Plotting both shows whether the brand is keeping pace with the mandate.</p>${waveMatrixSvg(c,h,R,bm,LG)}</section>
+ <section id="sec-prof"><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited sub-outcomes as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
  ${rungDist(R)}
  ${PVIEW==='heatmap'?heatmapHtml(R):''}
  <div class="two-col" style="margin-top:28px"><div>${PVIEW==='list'?profList:`<h3>Sub-outcome breakdown</h3>${profList}`}</div>
  <div>${pillarViz}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
  <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.a.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
- <section><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
- <section><h2>The next 90 days</h2><div class="plan"><div class="pstep"><div class="shead"><span class="sno">1</span>Days 1 to 30 · Baseline</div><b>Verify evidence &amp; lock owners</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div class="pstep"><div class="shead"><span class="sno">2</span>Days 31 to 60 · First moves</div><b>Ship priority #1 &amp; #2</b>${R.top[0]?`Launch the +1 rung move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicators monthly so movement is visible.</div><div class="pstep"><div class="shead"><span class="sno">3</span>Days 61 to 90 · Re-measure</div><b>Snapshot &amp; sponsor brief</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
+ <section id="sec-pri"><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
+ <section id="sec-90d"><h2>The next 90 days</h2><div class="plan"><div class="pstep"><div class="shead"><span class="sno">1</span>Days 1 to 30 · Baseline</div><b>Verify evidence &amp; lock owners</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div class="pstep"><div class="shead"><span class="sno">2</span>Days 31 to 60 · First moves</div><b>Ship priority #1 &amp; #2</b>${R.top[0]?`Launch the +1 rung move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicators monthly so movement is visible.</div><div class="pstep"><div class="shead"><span class="sno">3</span>Days 61 to 90 · Re-measure</div><b>Snapshot &amp; sponsor brief</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
  ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional until you record the artefact on the Audit tab.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
  ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Return to the Audit tab to pick a rung for each of these, or remove them from scope.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
  <section><h2>Primary data to bring next cycle</h2><p class="lede">Ask the client to bring fresh numbers for these indicators at the next review.</p><ul class="pl">${feed}</ul></section>
  ${xsec}
- <section><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h2>All consultant inputs, by pillar</h2><button class="btn sm noprint" data-a="open" data-id="rawall">${rawOpen?'Hide full record':'Show full record'}</button></div><p class="lede">Full record of every rung, artefact, measured value, note and link captured. Always included in PDF print and downloads.</p><div class="raw-body ${rawOpen?'':'is-collapsed'}" style="${rawOpen?'':'display:none'}">${rawHtml(c,h)}</div></section>
+ <section class="pres-hide"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap"><h2>All consultant inputs, by pillar</h2><button class="btn sm noprint" data-a="open" data-id="rawall">${rawOpen?'Hide full record':'Show full record'}</button></div><p class="lede">Full record of every rung, artefact, measured value, note and link captured. Always included in PDF print and downloads.</p><div class="raw-body ${rawOpen?'':'is-collapsed'}" style="${rawOpen?'':'display:none'}">${rawHtml(c,h)}</div></section>
  ${cmp}
  ${benchBlock(h)}
- <section><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
+ <section id="sec-hist"><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri pres-hide" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
  ${cmpSec}
- <section class="noprint"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
+ <section id="sec-exp" class="noprint pres-hide"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
  <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.0 and maturity instrument v1.0, 5 November 2026. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
 }
 /* ---------- raw consultant inputs ---------- */
@@ -1715,12 +1814,28 @@ document.addEventListener('submit',async e=>{
  catch(err){toast(err.message||'We could not change the password. Please try again.')}
  btn.disabled=false;
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFs()});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){
+  const box=document.getElementById('fsmodal');
+  if(box&&box.innerHTML){closeFs();return}
+  if(PRES){PRES=false;render(true);return}
+ }
+ if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.matches('[role="button"][data-a]')){
+  e.preventDefault();e.target.click();
+ }
+});
 document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-a]');if(!t)return;
  const a=t.dataset.a,id=t.dataset.id,v=t.dataset.v,c=cl(),h=ch();
  if(a==='fs'){openFs(t);return}
  if(a==='fsclose'){closeFs();return}
+ if(a==='hmtile'){openTileModal(id);return}
+ if(a==='pres'){PRES=!PRES;render(true);return}
+ if(a==='jumptocard'){
+  closeFs();S.tab='audit';S.pil=0;AF.q='';AF.f='all';COLL[id]=false;render(false);
+  const el=document.getElementById('card-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  return;
+ }
  const wasArm=ARM;ARM='';let keep=true;
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
@@ -1812,6 +1927,36 @@ document.addEventListener('click',async e=>{
   else if(a==='signout'){await flushAll();try{await fetch('/api/logout',{method:'POST'})}catch(err){}location.href='/login.html';return}
  }catch(err){toast(err.message||'Something went wrong. Please try again.')}
  render(keep);
+});
+// Instant floating tooltip (#ctip) for charts & live inline rung strip preview
+function posTip(el,x,y){
+ el.style.left=Math.min(x+14,Math.max(8,window.innerWidth-el.offsetWidth-12))+'px';
+ el.style.top=Math.max(8,(y-el.offsetHeight-12<8?y+16:y-el.offsetHeight-12))+'px';
+}
+document.addEventListener('mouseover',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,+rg.dataset.rn)}
+ const tipEl=e.target.closest&&e.target.closest('[data-tip]');
+ const ct=document.getElementById('ctip');
+ if(tipEl&&ct){ct.textContent=tipEl.dataset.tip;ct.style.display='block';posTip(ct,e.clientX,e.clientY)}
+});
+document.addEventListener('mousemove',e=>{
+ const ct=document.getElementById('ctip');
+ if(ct&&ct.style.display==='block')posTip(ct,e.clientX,e.clientY);
+});
+document.addEventListener('mouseout',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,A(s.id).sc)}
+ const tipEl=e.target.closest&&e.target.closest('[data-tip]');
+ if(tipEl&&(!e.relatedTarget||!tipEl.contains(e.relatedTarget))){const ct=document.getElementById('ctip');if(ct)ct.style.display='none'}
+});
+document.addEventListener('focusin',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,+rg.dataset.rn)}
+});
+document.addEventListener('focusout',e=>{
+ const rg=e.target.closest&&e.target.closest('.rg[data-rid]');
+ if(rg){const s=SUBS.find(x=>x.id===rg.dataset.rid),el=document.getElementById('rs-'+rg.dataset.rid);if(s&&el)el.innerHTML=rungStripHtml(s,A(s.id).sc)}
 });
 document.addEventListener('input',e=>{
  const t=e.target,i=t.dataset.i;if(!i)return;
