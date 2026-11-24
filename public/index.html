@@ -325,17 +325,26 @@ main{padding:24px 18px 110px}h1{font-size:28px}
 .kpis,.waves,.wv,.rungh{grid-template-columns:1fr 1fr}.rungs{grid-template-columns:repeat(5,1fr)}.rg{font-size:10px}
 .how{grid-template-columns:1fr}.big{gap:28px}.pb dl{grid-template-columns:1fr}.lk{grid-template-columns:1fr}
 }
+.fs-back{position:fixed;inset:0;z-index:60;background:rgba(26,26,36,.68);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px}
+.fs-dialog{width:min(1360px,95vw);max-height:92vh;background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.32);display:flex;flex-direction:column;overflow:hidden}
+.fs-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--paper)}
+.fs-head h3{font-size:20px;margin:0}
+.fs-body{padding:28px 32px;overflow:auto;flex:1}
+.fs-body svg{max-width:none!important;max-height:72vh!important;width:100%;height:auto}
+.fs-body .viz-box,.fs-body .radar-wrap,.fs-body .trend-wrap{border:0;box-shadow:none;padding:0;margin:0}
+.fs-body .fs-trigger{display:none!important}
+.viz-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media print{
 @page{margin:16mm 14mm}
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{display:block;font-size:11.5px;color:#000}
-aside,.noprint,.demo-bar,.toast,button,.ib{display:none!important}
+aside,.noprint,.demo-bar,.toast,.fs-back,button,.ib{display:none!important}
 main{padding:0;max-width:none}
 .printhead{display:block;border-bottom:2px solid var(--acc);padding-bottom:8px;margin-bottom:18px}
 .printhead b{font-family:'Playfair Display',Georgia,serif;font-size:20px}
 .printonly{display:block}
 .raw-body.is-collapsed{display:block!important}
-section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap{break-inside:avoid}
+section,.pb,.mini,.verdict,.kpi,.radar-wrap,.trend-wrap,.viz-box{break-inside:avoid}
 h2,h3{break-after:avoid}
 a{color:inherit;text-decoration:none}
 .scroll{overflow:visible}
@@ -350,6 +359,7 @@ a{color:inherit;text-decoration:none}
   <div class="side-foot" id="sidefoot"></div>
 </aside>
 <main id="app"></main>
+<div id="fsmodal"></div>
 <script src="sample-data.js"></script>
 <script>
 /* ---------- icons (Lucide style, inline) ---------- */
@@ -370,7 +380,8 @@ key:'<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 
 search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
 chev:'<path d="m6 9 6 6 6-6"/>',
 chevu:'<path d="m18 15-6-6-6 6"/>',
-spark:'<path d="M12 3 9.5 9.5 3 12l6.5 2.5L12 21l2.5-6.5L21 12l-6.5-2.5z"/>'
+spark:'<path d="M12 3 9.5 9.5 3 12l6.5 2.5L12 21l2.5-6.5L21 12l-6.5-2.5z"/>',
+expand:'<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>'
 };
 const ic=(n,sz=18)=>`<svg class="ic" width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
 
@@ -954,75 +965,131 @@ function execInfographic(c,h,R,bm){
  </div>`;
 }
 
+const fsBtn=t=>`<button class="btn sm ghost fs-trigger noprint" data-a="fs" data-v="${esc(t)}" aria-label="View ${esc(t)} full screen" title="View full screen">${ic('expand',14)} Full screen</button>`;
+function openFs(trigger){
+ const card=trigger.closest('.viz-box,.radar-wrap,.trend-wrap');
+ const box=document.getElementById('fsmodal');
+ if(!card||!box)return;
+ const title=trigger.dataset.v||'Chart';
+ box.innerHTML=`<div class="fs-back" data-a="fsclose" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="fs-dialog" onclick="event.stopPropagation()"><div class="fs-head"><h3>${esc(title)}</h3><button class="btn sm" data-a="fsclose">${ic('x',15)} Close</button></div><div class="fs-body">${card.outerHTML}</div></div></div>`;
+}
+function closeFs(){const box=document.getElementById('fsmodal');if(box)box.innerHTML=''}
+
 function waveMatrixSvg(c,h,R,bm,lg){
  const curIdx=R&&(R.idxV!=null?R.idxV:R.idx);
  if(curIdx==null&&!(bm&&bm.idx))return'';
  const myIdx=curIdx!=null?curIdx:bm.idx.v;
- const W=640,H=296,pL=54,pR=28,pT=22,pB=46,pw=W-pL-pR,ph=H-pT-pB;
+ const W=780,H=390,pL=56,pR=140,pT=28,pB=52,pw=W-pL-pR,ph=H-pT-pB;
  const xW=w=>pL+((w-0.5)/4)*pw,yI=v=>pT+ph-(Math.max(0,Math.min(100,v))/100)*ph;
  const bandPts=[`${xW(0.6)},${yI(32)}`,`${xW(4.4)},${yI(98)}`,`${xW(4.4)},${yI(68)}`,`${xW(0.6)},${yI(5)}`].join(' ');
- const gridY=[0,25,50,75,100].map(v=>`<line x1="${pL}" y1="${yI(v).toFixed(1)}" x2="${W-pR}" y2="${yI(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${pL-8}" y="${(yI(v)+3).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#8A8A98">${v}</text>`).join('');
- const gridX=[1,2,3,4].map(w=>`<line x1="${xW(w).toFixed(1)}" y1="${pT}" x2="${xW(w).toFixed(1)}" y2="${H-pB}" stroke="#E2E2E8" stroke-dasharray="3 3"/><text x="${xW(w).toFixed(1)}" y="${H-22}" text-anchor="middle" font-size="11" font-weight="600" fill="#1A1A24">Wave ${w}</text><text x="${xW(w).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#525263">${WAVES[w-1].name}</text>`).join('');
+ const gridY=[0,25,50,75,100].map(v=>`<line x1="${pL}" y1="${yI(v).toFixed(1)}" x2="${W-pR+40}" y2="${yI(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${pL-10}" y="${(yI(v)+3.5).toFixed(1)}" text-anchor="end" font-size="11" fill="#8A8A98">${v}</text>`).join('');
+ const gridX=[1,2,3,4].map(w=>`<line x1="${xW(w).toFixed(1)}" y1="${pT}" x2="${xW(w).toFixed(1)}" y2="${H-pB}" stroke="#E2E2E8" stroke-dasharray="3 3"/><text x="${xW(w).toFixed(1)}" y="${H-24}" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1A1A24">Wave ${w}</text><text x="${xW(w).toFixed(1)}" y="${H-9}" text-anchor="middle" font-size="10.5" fill="#525263">${WAVES[w-1].name}</text>`).join('');
 
- // Build peer dots: admin uses LG (named), client uses bm.dist (anonymised)
- const peerPts=[];
+ // Collect all plotted nodes (peers + current cohort + optional baseline)
+ const nodes=[];
  if(S.role==='admin'&&lg&&lg.rows&&lg.rows.length){
-  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach((r,i)=>peerPts.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort})`,short:r.client,sameClient:r.client_id===c.id,j:((i%5)-2)*0.07}));
+  lg.rows.filter(r=>r.eligible&&r.cohort_id!==h.id).forEach(r=>nodes.push({wave:r.wave,idx:r.idx,lbl:`${r.client} (${r.cohort})`,short:r.client,kind:r.client_id===c.id?'same':'peer'}));
  }else if(bm&&bm.dist&&bm.dist.length){
   let pn=0;
-  bm.dist.filter(r=>!r.me).forEach((r,i)=>{pn++;peerPts.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave})`,short:'',sameClient:false,j:((i%5)-2)*0.07})});
+  bm.dist.filter(r=>!r.me).forEach(r=>{pn++;nodes.push({wave:r.wave,idx:r.idx,lbl:`Peer ${String.fromCharCode(64+pn)} (Wave ${r.wave})`,short:'',kind:'peer'})});
  }
- const dots=peerPts.map(p=>{
-  const cx=xW(p.wave+p.j),cy=yI(p.idx),fill=p.sameClient?'#E99A10':'#8A8A98';
-  return`<g><title>${esc(p.lbl)} · Index ${p.idx}</title><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${p.sameClient?6:5}" fill="${fill}" opacity="${p.sameClient?0.9:0.65}" stroke="#fff" stroke-width="1.5"/>${p.short?`<text x="${(cx+8).toFixed(1)}" y="${(cy+3).toFixed(1)}" font-size="9.5" fill="#525263">${esc(p.short)}</text>`:''}</g>`;
- }).join('');
-
- // Trajectory arrow from earliest snapshot to current if 2+ snapshots
- let traj='';
+ let baseNode=null;
  if(h.hist&&h.hist.length>=2){
   const first=h.hist[0],fIdx=first.idxv!=null?first.idxv:first.idx;
   if(fIdx!=null&&fIdx!==myIdx){
-   const x1=xW(c.wave+0.04),y1=yI(fIdx),y2=yI(myIdx)+(myIdx>fIdx?10:-10);
-   traj=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#D35400" stroke-width="2" stroke-dasharray="4 3"/><circle cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="4.5" fill="#fff" stroke="#D35400" stroke-width="2"/><text x="${(x1+9).toFixed(1)}" y="${(y1+3).toFixed(1)}" font-size="10" fill="#525263">${esc(first.d)} (${fIdx})</text>`;
+   baseNode={wave:c.wave,idx:fIdx,lbl:`${first.d} baseline (${fIdx})`,short:`${first.d} (${fIdx})`,kind:'base'};
+   nodes.push(baseNode);
   }
  }
- const mx=xW(c.wave+0.04),my=yI(myIdx);
- const meDot=`<g><title>${esc(c.name)} — ${esc(h.name)} · Wave ${c.wave} · Index ${myIdx}</title><circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="8" fill="#D35400" stroke="#fff" stroke-width="2"/><text x="${(mx+12).toFixed(1)}" y="${(my+4).toFixed(1)}" font-size="11" font-weight="700" fill="#1A1A24">${esc(h.name)} (${myIdx})</text></g>`;
- return`<div class="viz-box"><div class="viz-head"><div><h3>Wave mandate vs. brand maturity matrix</h3><small>Centres below the shaded diagonal have outgrown their employer brand story</small></div></div>
-  <div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:500px;max-height:310px;display:block" role="img" aria-label="Wave mandate versus brand maturity scatter matrix">
+ const meNode={wave:c.wave,idx:myIdx,lbl:`${c.name} — ${h.name} · Wave ${c.wave} · Index ${myIdx}`,short:`${h.name} (${myIdx})`,kind:'me'};
+ nodes.push(meNode);
+
+ // Group by wave, spread X gently within wave, assign left/right label sides, and relax Y so labels never overlap
+ const byWave={1:[],2:[],3:[],4:[]};
+ nodes.forEach(n=>(byWave[n.wave]||byWave[3]).push(n));
+ Object.entries(byWave).forEach(([w,arr])=>{
+  arr.sort((a,b)=>b.idx-a.idx); // top to bottom in SVG (higher idx = smaller y)
+  const wNum=+w;
+  arr.forEach((n,i)=>{
+   const off=n.kind==='me'||n.kind==='base'?0.03:((i%3)-1)*0.09;
+   n.cx=xW(wNum+off);
+   n.cy=yI(n.idx);
+   n.ly=n.cy;
+   // Alternate left/right in crowded middle waves; keep Wave 1 right and Wave 4 right (using extra pR)
+   n.side=wNum===1?1:(n.kind==='me'?1:(i%2===0?1:-1));
+  });
+  // Separate vertical relaxation for left-labeled and right-labeled items in this wave
+  [1,-1].forEach(side=>{
+   const grp=arr.filter(n=>n.short&&n.side===side).sort((a,b)=>a.ly-b.ly);
+   const minGap=16,lo=pT+14,hi=H-pB-14;
+   for(let pass=0;pass<6;pass++){
+    for(let i=1;i<grp.length;i++){
+     const diff=grp[i].ly-grp[i-1].ly;
+     if(diff<minGap){const push=(minGap-diff)/2;grp[i-1].ly-=push;grp[i].ly+=push}
+    }
+    grp.forEach(n=>{if(n.ly<lo)n.ly=lo;if(n.ly>hi)n.ly=hi});
+   }
+  });
+ });
+
+ // Trajectory line if baseline exists
+ let traj='';
+ if(baseNode){
+  traj=`<line x1="${baseNode.cx.toFixed(1)}" y1="${baseNode.cy.toFixed(1)}" x2="${meNode.cx.toFixed(1)}" y2="${meNode.cy.toFixed(1)}" stroke="#D35400" stroke-width="2" stroke-dasharray="4 3"/>`;
+ }
+ const rendered=nodes.map(n=>{
+  const isMe=n.kind==='me',isBase=n.kind==='base',isSame=n.kind==='same';
+  const r=isMe?8:isSame?6:isBase?4.5:5;
+  const fill=isMe?'#D35400':isSame?'#E99A10':isBase?'#fff':'#7A7A8C';
+  const stroke=isBase?'#D35400':'#fff';
+  const sw=isMe||isBase?2:1.5;
+  const op=isMe||isBase||isSame?1:0.72;
+  let lblSvg='';
+  if(n.short){
+   const lx=n.cx+(n.side>0?(r+10):-(r+10));
+   const anc=n.side>0?'start':'end';
+   const leader=Math.abs(n.ly-n.cy)>2?`<line x1="${(n.cx+(n.side>0?r:-r)).toFixed(1)}" y1="${n.cy.toFixed(1)}" x2="${(lx+(n.side>0?-3:3)).toFixed(1)}" y2="${n.ly.toFixed(1)}" stroke="#C4C4D2" stroke-width="1"/>`:'';
+   lblSvg=`${leader}<text x="${lx.toFixed(1)}" y="${(n.ly+3.5).toFixed(1)}" text-anchor="${anc}" font-size="${isMe?11:10}" font-weight="${isMe?700:500}" fill="${isMe?'#1A1A24':'#525263'}">${esc(n.short)}</text>`;
+  }
+  return`<g><title>${esc(n.lbl)}</title><circle cx="${n.cx.toFixed(1)}" cy="${n.cy.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op}" stroke="${stroke}" stroke-width="${sw}"/>${lblSvg}</g>`;
+ }).join('');
+
+ const peerCnt=nodes.filter(n=>n.kind==='peer'||n.kind==='same').length;
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Wave mandate vs. brand maturity matrix</h3><small>Centres below the shaded diagonal have outgrown their employer brand story</small></div><div class="viz-acts">${fsBtn('Wave mandate vs. brand maturity matrix')}</div></div>
+  <div class="scroll"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:560px;max-height:420px;display:block" role="img" aria-label="Wave mandate versus brand maturity scatter matrix">
    <polygon points="${bandPts}" fill="#1D6B3A" opacity="0.08"/>
    ${gridY}${gridX}
-   <text x="${pL+10}" y="${pT+16}" font-size="9.5" font-weight="700" fill="#1D6B3A">BRAND-LED (AHEAD OF WAVE)</text>
-   <text x="${W-pR-8}" y="${H-pB-10}" text-anchor="end" font-size="9.5" font-weight="700" fill="#B34500">MANDATE OUTPACING BRAND (OPPORTUNITY ZONE)</text>
-   ${traj}${dots}${meDot}
+   <text x="${pL+10}" y="${pT+16}" font-size="10" font-weight="700" fill="#1D6B3A">BRAND-LED (AHEAD OF WAVE)</text>
+   <text x="${W-pR+34}" y="${H-pB-10}" text-anchor="end" font-size="10" font-weight="700" fill="#B34500">MANDATE OUTPACING BRAND (OPPORTUNITY ZONE)</text>
+   ${traj}${rendered}
   </svg></div>
-  <div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>${esc(c.name)} · ${esc(h.name)}</span>${peerPts.length?`<span><i style="background:#8A8A98;border-radius:50%"></i>Peer centres (${S.role==='admin'&&lg?'named':'anonymised'})</span>`:''}<span><i style="background:rgba(29,107,58,.22)"></i>Mandate–brand alignment band</span></div></div>`;
+  <div class="radar-leg"><span><i style="background:#D35400;border-radius:50%"></i>${esc(c.name)} · ${esc(h.name)}</span>${peerCnt?`<span><i style="background:#7A7A8C;border-radius:50%"></i>Peer centres (${S.role==='admin'&&lg?'named':'anonymised'})</span>`:''}<span><i style="background:rgba(29,107,58,.22)"></i>Mandate–brand alignment band</span></div></div>`;
 }
 
 function radarSvg(R,bm){
- const cx=165,cy=142,rmax=92;
+ const cx=190,cy=154,rmax=96;
  const pt=(i,val)=>{const ang=-Math.PI/2+i*(2*Math.PI/5),r=(val/5)*rmax;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
  const rings=[1,2,3,4,5].map(lv=>{
   const pts=[0,1,2,3,4].map(i=>pt(i,lv).map(n=>n.toFixed(1)).join(',')).join(' ');
   return`<polygon points="${pts}" fill="none" stroke="#E2E2E8" stroke-width="${lv===3?'1.2':'0.8'}" ${lv===3?'stroke-dasharray="3 3"':''}/>`;
  }).join('');
  const axes=[0,1,2,3,4].map(i=>{
-  const[x,y]=pt(i,5),[lx,ly]=pt(i,5.95);
+  const[x,y]=pt(i,5),[lx,ly]=pt(i,6.05);
   const anc=Math.abs(lx-cx)<10?'middle':lx>cx?'start':'end';
-  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11" font-weight="600" fill="#525263">${PIL_SHORT[i]}</text>`;
+  return`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#E2E2E8" stroke-width="0.9"/><text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anc}" font-size="11.5" font-weight="600" fill="#525263">${PIL_SHORT[i]}</text>`;
  }).join('');
  const poly=(vals,fill,stroke,dash,w=2)=>{
   if(!vals||!vals.some(v=>v>0))return'';
   const pts=vals.map((v,i)=>pt(i,v||0).map(n=>n.toFixed(1)).join(',')).join(' ');
-  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.2" fill="${stroke}"/>`}).join('');
+  const dots=vals.map((v,i)=>{if(!v)return'';const[x,y]=pt(i,v);return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.4" fill="${stroke}"/>`}).join('');
   return`<polygon points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="${w}" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const prov=R.pil.map(p=>p.avg||0),evid=R.pil.map(p=>p.avgV||0);
  const hasPeer=bm&&bm.pillars&&bm.pillars.some(x=>x.med!=null);
  const peerMed=hasPeer?bm.pillars.map(x=>x.med||0):null;
  const peerP75=hasPeer&&bm.pillars.some(x=>x.p75!=null)?bm.pillars.map(x=>x.p75||0):null;
- const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+4}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9" fill="#8A8A98">${lv}</text>`).join('');
- return`<svg viewBox="0 0 330 276" width="100%" style="max-width:350px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
+ const lvlMarks=[1,2,3,4,5].map(lv=>`<text x="${cx+5}" y="${(cy-(lv/5)*rmax+3).toFixed(1)}" font-size="9.5" fill="#8A8A98">${lv}</text>`).join('');
+ return`<svg viewBox="0 0 380 306" width="100%" style="max-width:380px;display:block;margin:6px auto 0" role="img" aria-label="Five-pillar employer brand maturity radar chart">${rings}${axes}${lvlMarks}${peerP75?poly(peerP75,'rgba(29,107,58,0.06)','#1D6B3A',true,1.3):''}${peerMed?poly(peerMed,'rgba(82,82,99,0.10)','#525263',true,1.5):''}${poly(prov,'rgba(233,154,16,0.16)','#E99A10',true,1.8)}${poly(evid,'rgba(211,84,0,0.22)','#D35400',false,2.2)}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced avg</span><span><i style="background:#E99A10"></i>Provisional avg</span>${peerMed?'<span><i style="background:#525263"></i>Peer median</span>':''}${peerP75?'<span><i style="background:#1D6B3A"></i>Peer top quartile (P75)</span>':''}</div>`;
 }
 
 function pillarDumbbell(R,bm){
@@ -1067,14 +1134,15 @@ function beeswarmHtml(c,h,bm,lg){
  }else{
   pts.push({idx:i.v,me:true,lbl:`${c.name} (${h.name}): ${i.v}`});
  }
- const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:(k%2?32:46)}px" title="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
- return`<div class="viz-box"><div class="viz-head"><div><h3>Peer pool quartile distribution</h3><small>Pool of ${bm.pool.n} cohorts · ${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · `:''}Median ${f1(i.med)}</small></div></div>
+ const lanes=[30,39,48];
+ const dots=pts.map((p,k)=>`<div class="bee-dot ${p.me?'me':'peer'}" style="left:${p.idx}%;top:${p.me?39:lanes[k%3]}px" title="${esc(p.lbl)}">${p.me?`<span class="bee-pin">${esc(h.name)} (${p.idx})</span>`:''}</div>`).join('');
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Peer pool quartile distribution</h3><small>Pool of ${bm.pool.n} cohorts · ${i.p25!=null?`IQR ${f1(i.p25)}–${f1(i.p75)} · `:''}Median ${f1(i.med)}</small></div><div class="viz-acts">${fsBtn('Peer pool quartile distribution')}</div></div>
   <div class="bee-wrap">
    <div class="bee-zones"><i style="width:25%;background:rgba(211,84,0,.09)" title="Bottom quartile (0–25)"></i><i style="width:25%;background:rgba(82,82,99,.05)" title="Lower half (25–50)"></i><i style="width:25%;background:rgba(233,154,16,.11)" title="Upper half (50–75)"></i><i style="width:25%;background:rgba(29,107,58,.12)" title="Top quartile (75–100)"></i></div>
    ${i.med!=null?`<div class="bee-med" style="left:${i.med}%"><span>Med ${f1(i.med)}</span></div>`:''}
    ${dots}
   </div>
-  <div class="strip-l" style="margin-top:14px"><span>0 · Presence</span><span>25 · Consistency</span><span>50 · Evidence</span><span>75 · Authority</span><span>100 · Category</span></div></div>`;
+  <div class="strip-l" style="margin-top:16px"><span>0 · Presence</span><span>25 · Consistency</span><span>50 · Evidence</span><span>75 · Authority</span><span>100 · Category</span></div></div>`;
 }
 
 function rankedPeersHtml(c,h,bm,lg){
@@ -1086,7 +1154,7 @@ function rankedPeersHtml(c,h,bm,lg){
   bm.dist.forEach(r=>{if(r.me)rows.push({lbl:`${c.name} — ${h.name}`,wave:r.wave,idx:r.idx,me:true});else{pn++;rows.push({lbl:`Peer ${String.fromCharCode(64+pn)}`,wave:r.wave,idx:r.idx,me:false})}});
  }
  if(rows.length<2)return'';
- return`<div class="viz-box"><div class="viz-head"><div><h3>Ranked peer comparison</h3><small>${S.role==='admin'&&lg?'Admin view: all peer names visible':'Client view: peer identities are anonymised'}</small></div></div>
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Ranked peer comparison</h3><small>${S.role==='admin'&&lg?'Admin view: all peer names visible':'Client view: peer identities are anonymised'}</small></div><div class="viz-acts">${fsBtn('Ranked peer comparison')}</div></div>
   <div class="rk-list">${rows.map((r,i)=>`<div class="rk-row ${r.me?'me':''}"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="mute" style="margin-right:8px">#${i+1}</span>${esc(r.lbl)}</div><div class="rk-track"><div class="rk-fill" style="width:${r.idx}%"></div></div><div style="text-align:right;font-variant-numeric:tabular-nums"><b>${r.idx}</b> <span class="mute">W${r.wave}</span></div></div>`).join('')}</div></div>`;
 }
 
@@ -1097,22 +1165,22 @@ function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
   return p&&q?{s,p,q}:null;
  }).filter(Boolean);
  if(!pairs.length)return'';
- const W=520,H=230,x1=135,x2=385,pT=30,pB=22;
+ const W=560,H=260,x1=150,x2=410,pT=34,pB=24;
  const yR=r=>pT+((5-r)/4)*(H-pT-pB);
  const lines=pairs.map((x,i)=>{
-  const up=x.q>x.p,dn=x.q<x.p,j=((i%3)-1)*3,yA=yR(x.p)+j,yB=yR(x.q)+j;
+  const up=x.q>x.p,dn=x.q<x.p,j=((i%5)-2)*2.6,yA=yR(x.p)+j,yB=yR(x.q)+j;
   const col=up?'#1D6B3A':dn?'#D35400':'#9A9AAA';
   return`<g><title>${esc(x.s.name)}: Rung ${x.p} → Rung ${x.q}</title><line x1="${x1}" y1="${yA.toFixed(1)}" x2="${x2}" y2="${yB.toFixed(1)}" stroke="${col}" stroke-width="${up||dn?2.2:1.2}" opacity="${up||dn?0.85:0.38}"/><circle cx="${x1}" cy="${yA.toFixed(1)}" r="3.5" fill="${col}"/><circle cx="${x2}" cy="${yB.toFixed(1)}" r="4" fill="${col}"/></g>`;
  }).join('');
  const upList=pairs.filter(x=>x.q>x.p),dnList=pairs.filter(x=>x.q<x.p);
  const dIdx=ra.idx!=null&&rb.idx!=null?rb.idx-ra.idx:null;
- return`<div class="viz-box"><div class="slope-grid">
+ return`<div class="viz-box"><div class="viz-head"><div><h3>Cycle-over-cycle rung slopegraph</h3><small>${esc(lblA)} vs. ${esc(lblB)}</small></div><div class="viz-acts">${fsBtn('Cycle-over-cycle rung slopegraph')}</div></div><div class="slope-grid">
   <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle over cycle sub-outcome rung slopegraph">
-   <text x="${x1}" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#525263">${esc(lblA)} (${ra.idx==null?'n/a':ra.idx})</text>
-   <text x="${x2}" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#1A1A24">${esc(lblB)} (${rb.idx==null?'n/a':rb.idx})</text>
+   <text x="${x1}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#525263">${esc(lblA)} (${ra.idx==null?'n/a':ra.idx})</text>
+   <text x="${x2}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1A1A24">${esc(lblB)} (${rb.idx==null?'n/a':rb.idx})</text>
    <line x1="${x1}" y1="${pT}" x2="${x1}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
    <line x1="${x2}" y1="${pT}" x2="${x2}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
-   ${[1,2,3,4,5].map(r=>`<text x="${x1-10}" y="${(yR(r)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#525263">R${r} ${RUNG[r]}</text><text x="${x2+10}" y="${(yR(r)+3).toFixed(1)}" text-anchor="start" font-size="10" fill="#525263">R${r}</text>`).join('')}
+   ${[1,2,3,4,5].map(r=>`<text x="${x1-12}" y="${(yR(r)+3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#525263">R${r} ${RUNG[r]}</text><text x="${x2+12}" y="${(yR(r)+3.5).toFixed(1)}" text-anchor="start" font-size="10.5" fill="#525263">R${r} ${RUNG[r]}</text>`).join('')}
    ${lines}
   </svg>
   <div>
@@ -1131,7 +1199,7 @@ function rungDist(R){
 }
 function trendSvg(hist){
  if(!hist||hist.length<2)return'';
- const W=560,H=150,padL=34,padR=24,padT=16,padB=28,pw=W-padL-padR,ph=H-padT-padB;
+ const W=600,H=170,padL=36,padR=28,padT=20,padB=30,pw=W-padL-padR,ph=H-padT-padB;
  const xAt=i=>padL+(hist.length===1?pw/2:(i/(hist.length-1))*pw);
  const yAt=v=>padT+ph-((Math.max(0,Math.min(100,v)))/100)*ph;
  const grid=[0,25,50,75,100].map(v=>`<line x1="${padL}" y1="${yAt(v).toFixed(1)}" x2="${W-padR}" y2="${yAt(v).toFixed(1)}" stroke="#ECECF1" stroke-width="1"/><text x="${padL-6}" y="${(yAt(v)+3).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A8A98">${v}</text>`).join('');
@@ -1139,11 +1207,11 @@ function trendSvg(hist){
   const pts=hist.map((x,i)=>x[key]==null?null:[xAt(i),yAt(x[key]),x[key],x.d]).filter(Boolean);
   if(pts.length<2)return'';
   const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/><text x="${p[0].toFixed(1)}" y="${(p[1]-8).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${color}" stroke="#fff" stroke-width="1.5"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${color}">${p[2]}</text>`).join('');
   return`<path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" ${dash?'stroke-dasharray="4 3"':''}/>${dots}`;
  };
  const xlabels=hist.map((x,i)=>`<text x="${xAt(i).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#525263">${esc(x.d)}</text>`).join('');
- return`<div class="trend-wrap"><div class="lab" style="margin:0 0 8px">Index trajectory across saved snapshots</div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:600px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true)}${line('idxv','#D35400',false)}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
+ return`<div class="trend-wrap"><div class="viz-head" style="margin-bottom:8px"><div><div class="lab" style="margin:0">Index trajectory across saved snapshots</div></div><div class="viz-acts">${fsBtn('Index trajectory across saved snapshots')}</div></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block" role="img" aria-label="Maturity index trend across snapshots">${grid}${line('idx','#E99A10',true)}${line('idxv','#D35400',false)}${xlabels}</svg><div class="radar-leg"><span><i style="background:#D35400"></i>Evidenced index</span><span><i style="background:#E99A10"></i>Provisional index</span></div></div>`;
 }
 
 /* ---------- views ---------- */
@@ -1314,7 +1382,7 @@ function vReport(){
  const xm=h.a._x||{},xs=xm.sum||'';
  const rawOpen=!!OPEN.rawall;
  const profList=`<div style="margin-top:16px">${R.rows.map(r=>`<div class="mini"><div><b>${esc(r.s.name)}</b><small>${esc(r.s.owner)}${r.a.pr==='f'?' · focus':''}</small></div><div>${lad(r.sc)}<small>${r.sc?`Rung ${r.sc} ${RUNG[r.sc]}${r.ok?'':', needs artefact'}`:'Not scored yet'}</small></div><div>${r.a.vd?`<span class="tag ${r.a.vd}">${{b:'Below',m:'Meets',a:'Above'}[r.a.vd]}</span>`:''}</div></div>`).join('')}</div>`;
- const pillarViz=`<div class="radar-wrap"><div class="viz-head"><div><h3>Pillar maturity${bm?' vs. peers':''}</h3><small>${CVIEW==='radar'?'Average rung (1 to 5) per pillar':'Cohort vs. peer median &amp; IQR band'}</small></div><div class="seg noprint"><button class="${CVIEW==='radar'?'on':''}" data-a="cview" data-v="radar">Radar</button><button class="${CVIEW==='dumbbell'?'on':''}" data-a="cview" data-v="dumbbell">Dumbbell</button></div></div>${CVIEW==='radar'?radarSvg(R,bm):pillarDumbbell(R,bm)}</div>`;
+ const pillarViz=`<div class="radar-wrap"><div class="viz-head"><div><h3>Pillar maturity${bm?' vs. peers':''}</h3><small>${CVIEW==='radar'?'Average rung (1 to 5) per pillar':'Cohort vs. peer median &amp; IQR band'}</small></div><div class="viz-acts"><div class="seg noprint"><button class="${CVIEW==='radar'?'on':''}" data-a="cview" data-v="radar">Radar</button><button class="${CVIEW==='dumbbell'?'on':''}" data-a="cview" data-v="dumbbell">Dumbbell</button></div>${fsBtn('Pillar maturity'+(bm?' vs. peers':''))}</div></div>${CVIEW==='radar'?radarSvg(R,bm):pillarDumbbell(R,bm)}</div>`;
  return`<div class="printhead"><b>Employer Brand Maturity Audit</b><br>${esc(c.name||'Client')} · ${esc(h.name||'Cohort')} · ${esc(W)} wave · ${new Date().toISOString().slice(0,10)}</div><div class="eyebrow noprint">Report</div><h1 class="noprint" style="margin-top:8px">Where you are, and what to do next</h1>
  <div class="noprint">${ctxBar()}</div>
  <section><h2>Executive summary</h2><p class="lede noprint" style="margin-top:6px">Write a short summary in your own words for the sponsor. It saves automatically and appears at the top of the printed report and downloads.</p><textarea class="noprint" id="xsum" data-i="xsum" style="min-height:110px" placeholder="For example: The brand is well known inside the parent company but unknown to local candidates. Our recommendation is to fix the careers page and referral programme first.">${esc(xs)}</textarea><div class="printonly note" id="xsum-p">${esc(xs)}</div>
@@ -1489,7 +1557,7 @@ function vBench(){
    ${rankedPeersHtml(c,h,d,LG)}
    ${waveMatrixSvg(c,h,null,d,LG)}
    <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the sub-outcomes each cohort scored in each pillar.</p>
-   <div class="viz-box">${pillarDumbbell(null,d)}</div>
+   <div class="viz-box"><div class="viz-head"><div><h3>Pillar maturity vs. peer IQR &amp; median</h3><small>Cohort dot against peer range, middle 50% (IQR), and median</small></div><div class="viz-acts">${fsBtn('Pillar maturity vs. peer IQR & median')}</div></div>${pillarDumbbell(null,d)}</div>
    <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your avg rung</th><th>Pool median</th><th>Percentile</th><th style="width:28%">Place in pool</th></tr>
    ${d.pillars.map(x=>`<tr><td><b>${esc(PIL[x.p])}</b></td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'<span class="mute">fewer than 3 peers</span>':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
    <section><h2>By sub-outcome</h2><p class="lede">A position is shown when at least three cohorts have scored the same sub-outcome.</p>
@@ -1645,9 +1713,12 @@ document.addEventListener('submit',async e=>{
  catch(err){toast(err.message||'We could not change the password. Please try again.')}
  btn.disabled=false;
 });
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFs()});
 document.addEventListener('click',async e=>{
  const t=e.target.closest('[data-a]');if(!t)return;
  const a=t.dataset.a,id=t.dataset.id,v=t.dataset.v,c=cl(),h=ch();
+ if(a==='fs'){openFs(t);return}
+ if(a==='fsclose'){closeFs();return}
  const wasArm=ARM;ARM='';let keep=true;
  try{
   if(a==='tab'){S.tab=v;keep=false;if(v==='bench')loadBench();else if(v==='report')loadBench(true);else if(v==='clients')loadAcc()}
