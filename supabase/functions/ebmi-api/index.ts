@@ -164,7 +164,17 @@ async function benchmarkFor(cohortId: string, pool: string, basis: string, min: 
   const subs = Object.entries<number>(me.subs).map(([id, v]) => {
     const list = rows.map((r) => r.subs[id]).filter((x: any) => x != null) as number[];
     const o: any = { id, v, n: list.length };
-    if (list.length >= 3) Object.assign(o, { pct: pctOf(list, v), med: r1(quant([...list].sort((a, b) => a - b), 0.5)) });
+    if (list.length >= 3) {
+      const s = [...list].sort((a, b) => a - b);
+      Object.assign(o, {
+        pct: pctOf(list, v),
+        rank: rankOf(list, v),
+        of: list.length,
+        p25: r1(quant(s, 0.25)),
+        med: r1(quant(s, 0.5)),
+        p75: r1(quant(s, 0.75)),
+      });
+    }
     return o;
   }).sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
   const dist = rows.length >= 3
