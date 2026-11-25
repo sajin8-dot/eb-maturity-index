@@ -253,7 +253,7 @@ small{font-size:12px;color:var(--mut)}
 .db-med{position:absolute;width:2px;height:20px;background:var(--ink)}
 .db-me{position:absolute;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--acc);border:2px solid #fff;box-shadow:0 1px 4px rgba(211,84,0,.4)}
 .db-val{text-align:right;font-variant-numeric:tabular-nums}
-/* sub-outcome rung tile heatmap */
+/* practice rung tile heatmap */
 .hm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
 .hm-col{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
 .hm-col-h{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:700}
@@ -559,7 +559,7 @@ Employer brand governance and operating muscle|EB with Centre leader|Employer br
 Workplace ethics and ESG credibility|Centre leader with HR|Pay equity, governance integrity and sustainability claims hold up under candidate scrutiny|Pay-equity audit status, ethics-channel trust and published ESG progress|ESG report, pulse survey|Nothing published|Parent policy linked|Local pay-equity or ethics trust tracked|Independent audits and local ESG outcomes published|Local tracking = evidence; audited and published outcomes = authority`];
 const SUBS=[];
 RAW.forEach((blk,pi)=>blk.split('\n').forEach((ln,i)=>{const f=ln.split('|');SUBS.push({id:(pi+1)+'.'+(i+1),p:pi,name:f[0],owner:f[1],means:f[2],ind:f[3],src:f[4],w:[f[5],f[6],f[7],f[8]],read:f[9]})}));
-/* Wave-to-Rung target matrix. One line per sub-outcome: id, then expected target rung per wave (Outpost, Satellite, Portfolio Hub, Transformation Hub).
+/* Wave-to-Rung target matrix. One line per practice: id, then expected target rung per wave (Outpost, Satellite, Portfolio Hub, Transformation Hub).
    0 = not expected at that wave (hidden by default); 1-4 = expected minimum rung to Meet that wave (Rung 5 Category always Meets Wave 4, never Above). */
 const TGT=`1.1 1234
 1.2 1234
@@ -1028,15 +1028,15 @@ function compute(client,cohort){
   missing:scored.filter(r=>!r.ok),unscored:rows.filter(r=>!r.sc),n:rows.length};
 }
 function scopeWarn(n){
- return n<9?'Below the recommended 9–15 sub-outcomes; the profile may be too thin.':n>15?'Above the recommended 9–15 sub-outcomes; consider trimming for a sharper profile.':'Within the recommended 9–15 sub-outcomes.';
+ return n<9?'Below the recommended 9–15 practices; the profile may be too thin.':n>15?'Above the recommended 9–15 practices; consider trimming for a sharper profile.':'Within the recommended 9–15 practices.';
 }
 function waveLine(client,R){
  const W=WAVES[R.wave-1].name;
- if(!R.scored.length)return'Score a few sub-outcomes on the Audit tab, and this line will tell you how the brand stands against what is expected at this wave.';
+ if(!R.scored.length)return'Score a few practices on the Audit tab, and this line will tell you how the brand stands against what is expected at this wave.';
  if(R.wave>=3&&R.avg<=2.5)return`The centre's mandate has outgrown its employer brand story. A ${W} centre is still being judged on the kind of communication expected of a Satellite, with an average rung of ${R.avg.toFixed(1)} against a wave that asks for ownership language and proof.`;
- if(R.below.length/R.scored.length>=0.5)return`${R.below.length} of ${R.scored.length} scored sub-outcomes sit below what a ${W} centre is expected to show. That gap is the main work for this engagement.`;
- if(R.below.length===0&&R.above.length>0)return`No scored sub-outcome sits below the ${W} expectation, and ${R.above.length} sit above it. Say so plainly to the client, and then choose together where to aim next.`;
- return`${R.below.length} of ${R.scored.length} scored sub-outcomes sit below the ${W} expectation. The profile is uneven, and that unevenness is the most useful thing to show the client.`;
+ if(R.below.length/R.scored.length>=0.5)return`${R.below.length} of ${R.scored.length} scored practices sit below what a ${W} centre is expected to show. That gap is the main work for this engagement.`;
+ if(R.below.length===0&&R.above.length>0)return`No scored practice sits below the ${W} expectation, and ${R.above.length} sit above it. Say so plainly to the client, and then choose together where to aim next.`;
+ return`${R.below.length} of ${R.scored.length} scored practices sit below the ${W} expectation. The profile is uneven, and that unevenness is the most useful thing to show the client.`;
 }
 function nextMove(r){
  const to=Math.min(r.sc+1,5);
@@ -1345,7 +1345,7 @@ function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
  const upList=pairs.filter(x=>x.q>x.p),dnList=pairs.filter(x=>x.q<x.p);
  const dIdx=ra.idx!=null&&rb.idx!=null?rb.idx-ra.idx:null;
  return`<div class="viz-box"><div class="viz-head"><div><h3>Cycle-over-cycle rung slopegraph</h3><small>${esc(lblA)} vs. ${esc(lblB)}</small></div><div class="viz-acts">${fsBtn('Cycle-over-cycle rung slopegraph')}</div></div><div class="slope-grid">
-  <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle over cycle sub-outcome rung slopegraph">
+  <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cycle over cycle practice rung slopegraph">
    <text x="${x1}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#525263">${esc(lblA)} (${ra.idx==null?'n/a':ra.idx})</text>
    <text x="${x2}" y="18" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1A1A24">${esc(lblB)} (${rb.idx==null?'n/a':rb.idx})</text>
    <line x1="${x1}" y1="${pT}" x2="${x1}" y2="${H-pB}" stroke="#E2E2E8" stroke-width="1.5"/>
@@ -1354,7 +1354,7 @@ function slopegraphHtml(sa,sb,ra,rb,lblA,lblB){
    ${lines}
   </svg>
   <div>
-   <h3 style="font-size:16px">${upList.length} of ${pairs.length} sub-outcomes climbed</h3>
+   <h3 style="font-size:16px">${upList.length} of ${pairs.length} practices climbed</h3>
    <p class="mute" style="margin:6px 0 10px">${dIdx!=null?`Overall index moved <strong style="color:${dIdx>=0?'var(--ok)':'var(--gap)'}">${dIdx>0?'+':''}${dIdx} pts</strong> (${ra.idx} → ${rb.idx}). `:''}Green lines show rung gains; grey lines stayed flat${dnList.length?'; red lines declined.':'.'}</p>
    <div style="display:flex;flex-wrap:wrap;gap:6px">${upList.map(x=>`<span class="chip ok">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}${dnList.map(x=>`<span class="chip hot">${esc(x.s.name)} ${x.p}→${x.q}</span>`).join('')}</div>
   </div>
@@ -1365,7 +1365,7 @@ function rungDist(R){
  if(!R.scored.length)return'';
  const counts=[1,2,3,4,5].map(n=>R.scored.filter(r=>r.sc===n).length);
  const tot=R.scored.length,cols=['var(--r1)','var(--r2)','var(--r3)','var(--r4)','var(--r5)'];
- return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" data-tip="Rung ${i+1} ${RUNG[i+1]}: ${c} sub-outcome${c===1?'':'s'}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
+ return`<div style="margin-top:20px"><div class="lab" style="margin-top:0">Rung distribution (${tot} scored)</div><div class="rdist">${counts.map((c,i)=>c?`<i style="width:${(c/tot*100).toFixed(1)}%;background:${cols[i]}" data-tip="Rung ${i+1} ${RUNG[i+1]}: ${c} practice${c===1?'':'s'}"></i>`:'').join('')}</div><div class="rdist-l">${counts.map((c,i)=>c?`<span><i style="background:${cols[i]}"></i>${i+1} ${RUNG[i+1]} (${c})</span>`:'').join('')}</div></div>`;
 }
 function trendSvg(hist){
  if(!hist||hist.length<2)return'';
@@ -1451,20 +1451,20 @@ function vFrame(){
   const list=SUBS.filter(s=>s.p===p&&(!fq||(s.name+' '+s.owner+' '+s.means+' '+s.ind).toLowerCase().includes(fq)));
   if(!list.length)return'';
   return`<div class="pillar"><h3><span>Pillar ${p+1}</span>${esc(pn)}</h3><div class="scroll"><div class="grid">
-  <div class="hdr">Sub-outcome</div>${WAVES.map((w,i)=>`<div class="hdr ${i+1===wcur?'cur':''}">${i+1} ${w.name}</div>`).join('')}
+  <div class="hdr">Practice</div>${WAVES.map((w,i)=>`<div class="hdr ${i+1===wcur?'cur':''}">${i+1} ${w.name}</div>`).join('')}
   ${list.map(s=>`<div class="xr" data-a="open" data-id="${s.id}"><div class="nm"><b>${esc(s.name)}</b><small>${esc(s.owner)}</small></div>${s.w.map((t,i)=>`<div class="cell ${!s.tgt[i]||LOW.test(t)?'low':''}">${s.tgt[i]?`<span class="chip" style="font-size:10px;padding:1px 6px;margin-bottom:4px;display:inline-block">Target R${s.tgt[i]} · ${RUNG[s.tgt[i]]}</span><br>`:`<span class="mute" style="font-size:10.5px;display:block;margin-bottom:2px">Optional</span>`}${esc(t)}</div>`).join('')}</div>${OPEN[s.id]?`<div class="det"><div><label style="margin-top:0">What it means for a GCC</label><p>${esc(s.means)}</p></div><div><label style="margin-top:0">Indicator</label><p>${esc(s.ind)}</p><small>Source: ${esc(s.src)}</small></div><div><label style="margin-top:0">Reading the indicator</label><p>${esc(s.read)}</p></div></div>`:''}`).join('')}
  </div></div></div>`;
- }).join('')||'<div class="empty">No sub-outcomes match that search.</div>';
+ }).join('')||'<div class="empty">No practices match that search.</div>';
  return`<div class="eyebrow">Zinnov employer brand practice</div><h1 style="margin-top:8px">Employer brand maturity index</h1>
- <p class="lede">This tool helps you audit the employer brand of a global capability centre (GCC). You place the centre on the employer brand maturity curve one sub-outcome at a time, and the tool then tells you what the centre should do next. It is built on Zinnov's four GCC waves and five brand rungs. If you are new to it, read this Framework page first, then move to the Audit tab to score a client.</p>
+ <p class="lede">This tool helps you audit the employer brand of a global capability centre (GCC). You place the centre on the employer brand maturity curve one practice at a time, and the tool then tells you what the centre should do next. It is built on Zinnov's four GCC waves and five brand rungs. If you are new to it, read this Framework page first, then move to the Audit tab to score a client.</p>
  <div class="axes"><div><h3>Wave is the mandate</h3><p class="lede" style="margin-top:0">There are four waves: Outpost, Satellite, Portfolio Hub and Transformation Hub. The wave describes what the centre has been given to do, and therefore what its employer brand needs to promise to candidates.</p></div>
  <div><h3>Maturity is the capability</h3><p class="lede" style="margin-top:0">There are five rungs: presence, consistency, evidence, authority and category. The rung describes what the employer brand has actually built so far. The wave and the rung rarely move together, and a centre whose mandate has grown while its brand has stayed behind is exactly where a consultant can help.</p></div></div>
  <section><h2>The four waves</h2><p class="lede">Read these from left to right, because each wave is a step up from the one before it. Each card explains what the centre does, what the employer brand has to deliver at that stage, and the mistake centres most often make there. Open "Function by function" to see what each function should be doing and what evidence to ask for.</p><div class="waves">${waves}</div></section>
  <section><h2>Deciding the wave</h2><p class="lede">Before you audit a client, decide which wave its centre is in. Classify the centre on what it actually owns and decides, not on how large or how old it is. Outpost, Satellite, Portfolio Hub and Transformation Hub are four separate stages.</p>${wq}</section>
  <section><h2>The five rungs</h2><p class="lede">These short descriptions explain the five rungs you will use when you score. The table below them shows what each rung looks like in each function, which helps when you are deciding which rung the evidence supports.</p>${rungs}${curve}</section>
- <section><h2>Fifty-one sub-outcomes across the waves</h2><p class="lede">Each row shows what is expected of a centre at each wave across the full GCC talent and brand lifecycle (including campus, executive hiring, L&amp;D, performance fairness, inclusion, total rewards, work-life balance, tech community advocacy, and EB governance). Hatched cells mean little is expected at that wave. Click any row to expand its indicator, source, and reading guide. The column for the selected client's wave is highlighted.</p>
- <div class="atool"><div class="sbox">${ic('search',15)}<input id="fq" data-i="fq" value="${esc(FQ)}" placeholder="Search 51 sub-outcomes by name, owner or indicator..." aria-label="Search sub-outcomes"></div><button class="btn sm" data-a="fexpand">Expand all</button><button class="btn sm" data-a="fcollapse">Collapse all</button></div>${exp}</section>
- <section><h2>Using it in a client conversation</h2><p class="lede">These are practical habits for running an audit with a client. They come from how the instrument is meant to be used.</p><ul class="pl notes"><li><b>Score the branding process, not the message or the HR product.</b> Maturity measures the rigour of the employer brand <em>process</em> — how systematically the centre positions, evidences and tracks its reality across touchpoints. It does not judge which HR perks a centre offers (a high-intensity centre that candidly positions its pace can score Rung 4–5), nor does it replace an EVP differentiation or audience-perception study (a separate exercise that ranks subjective talent perception on specific EVP tenets).</li><li>Start by agreeing the wave with the client, and then ask what evidence they have for each function. The gap between what the wave expects and what the evidence shows is the story you will tell.</li><li>Always judge a score against the wave. An Outpost at rung 1 is not a failure, while a Transformation Hub at rung 2 is a real problem.</li><li>Score only the nine to fifteen sub-outcomes the client genuinely has a stake in, and not all fifty-one. Mark intentional non-investments (such as Campus hiring for a lateral-only centre) as <b>N/A by choice</b> so they are documented transparently without penalising the index.</li><li>Never present a score without the artefact behind it, meaning the page, report, dashboard or survey you actually saw. When the artefact is missing, that gap is often exactly what the client is paying you to fix.</li><li>Propose one rung of progress per function per year, and tie it to one number the CFO already knows, such as cost per hire, offer acceptance, regretted attrition, referral share or applications per rupee.</li><li>Do not promise rung 5 to a client. Category status takes years and depends on the city and the practice, so it cannot be delivered in a single engagement.</li><li>Be open with clients about the limits. The wave expectations are advisory reasoning from Zinnov's wave definitions, and sub-outcomes can influence one another, so read peer benchmarks at the pillar and sub-outcome level as like-for-like.</li></ul></section>`;
+ <section><h2>Fifty-one practices across the waves</h2><p class="lede">The five pillars are the outcomes a strong employer brand produces: awareness, candidate hiring and experience, employee experience, advocacy, and trust and credibility. A practice is something the centre does that drives one of those outcomes, and the rung you score tells you how mature that way of working is, not what result it delivered. Each row shows what is expected of a centre at each wave across the full GCC talent and brand lifecycle (including campus, executive hiring, L&amp;D, performance fairness, inclusion, total rewards, work-life balance, tech community advocacy, and EB governance). Hatched cells mean little is expected at that wave. Click any row to expand its indicator, source, and reading guide. The column for the selected client's wave is highlighted.</p>
+ <div class="atool"><div class="sbox">${ic('search',15)}<input id="fq" data-i="fq" value="${esc(FQ)}" placeholder="Search 51 practices by name, owner or indicator..." aria-label="Search practices"></div><button class="btn sm" data-a="fexpand">Expand all</button><button class="btn sm" data-a="fcollapse">Collapse all</button></div>${exp}</section>
+ <section><h2>Using it in a client conversation</h2><p class="lede">These are practical habits for running an audit with a client. They come from how the instrument is meant to be used.</p><ul class="pl notes"><li><b>Score the branding process, not the message or the HR product.</b> Maturity measures the rigour of the employer brand <em>process</em> — how systematically the centre positions, evidences and tracks its reality across touchpoints. It does not judge which HR perks a centre offers (a high-intensity centre that candidly positions its pace can score Rung 4–5), nor does it replace an EVP differentiation or audience-perception study (a separate exercise that ranks subjective talent perception on specific EVP tenets).</li><li>Start by agreeing the wave with the client, and then ask what evidence they have for each function. The gap between what the wave expects and what the evidence shows is the story you will tell.</li><li>Always judge a score against the wave. An Outpost at rung 1 is not a failure, while a Transformation Hub at rung 2 is a real problem.</li><li>Score only the nine to fifteen practices the client genuinely has a stake in, and not all fifty-one. Mark intentional non-investments (such as Campus hiring for a lateral-only centre) as <b>N/A by choice</b> so they are documented transparently without penalising the index.</li><li>Never present a score without the artefact behind it, meaning the page, report, dashboard or survey you actually saw. When the artefact is missing, that gap is often exactly what the client is paying you to fix.</li><li>Propose one rung of progress per function per year, and tie it to one number the CFO already knows, such as cost per hire, offer acceptance, regretted attrition, referral share or applications per rupee.</li><li>Do not promise rung 5 to a client. Category status takes years and depends on the city and the practice, so it cannot be delivered in a single engagement.</li><li>Be open with clients about the limits. The wave expectations are advisory reasoning from Zinnov's wave definitions, and practices can influence one another, so read peer benchmarks at the pillar and practice level as like-for-like.</li></ul></section>`;
 }
 function ctxBar(){
  const c=cl(),h=ch(),adm=S.role==='admin';
@@ -1510,7 +1510,7 @@ function vAudit(){
   const steps=R.rows.filter(r=>!S.pil||r.s.p===S.pil-1);
   const pOpts=`<select data-c="apil" aria-label="Filter by pillar"><option value="0" ${S.pil===0?'selected':''}>All pillars (${R.n})</option>${PIL_SHORT.map((pn,pi)=>{const cnt=R.rows.filter(r=>r.s.p===pi).length;return`<option value="${pi+1}" ${S.pil===pi+1?'selected':''}>P${pi+1} ${esc(pn)} (${cnt})</option>`}).join('')}</select>`;
   if(!steps.length){
-   mainBody=`<div class="srail-row">${pOpts}</div><div class="empty" style="margin-top:12px">No sub-outcomes in scope for <b>${esc(PIL[S.pil-1])}</b>.<br><br><button class="btn pri sm" data-a="aview" data-v="list">Add from this pillar</button> <button class="btn sm" data-a="pil" data-v="0">All pillars</button></div>`;
+   mainBody=`<div class="srail-row">${pOpts}</div><div class="empty" style="margin-top:12px">No practices in scope for <b>${esc(PIL[S.pil-1])}</b>.<br><br><button class="btn pri sm" data-a="aview" data-v="list">Add from this pillar</button> <button class="btn sm" data-a="pil" data-v="0">All pillars</button></div>`;
   }else{
    let idx=steps.findIndex(r=>r.s.id===ASTEP);
    if(idx<0){
@@ -1535,7 +1535,7 @@ function vAudit(){
     const st=r.sc?(r.ok?'ok':'warn'):'';
     return`${div}<button class="spill ${r.s.id===s.id?'on':''}" data-a="astep" data-id="${r.s.id}" role="tab" aria-selected="${r.s.id===s.id}" data-tip="${esc(r.s.id+' '+r.s.name)} — ${r.sc?(r.ok?'Evidenced Rung '+r.sc:'Provisional Rung '+r.sc+' (needs artefact)'):'Not scored yet'}"><i class="sdot-st ${st}"></i><span class="snm">${r.s.id} ${esc(r.s.name)}</span>${r.sc?`<span class="srg">R${r.sc}</span>`:''}</button>`;
    }).join('');
-   const rail=`<div class="srail-row">${pOpts}<div class="srail" id="srail" role="tablist" aria-label="In-scope sub-outcomes">${railItems}<button class="spill" style="border-style:dashed;color:var(--mut)" data-a="aview" data-v="list">${ic('plus',13)} <span>Scope</span></button></div></div>`;
+   const rail=`<div class="srail-row">${pOpts}<div class="srail" id="srail" role="tablist" aria-label="In-scope practices">${railItems}<button class="spill" style="border-style:dashed;color:var(--mut)" data-a="aview" data-v="list">${ic('plus',13)} <span>Scope</span></button></div></div>`;
 
    const tgt=targetRung(s.id,wave),vdCur=effVd(a,wave,s.id);
    const tgtTip=tgt?`W${wave} target: Rung ${tgt} (${RUNG[tgt]})`:`Optional at W${wave} (${WAVES[wave-1].name})`;
@@ -1600,14 +1600,14 @@ function vAudit(){
   const naCnt=SUBS.filter(s=>{const a=A(s.id);return !a.in&&!!a.na}).length;
   const fOpts=[['all','All'],['in',`In audit (${R.n})`],['missing',`Needs artefact (${R.missing.length})`],['unscored',`Unscored (${R.unscored.length})`],['below',`Below wave (${R.below.length})`],['focus',`Focus (${R.rows.filter(r=>r.a.pr==='f').length})`]].concat(naCnt?[['na',`N/A by choice (${naCnt})`]]:[]);
   const pOpts=`<select data-c="apil" aria-label="Filter by pillar" style="padding:7px 10px;font-size:12.5px;border-radius:9px;width:auto"><option value="0" ${S.pil===0?'selected':''}>All pillars</option>${PIL_SHORT.map((pn,pi)=>`<option value="${pi+1}" ${S.pil===pi+1?'selected':''}>P${pi+1} ${esc(pn)}</option>`).join('')}</select>`;
-  const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`Showing ${hidAll} wave-irrelevant sub-outcomes.`:`${hidAll} of ${SUBS.length} sub-outcomes hidden as not relevant at Wave ${wave}${S.pil?` (${hidN} in this pillar)`:''}.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide again':'Show hidden'}</button></div>`:'';
+  const hidBox=hidAll?`<div class="hid"><p>${SHOWREL?`Showing ${hidAll} wave-irrelevant practices.`:`${hidAll} of ${SUBS.length} practices hidden as not relevant at Wave ${wave}${S.pil?` (${hidN} in this pillar)`:''}.`}</p><button class="btn sm" data-a="showrel">${SHOWREL?'Hide again':'Show hidden'}</button></div>`:'';
   const rowsHtml=list.length?list.map(s=>{const a=A(s.id),irrel=!s.rel[wave-1],tgt=targetRung(s.id,wave);
    if(!a.in){const t=s.w[wave-1];return`<div class="off" style="${a.na?'border-style:dashed;background:#fff':''}"><div class="t"><b>${s.id} ${esc(s.name)}</b> <span class="chip">${esc(s.owner)}</span>${tgt?` <span class="chip">W${wave} target R${tgt}</span>`:''}${a.na?' <span class="chip" style="background:var(--paper);color:var(--ink);border:1px solid var(--line)">N/A — by choice</span>':''}<small>${irrel?`Hidden by default at Wave ${wave}. `:''}W${wave} expects: ${esc(t)}</small>${a.na?`<div style="margin-top:8px"><input data-i="nar" data-id="${s.id}" value="${esc(a.nar||'')}" placeholder="Optional rationale (e.g. Lateral-only hiring model)" style="max-width:440px;font-size:12.5px;padding:6px 10px" aria-label="Reason marked not applicable by choice"></div>`:''}</div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm ${a.na?'':'ghost'}" data-a="nabychoice" data-id="${s.id}">${a.na?'Undo N/A':'N/A by choice'}</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Add ${esc(s.name)} to audit" title="Add to audit">${ic('plus')}</button></div></div>`}
    const vdCur=effVd(a,wave,s.id),vdTag=vdCur?`<span class="tag ${vdCur}">${{b:'Below',m:'Meets',a:'Above'}[vdCur]}</span>`:'';
    const rungChip=a.sc?`<span class="chip hot">R${a.sc} · ${RUNG[a.sc]}</span>`:'';
    return`<div class="off" style="background:#fff;border-color:var(--tint-line)"><div class="t"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>${s.id} ${esc(s.name)}</b><span class="chip">${esc(s.owner)}</span>${rungChip}${vdTag}${a.pr==='f'?'<span class="chip">★ Focus</span>':''}<span id="bd-${s.id}">${badge(a)}</span></div><small>${esc(s.means)}</small></div><div style="display:flex;align-items:center;gap:6px;flex:none"><button class="btn sm" data-a="openstep" data-id="${s.id}">Score →</button><button class="ib" data-a="scope" data-id="${s.id}" aria-label="Remove from audit" title="Remove from audit">${ic('x')}</button></div></div>`;
-  }).join(''):'<div class="empty">No sub-outcomes match your current filter.</div>';
-  mainBody=`<div class="atool" style="margin-top:12px">${pOpts}<div class="sbox">${ic('search',15)}<input id="aq" data-i="aq" value="${esc(AF.q)}" placeholder="Search 51 sub-outcomes..." aria-label="Filter sub-outcomes"></div><div class="fpills">${fOpts.map(([k,l])=>`<button class="${AF.f===k?'on':''}" data-a="afil" data-v="${k}">${l}</button>`).join('')}</div></div>${hidBox}${rowsHtml}`;
+  }).join(''):'<div class="empty">No practices match your current filter.</div>';
+  mainBody=`<div class="atool" style="margin-top:12px">${pOpts}<div class="sbox">${ic('search',15)}<input id="aq" data-i="aq" value="${esc(AF.q)}" placeholder="Search 51 practices..." aria-label="Filter practices"></div><div class="fpills">${fOpts.map(([k,l])=>`<button class="${AF.f===k?'on':''}" data-a="afil" data-v="${k}">${l}</button>`).join('')}</div></div>${hidBox}${rowsHtml}`;
  }
 
  return`${topBar}${mainBody}`;
@@ -1619,7 +1619,7 @@ function sumInner(R,warn){
 function lad(n){return`<div class="lad">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on'+i:''}"></i>`).join('')}</div>`}
 function vReport(){
  const c=cl(),h=ch(),R=compute(c,h),W=WAVES[c.wave-1].name,name=c.name||'The client',adm=S.role==='admin';
- if(!R.n)return`<div class="eyebrow">Report</div><h1 style="margin-top:8px">Report</h1>${ctxBar()}<div class="empty">Nothing is being audited yet for ${esc(h.name||'this cohort')}, so there is nothing to report on. Open the Audit tab, add the sub-outcomes the client has a stake in, and score them. The report will then fill in on its own.</div><button class="btn pri" data-a="tab" data-v="audit">${ic('audit',16)} Go to the audit</button>`;
+ if(!R.n)return`<div class="eyebrow">Report</div><h1 style="margin-top:8px">Report</h1>${ctxBar()}<div class="empty">Nothing is being audited yet for ${esc(h.name||'this cohort')}, so there is nothing to report on. Open the Audit tab, add the practices the client has a stake in, and score them. The report will then fill in on its own.</div><button class="btn pri" data-a="tab" data-v="audit">${ic('audit',16)} Go to the audit</button>`;
  const bm=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
  const verdict=R.scored.length?`${name}, ${h.name||'cohort'}: ${R.avg<1.5?'a Presence':R.avg<2.5?'a Consistency':R.avg<3.5?'an Evidence':R.avg<4.5?'an Authority':'a Category'}-stage employer brand inside a ${W} centre.`:'No scores have been entered yet.';
  const pri=R.top.map((r,i)=>{const s=r.s;return`<div class="pb"><h3><span class="no">${i+1}</span>${esc(s.name)} <span class="chip hot">${esc(s.owner)}</span></h3>
@@ -1638,7 +1638,7 @@ function vReport(){
  const cmp=c.cohorts.length>1?`<section><h2>Cohorts side by side</h2><p class="lede">Each cohort carries its own score, because each one competes in a different talent market and has different proof available.</p><div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>In scope</th><th>Scored</th><th>Evidenced</th><th>Avg rung</th><th>Index</th><th>Below wave</th><th>First priority</th></tr>${c.cohorts.map(x=>{const q=compute(c,x);return`<tr class="${x.id===h.id?'sel':''}"><td><b>${esc(x.name)}</b></td><td>${q.n}</td><td>${q.scored.length}</td><td>${q.valid.length}</td><td>${q.avg==null?'n/a':q.avg.toFixed(1)}</td><td><b>${q.idx==null?'n/a':q.idx}</b></td><td>${q.below.length}</td><td>${q.top[0]?esc(q.top[0].s.name):'n/a'}</td></tr>`}).join('')}</table></div></section>`:'';
  const xrows=R.rows.filter(r=>(r.a.nt||'').trim()||(r.a.lk||[]).length);
  const cmpSec=cmpSection(c,h);
- const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">Notes and sources recorded on the Audit tab, grouped by sub-outcome.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
+ const xsec=xrows.length?`<section><h2>Consultant notes and evidence links</h2><p class="lede">Notes and sources recorded on the Audit tab, grouped by practice.</p><ul class="xlist">${xrows.map(r=>`<li><b>${esc(r.s.name)}</b>${(r.a.nt||'').trim()?`<div class="note">${esc(r.a.nt.trim())}</div>`:''}${(r.a.lk||[]).length?`<ul class="pl">${r.a.lk.map(l=>`<li>${/^https?:\/\//i.test(l.u)?`<a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t||l.u)}</a>`:esc(l.t||l.u||'Link')}${l.d?` <small>(seen ${esc(l.d)})</small>`:''}</li>`).join('')}</ul>`:''}</li>`).join('')}</ul></section>`:'';
  const feed=R.rows.map(r=>`<li><b>${esc(r.s.name)}</b>: ${esc(r.s.ind)} <small>(${esc(r.s.src)})</small>${(r.a.iv||'').trim()?`<br><small>Last recorded: ${esc(r.a.iv.trim())}${r.a.ivd?' ('+esc(r.a.ivd)+')':''}</small>`:''}</li>`).join('');
  const txt=reportText(c,h,R);
  const xm=h.a._x||{},xs=(xm.sum||'').trim();
@@ -1669,13 +1669,13 @@ function vReport(){
   ${execCard}
  </section>
  <section id="sec-pos"><h2>Strategic positioning</h2><p class="lede">Wave is the centre's mandate; the maturity index is what the employer brand has actually built. Plotting both shows whether the brand is keeping pace with the mandate.</p>${waveMatrixSvg(c,h,R,bm,LG)}</section>
- <section id="sec-prof"><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited sub-outcomes as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
+ <section id="sec-prof"><div class="viz-head"><div><h2>The profile</h2><p class="lede" style="margin-top:4px">Explore all audited practices as a colour-coded capability mosaic or a detailed rung list.</p></div><div class="seg noprint"><button class="${PVIEW==='heatmap'?'on':''}" data-a="pview" data-v="heatmap">Tile heatmap</button><button class="${PVIEW==='list'?'on':''}" data-a="pview" data-v="list">Detailed list</button></div></div>
  ${rungDist(R)}
  ${PVIEW==='heatmap'?heatmapHtml(R):''}
- <div class="two-col" style="margin-top:28px"><div>${PVIEW==='list'?profList:`<h3>Sub-outcome breakdown</h3>${profList}`}</div>
+ <div class="two-col" style="margin-top:28px"><div>${PVIEW==='list'?profList:`<h3>Practice breakdown</h3>${profList}`}</div>
  <div>${pillarViz}<h2>By pillar</h2>${R.pil.map(p=>`<div class="mini" style="grid-template-columns:1fr 56px"><div>${esc(p.n)}<div class="meter"><i style="width:${p.avg==null?0:Math.round((p.avg-1)/4*100)}%"></i></div></div><div style="text-align:right"><b>${p.avg==null?'n/a':p.avg.toFixed(1)}</b><small>${p.cnt} scored</small></div></div>`).join('')}
- <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a sub-outcome is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
- <section id="sec-pri"><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one sub-outcome below rung 5 on the Audit tab.</p>'}</section>
+ <h2 style="margin-top:36px">Strengths to say out loud</h2><p class="lede" style="margin-top:6px">Open the client conversation with these.</p>${R.strengths.length?R.strengths.map(r=>`<div class="mini" style="grid-template-columns:1fr auto"><div><b>${esc(r.s.name)}</b><small>Rung ${r.sc} · ${esc(RUNG[r.sc])}</small></div><span class="tag a">${r.vd==='a'?'Above wave':'Rung '+r.sc}</span></div>`).join(''):'<p class="mute">No strengths to highlight yet. A strength appears here when a practice is scored at rung 4+ or marked Above wave.</p>'}</div></div></section>
+ <section id="sec-pri"><h2>What to do next</h2><p class="lede">Three moves for the coming year. Each asks the centre to climb one rung only, spread across different owners so each has a budget line behind it.</p>${pri||'<p class="mute">Priorities appear here once you score at least one practice below rung 5 on the Audit tab.</p>'}</section>
  <section id="sec-90d"><h2>The next 90 days</h2><div class="plan"><div class="pstep"><div class="shead"><span class="sno">1</span>Days 1 to 30 · Baseline</div><b>Verify evidence &amp; lock owners</b>Collect the artefact behind every score${R.missing.length?` (${R.missing.length} still missing)`:''}. Agree with the client which three indicators to track and who owns each one.</div><div class="pstep"><div class="shead"><span class="sno">2</span>Days 31 to 60 · First moves</div><b>Ship priority #1 &amp; #2</b>${R.top[0]?`Launch the +1 rung move on ${esc(R.top[0].s.name)}`:'Ship the first move'}${R.top[1]?` and ${esc(R.top[1].s.name)}`:''}. Start collecting the indicators monthly so movement is visible.</div><div class="pstep"><div class="shead"><span class="sno">3</span>Days 61 to 90 · Re-measure</div><b>Snapshot &amp; sponsor brief</b>${R.top[2]?`Ship the move on ${esc(R.top[2].s.name)}. `:''}Read the three indicators again, save a snapshot below, and brief the sponsor on what moved.</div></div></section>
  ${R.missing.length?`<section><h2>Artefacts still missing</h2><p class="lede">These scores are provisional until you record the artefact on the Audit tab.</p><ul class="pl">${R.missing.map(r=>`<li><b>${esc(r.s.name)}</b>: look in ${esc(r.s.src)}.</li>`).join('')}</ul></section>`:''}
  ${R.unscored.length?`<section><h2>Being audited, but not scored yet</h2><p class="lede">Return to the Audit tab to pick a rung for each of these, or remove them from scope.</p><ul class="pl">${R.unscored.map(r=>`<li>${esc(r.s.name)}</li>`).join('')}</ul></section>`:''}
@@ -1688,7 +1688,7 @@ function vReport(){
  <section id="sec-hist"><h2>History</h2><p class="lede">Save a snapshot each time you refresh the data to track how this cohort moves over time. Saved snapshots also join the anonymised benchmark pool.</p><button class="btn pri pres-hide" data-a="snap">${ic('snap',16)} Save snapshot</button>${trendSvg(h.hist)}${hist?`<div style="margin-top:16px">${hist}</div>`:''}</section>
  ${cmpSec}
  <section id="sec-exp" class="noprint pres-hide"><h2>Export this report</h2><p class="lede">Export as PDF (via browser Print), Markdown, CSV, raw consultant inputs, or a complete JSON backup.</p><div class="xrow"><button class="btn pri" data-a="print">Save as PDF or print</button><button class="btn" data-a="dlmd">Download Markdown</button><button class="btn" data-a="dlcsv">Download CSV</button><button class="btn" data-a="dlraw">Raw inputs (Markdown)</button><button class="btn" data-a="dlrawjson">Raw inputs (JSON)</button><button class="btn" data-a="export" data-id="${c.id}">All client data (JSON)</button><button class="btn" data-a="copy">${ic('copy',16)} Copy report</button></div><textarea class="txt" id="rtxt" readonly style="margin-top:12px">${esc(txt)}</textarea></section>
- <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.1 (51 sub-outcomes) and maturity instrument v1.1. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
+ <p class="mute" style="margin-top:56px">Source: Zinnov employer brand framework v1.1 (51 practices) and maturity instrument v1.1. Wave expectations are advisory reasoning, not measured benchmarks.</p>`;
 }
 /* ---------- raw consultant inputs ---------- */
 const hasInputs=a=>!!(a&&((a.sc||0)>0||(a.ev||'').trim()||(a.nt||'').trim()||(a.iv||'').trim()||(a.ivd||'')||(a.lk||[]).length||a.vd||a.pr==='f'));
@@ -1716,7 +1716,7 @@ function rawJson(c,h){
  const m=rawModel(c,h),xm=h.a._x||{};
  return JSON.stringify({title:'Employer Brand Maturity Audit, raw consultant inputs',client:c.name||'',cohort:h.name||'',wave:WNAME(c.wave),exportedOn:new Date().toISOString().slice(0,10),
   auditor:xm.au||'',auditDate:xm.ad||'',interviewedOrSources:(xm.iw||'').trim(),executiveSummary:(xm.sum||'').trim(),
-  note:'Everything the consultant recorded for each sub-outcome, grouped by pillar. Sub-outcomes that were never audited and have no inputs are left out ('+m.hidden+' of '+SUBS.length+').',
+  note:'Everything the consultant recorded for each practice, grouped by pillar. Practices that were never audited and have no inputs are left out ('+m.hidden+' of '+SUBS.length+').',
   pillars:m.pillars.map(g=>({pillar:g.n,subOutcomes:g.items.map(x=>rawItem(c,x))}))},null,2);
 }
 function rawLines(c,h,md){
@@ -1724,8 +1724,8 @@ function rawLines(c,h,md){
  const xm=h.a._x||{};
  L.push(H(1,'Employer Brand Maturity Audit: raw consultant inputs'));
  L.push(`${c.name||'Client'} | Cohort: ${h.name||'n/a'} | Wave: ${W} | ${new Date().toISOString().slice(0,10)}`);L.push('');
- L.push('This is everything the consultant recorded on the Audit tab, sub-outcome by sub-outcome and grouped by pillar. It is meant to be read before writing the final summary, so nothing has been shortened or scored on your behalf.');
- L.push(`Sub-outcomes that were never added to the audit and have no inputs are left out (${m.hidden} of ${SUBS.length}). Any sub-outcome that is not part of this audit but still has inputs is included and marked.`);L.push('');
+ L.push('This is everything the consultant recorded on the Audit tab, practice by practice and grouped by pillar. It is meant to be read before writing the final summary, so nothing has been shortened or scored on your behalf.');
+ L.push(`Practices that were never added to the audit and have no inputs are left out (${m.hidden} of ${SUBS.length}). Any practice that is not part of this audit but still has inputs is included and marked.`);L.push('');
  if(xm.au||xm.ad||(xm.iw||'').trim()){L.push(`Auditor: ${xm.au||'n/a'} | Audit date: ${xm.ad||'n/a'}`);if((xm.iw||'').trim())L.push(`Interviewed or sources: ${xm.iw.trim()}`);L.push('')}
  if(!m.pillars.length){L.push('No inputs have been recorded yet.');return L}
  m.pillars.forEach(g=>{
@@ -1748,7 +1748,7 @@ function rawLines(c,h,md){
 const rawMd=(c,h)=>rawLines(c,h,true).join('\n');
 function rawHtml(c,h){
  const m=rawModel(c,h);
- if(!m.pillars.length)return'<p class="mute">No inputs have been recorded yet. Once you score a sub-outcome or add notes on the Audit tab, they will be collected here.</p>';
+ if(!m.pillars.length)return'<p class="mute">No inputs have been recorded yet. Once you score a practice or add notes on the Audit tab, they will be collected here.</p>';
  return m.pillars.map(g=>`<h3 style="margin-top:20px">${esc(g.n)}</h3>`+g.items.map(x=>{const r=rawItem(c,x);
   return`<div class="pb"><h3>${esc(r.id)} ${esc(r.name)} <span class="chip ${x.inAudit?'hot':''}">${esc(r.status)}</span></h3><dl>
   <dt>Rung</dt><dd>${r.rung?`${r.rung} of 5, ${esc(r.rungName)}. `:'Not scored yet. '}${esc(r.waveComparison)}.${r.priority==='Client focus'?' Client focus.':''}</dd>
@@ -1766,7 +1766,7 @@ function reportText(c,h,R){
  if(xm.au||xm.ad||(xm.iw||'').trim()){L.push(`Auditor: ${xm.au||'n/a'} | Audit date: ${xm.ad||'n/a'}`);if((xm.iw||'').trim())L.push(`Interviewed or sources: ${xm.iw.trim()}`);L.push('')}
  if(xs){L.push('Executive summary');L.push(xs);L.push('')}
  L.push(`Where the brand stands today`);
- L.push(`Provisional index ${R.idx==null?'n/a':R.idx}/100, evidenced index ${R.idxV==null?'n/a':R.idxV}/100, average rung ${R.avg==null?'n/a':R.avg.toFixed(1)} of 5, across ${R.scored.length} scored sub-outcomes (${R.valid.length} of them backed by an artefact).`);
+ L.push(`Provisional index ${R.idx==null?'n/a':R.idx}/100, evidenced index ${R.idxV==null?'n/a':R.idxV}/100, average rung ${R.avg==null?'n/a':R.avg.toFixed(1)} of 5, across ${R.scored.length} scored practices (${R.valid.length} of them backed by an artefact).`);
  L.push(waveLine(c,R));L.push('');benchText(h).forEach(x=>L.push(x));
  L.push('Profile');
  R.rows.forEach(r=>L.push(`- ${r.s.name} (${r.s.owner}): ${r.sc?`rung ${r.sc} ${RUNG[r.sc]}`:'not scored yet'}${r.vd?`, ${{b:'below',m:'meets',a:'above'}[r.vd]} wave expectation`:''}${r.sc&&!r.ok?', needs an artefact':''}${r.a.ev?`. Evidence: ${r.a.ev.trim()}`:''}${(r.a.iv||'').trim()?`. Measured: ${r.a.iv.trim()}${r.a.ivd?' ('+r.a.ivd+')':''}`:''}`));
@@ -1808,7 +1808,7 @@ function vBench(){
  const c=cl(),h=ch(),adm=S.role==='admin';
  const ctrl=`<div class="ctx" style="margin-top:0;border-bottom:0"><div class="f"><label for="bp">Compare with</label><select id="bp" data-c="bpool"><option value="all" ${BO.pool==='all'?'selected':''}>All peers in the pool</option><option value="wave" ${BO.pool==='wave'?'selected':''}>Only centres in the same wave</option></select></div>
  <div class="f"><label for="bb">Score basis</label><select id="bb" data-c="bbasis"><option value="evidenced" ${BO.basis==='evidenced'?'selected':''}>Only scores backed by an artefact</option><option value="provisional" ${BO.basis==='provisional'?'selected':''}>Include provisional scores too</option></select></div>
- <div class="f"><label for="bm">Fewest scored sub-outcomes a cohort needs</label><select id="bm" data-c="bmin">${[3,5,8,10].map(n=>`<option ${BO.min===n?'selected':''}>${n}</option>`).join('')}</select></div></div>`;
+ <div class="f"><label for="bm">Fewest scored practices a cohort needs</label><select id="bm" data-c="bmin">${[3,5,8,10].map(n=>`<option ${BO.min===n?'selected':''}>${n}</option>`).join('')}</select></div></div>`;
  let body='';
  const snapBtn=`<button class="btn pri" data-a="snap">${ic('snap',16)} Save snapshot</button>`;
  if(!h.hist.length)body=`<div class="empty">There is no snapshot yet for ${esc(h.name)}. The benchmark compares saved snapshots so a half-finished draft never changes anyone's position. Save a snapshot once scores and artefacts are in.<br><br>${snapBtn}</div>`;
@@ -1818,7 +1818,7 @@ function vBench(){
   const d=BM.data;
   if(!d.eligible){
    body=d.reason==='too_few'
-    ?`<div class="empty">The latest snapshot has only ${d.have} sub-outcomes that count on the basis you chose, and the pool needs at least ${d.need}. Add the missing artefacts and save a new snapshot, or lower the minimum above.<br><br>${snapBtn}</div>`
+    ?`<div class="empty">The latest snapshot has only ${d.have} practices that count on the basis you chose, and the pool needs at least ${d.need}. Add the missing artefacts and save a new snapshot, or lower the minimum above.<br><br>${snapBtn}</div>`
     :`<div class="empty">There is no snapshot for this cohort yet. Save one to see where it sits among its peers.<br><br>${snapBtn}</div>`;
   }else{
    const p=d.pool,i=d.idx;
@@ -1832,14 +1832,14 @@ function vBench(){
    ${beeswarmHtml(c,h,d,LG)}
    ${rankedPeersHtml(c,h,d,LG)}
    ${waveMatrixSvg(c,h,null,d,LG)}
-   <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the sub-outcomes each cohort scored in each pillar.</p>
+   <section><h2>By pillar</h2><p class="lede">Like-for-like comparisons using only the practices each cohort scored in each pillar.</p>
    <div class="viz-box"><div class="viz-head"><div><h3>Pillar maturity vs. peer IQR &amp; median</h3><small>Cohort dot against peer range, middle 50% (IQR), and median</small></div><div class="viz-acts">${fsBtn('Pillar maturity vs. peer IQR & median')}</div></div>${pillarDumbbell(null,d)}</div>
    <div class="scroll"><table class="tbl"><tr><th>Pillar</th><th>Your avg rung</th><th>Pool median</th><th>Percentile</th><th style="width:28%">Place in pool</th></tr>
    ${d.pillars.map(x=>`<tr><td><b>${esc(PIL[x.p])}</b></td><td>${x.v==null?'not scored':f1(x.v)}</td><td>${x.med==null?'<span class="mute">fewer than 3 peers</span>':f1(x.med)}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar"><i style="left:${x.pct}%"></i></div>`}</td></tr>`).join('')}</table></div></section>
-   <section><h2>By sub-outcome</h2><p class="lede">Like-for-like ranking across only the peers who also audited each sub-outcome (shown when ≥3 cohorts scored it). Intentional exclusions never penalise your rank.</p>
+   <section><h2>By practice</h2><p class="lede">Like-for-like ranking across only the peers who also audited each practice (shown when ≥3 cohorts scored it). Intentional exclusions never penalise your rank.</p>
    <div class="fpills noprint" style="margin:12px 0">${['All pillars'].concat(PIL_SHORT).map((p,pi)=>`<button class="${BSUBPIL===pi?'on':''}" data-a="bsubpil" data-v="${pi}">${pi?`P${pi} ${esc(p)}`:p}</button>`).join('')}</div>
-   <div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Your rung</th><th>Peer median</th><th>Top quartile (P75)</th><th>Rank</th><th>Percentile</th><th style="width:20%">Place in pool</th></tr>
-   ${(()=>{const rows=d.subs.filter(x=>!BSUBPIL||+x.id.split('.')[0]===BSUBPIL);return rows.length?rows.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td><b>${esc(x.id)} ${esc(s?s.name:x.id)}</b></td><td><b>${x.v}</b> <small class="mute">${RUNG[x.v]}</small></td><td>${x.med==null?'<span class="mute">&lt;3 peers</span>':f1(x.med)}</td><td>${x.p75==null?'<span class="mute">—</span>':f1(x.p75)}</td><td>${x.rank!=null?`<b>#${x.rank}</b> <small class="mute">/ ${x.of}</small>`:`<small class="mute">${x.n} peer${x.n===1?'':'s'}</small>`}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar" data-tip="${esc(s?s.name:x.id)}: #${x.rank} of ${x.of} (${ord(x.pct)} pct · median ${f1(x.med)} · P75 ${f1(x.p75)})"><i style="left:${x.pct}%"></i></div>`}</td></tr>`}).join(''):'<tr><td colspan="7" class="mute">No scored sub-outcomes in this pillar.</td></tr>'})()}</table></div></section>`;
+   <div class="scroll"><table class="tbl"><tr><th>Practice</th><th>Your rung</th><th>Peer median</th><th>Top quartile (P75)</th><th>Rank</th><th>Percentile</th><th style="width:20%">Place in pool</th></tr>
+   ${(()=>{const rows=d.subs.filter(x=>!BSUBPIL||+x.id.split('.')[0]===BSUBPIL);return rows.length?rows.map(x=>{const s=SUBS.find(z=>z.id===x.id);return`<tr><td><b>${esc(x.id)} ${esc(s?s.name:x.id)}</b></td><td><b>${x.v}</b> <small class="mute">${RUNG[x.v]}</small></td><td>${x.med==null?'<span class="mute">&lt;3 peers</span>':f1(x.med)}</td><td>${x.p75==null?'<span class="mute">—</span>':f1(x.p75)}</td><td>${x.rank!=null?`<b>#${x.rank}</b> <small class="mute">/ ${x.of}</small>`:`<small class="mute">${x.n} peer${x.n===1?'':'s'}</small>`}</td><td>${pctTag(x.pct)}</td><td>${x.pct==null?'':`<div class="pbar" data-tip="${esc(s?s.name:x.id)}: #${x.rank} of ${x.of} (${ord(x.pct)} pct · median ${f1(x.med)} · P75 ${f1(x.p75)})"><i style="left:${x.pct}%"></i></div>`}</td></tr>`}).join(''):'<tr><td colspan="7" class="mute">No scored practices in this pillar.</td></tr>'})()}</table></div></section>`;
   }
  }
  const lg=adm&&LG?`<section><h2>League table</h2><p class="lede">Latest snapshot for each cohort, ranked using the settings above. Only admins see client names.</p>
@@ -1849,7 +1849,7 @@ function vBench(){
  return`<div class="eyebrow">Benchmark</div><h1 style="margin-top:8px">Where this brand sits among its peers</h1>
  <p class="lede">Compares the cohort's latest saved snapshot against the anonymised peer pool. Adjust the settings below to filter by wave, score basis, or minimum coverage.</p>
  ${ctxBar()}${ctrl}${body}${lg}
- <p class="mute" style="margin-top:48px">How to read this page: each position uses the cohort's latest saved snapshot. Every sub-outcome carries equal weight. Because cohorts choose different sub-outcomes to audit, read the overall index as indicative and pillar/sub-outcome positions as like-for-like.</p>`;
+ <p class="mute" style="margin-top:48px">How to read this page: each position uses the cohort's latest saved snapshot. Every practice carries equal weight. Because cohorts choose different practices to audit, read the overall index as indicative and pillar/practice positions as like-for-like.</p>`;
 }
 async function loadAcc(){try{const r=await api('GET','/access');ACC=r.access;}catch(e){ACC=[]}render(true)}
 const dshort=x=>x?String(x).slice(0,10):'never';
@@ -1872,10 +1872,10 @@ function waveConfirm(c){
  return`<div class="pwbox" role="group" aria-label="Confirm the wave change"><div class="lab" style="margin-top:0">Please confirm: move ${esc(c.name)} from ${F} to ${T}</div>
  <p style="margin:6px 0">${T} is a ${dir} wave than ${F}, so this is what changes:</p>
  <ul class="pl notes">
- <li><b>What the centre is measured against.</b> Every sub-outcome compares against ${T} expectations instead of ${F}.</li>
- <li><b>Which sub-outcomes are shown.</b> ${r.newHide.length?`${r.newHide.length} unadded sub-outcome(s) become hidden by default.`:'No sub-outcomes become hidden.'} ${r.newShow.length?`${r.newShow.length} hidden item(s) will appear.`:''}${r.keptOdd?` ${r.keptOdd} already-added item(s) remain visible with a note.`:''}</li>
+ <li><b>What the centre is measured against.</b> Every practice compares against ${T} expectations instead of ${F}.</li>
+ <li><b>Which practices are shown.</b> ${r.newHide.length?`${r.newHide.length} unadded practice(s) become hidden by default.`:'No practices become hidden.'} ${r.newShow.length?`${r.newShow.length} hidden item(s) will appear.`:''}${r.keptOdd?` ${r.keptOdd} already-added item(s) remain visible with a note.`:''}</li>
  <li><b>Your Below, Meets and Above judgements.</b> ${r.judged?`Your ${r.judged} judgement(s) are kept, but please review them against ${T} expectations.`:'No judgements recorded yet.'}</li>
- <li><b>What is kept.</b> Nothing is deleted. All ${r.added} sub-outcomes, ${r.scored} scores, artefacts and notes remain intact.</li>
+ <li><b>What is kept.</b> Nothing is deleted. All ${r.added} practices, ${r.scored} scores, artefacts and notes remain intact.</li>
  <li><b>Saved snapshots.</b> Your ${r.snaps} saved snapshot(s) keep the wave they were taken at.</li>
  </ul>
  <button class="btn pri" data-a="wavego">Yes, move to ${T}</button> <button class="btn" data-a="wavecancel">Keep ${F}</button></div>`;
@@ -1890,7 +1890,7 @@ function cohortManager(c){
   const msg=arm?`Click again to confirm. This permanently deletes the cohort, its scores and its ${h.hist.length} saved snapshot${h.hist.length===1?'':'s'}.`:'Delete this cohort';
   return`<tr><td><input data-i="cname" data-id="${h.id}" value="${esc(h.name)}" aria-label="Cohort name" placeholder="For example, Engineers"></td><td>${n} added, ${sc} scored</td><td>${h.hist.length}</td><td>${c.cohorts.length>1?`<button class="ib ${arm?'arm':''}" data-a="delcoh" data-id="${h.id}" aria-label="${msg}" title="${msg}">${ic('trash')}</button>`:'<span class="mute">The only cohort</span>'}</td></tr>`}).join('');
  return`<h3 style="margin-top:32px">Cohorts</h3><p class="lede" style="margin-top:6px">A cohort is a talent segment scored on its own, such as engineers or product &amp; design.</p>
- <div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>Sub-outcomes</th><th>Snapshots</th><th></th></tr>${rows}</table></div>
+ <div class="scroll"><table class="tbl"><tr><th>Cohort</th><th>Practices</th><th>Snapshots</th><th></th></tr>${rows}</table></div>
  <div class="ctx" style="margin-top:12px;border:0;padding:0"><div class="f"><label for="nch">Name of the new cohort</label><input id="nch" placeholder="For example, Engineers"></div><button class="btn pri" data-a="addcoh">${ic('plus',16)} Add cohort</button></div>`;
 }
 function vClients(){
@@ -1935,7 +1935,7 @@ function benchBlock(h){
  const d=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
  if(!d)return'';
  const i=d.idx;
- return`<section><h2>Where this brand sits among its peers</h2><p class="lede">${ord(i.pct)} percentile, rank ${i.rank} of ${i.of}${d.position?', '+esc(d.position.toLowerCase()):''}, from the latest saved snapshot (${esc(d.taken_on)}). Open the Benchmark tab for pillar and sub-outcome percentiles.</p></section>`;
+ return`<section><h2>Where this brand sits among its peers</h2><p class="lede">${ord(i.pct)} percentile, rank ${i.rank} of ${i.of}${d.position?', '+esc(d.position.toLowerCase()):''}, from the latest saved snapshot (${esc(d.taken_on)}). Open the Benchmark tab for pillar and practice percentiles.</p></section>`;
 }
 function benchText(h){
  const d=BM.for===h.id&&BM.data&&BM.data.eligible?BM.data:null;
@@ -1947,7 +1947,7 @@ function dl(name,mime,text){const b=new Blob([text],{type:mime+';charset=utf-8'}
 const fname=(c,h,ext)=>((c.name||'client')+'-'+(h.name||'cohort')+'-'+new Date().toISOString().slice(0,10)).replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()+'.'+ext;
 function csvCell(v){let t=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(t))t="'"+t;return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
 function reportCsv(c,h,R){
- const rows=[['Client','Cohort','Wave','Sub-outcome id','Sub-outcome','Pillar','Owner','Status','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
+ const rows=[['Client','Cohort','Wave','Practice id','Practice','Pillar','Owner','Status','Rung','Rung name','Compared with wave expectation','Evidenced','Priority','Artefact','Measured value','Measured on','Notes','Evidence links']];
  rawModel(c,h).pillars.forEach(g=>g.items.forEach(x=>{const r=rawItem(c,x),a=x.a,sc=a.sc||0,vd=effVd(a,c.wave,r.id);
   rows.push([c.name,h.name,WNAME(c.wave),r.id,r.name,r.pillar,r.owner,r.status,sc||'',sc?RUNG[sc]:'',{b:'Below',m:'Meets',a:'Above'}[vd]||'',sc?(r.evidenceRecorded?'Yes':'No'):'',r.priority==='Client focus'?'Focus':'Normal',r.evidence,r.measuredValue.value,r.measuredValue.measuredOn,r.notes,r.evidenceLinks.map(l=>`${l.title} ${l.url}${l.seen?' (seen '+l.seen+')':''}`.trim()).join('; ')])}));
  return '\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
@@ -1975,7 +1975,7 @@ function cmpSection(c,h){
    return`<tr><td><b>${esc(x.name)}</b></td><td>${show(p)}</td><td>${show(q)}</td><td>${d}</td><td>${iv(sa.answers)}</td><td>${iv(sb.answers)}</td></tr>`}).join('');
   const ra=compute(c,{a:sa.answers}),rb=compute(c,{a:sb.answers}),f=v=>v==null?'n/a':v;
   const lblA=sa.taken_on||'Earlier',lblB=cs.b==='cur'?'Current':(sb.taken_on||'Later');
-  tbl=`${slopegraphHtml(sa,sb,ra,rb,lblA,lblB)}<p class="lede" style="margin-top:16px">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Sub-outcome</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has sub-outcomes being audited.</td></tr>'}</table></div>`;
+  tbl=`${slopegraphHtml(sa,sb,ra,rb,lblA,lblB)}<p class="lede" style="margin-top:16px">Provisional index ${f(ra.idx)} → <b>${f(rb.idx)}</b> · Evidenced index ${f(ra.idxV)} → <b>${f(rb.idxV)}</b> · Scored: ${ra.scored.length} → ${rb.scored.length}.</p><div class="scroll"><table class="tbl"><tr><th>Practice</th><th>Earlier</th><th>Later</th><th>Change</th><th>Measured value, earlier</th><th>Measured value, later</th></tr>${rows||'<tr><td colspan="6" class="mute">Neither version has practices being audited.</td></tr>'}</table></div>`;
  }else tbl='<p class="mute">Loading snapshot comparison...</p>';
  return`<section class="noprint"><h2>Compare over time</h2><p class="lede">Compare any earlier snapshot against a later snapshot or your live unsaved scores, including measured indicator values.</p>
  <div class="ctx"><div class="f"><label for="cmpa">Earlier</label><select id="cmpa" data-c="cmpa"><option value="">Choose a snapshot</option>${opts(cs.a)}</select></div><div class="f"><label for="cmpb">Later</label><select id="cmpb" data-c="cmpb"><option value="cur" ${cs.b==='cur'?'selected':''}>Current scores, not yet saved as a snapshot</option>${opts(cs.b)}</select></div></div>${tbl}</section>`;

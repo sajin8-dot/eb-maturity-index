@@ -1,6 +1,6 @@
 # Employer Brand Maturity Index
 
-Audit instrument for placing a global capability centre on the employer brand maturity curve, sub-outcome by sub-outcome, with a consulting report and cross-client benchmarking. Built on the Zinnov employer brand framework v1.0 and maturity instrument v1.0 (four GCC waves, five rungs, 40 sub-outcomes).
+Audit instrument for placing a global capability centre on the employer brand maturity curve, practice by practice, with a consulting report and cross-client benchmarking. Built on the Zinnov employer brand framework v1.0 and maturity instrument v1.0 (four GCC waves, five rungs, 40 practices).
 
 Live at `https://ebmi.sebastianchandy.com` (password protected).
 
@@ -13,8 +13,8 @@ browser -> Vercel (middleware gate, /api/db proxy) -> Supabase edge function ebm
 - **Per-client passwords.** Each password opens one client's workspace and nothing else. The admin password opens all of them. Passwords are stored as HMAC-SHA256 hashes (keyed with a pepper held in `ebmi_config`), never in plain text.
 - **Server-side gate.** `middleware.js` checks a signed, HttpOnly session cookie on every request except `/login.html` and `/api/login`, so the framework and app code are not served to anyone who has not signed in.
 - **Server-side authorisation.** The edge function re-checks the session and the access row (so revoking a password takes effect immediately) and scopes every query to the client the password belongs to.
-- **Benchmarking.** The pool is the latest saved snapshot per cohort. Only scores with an artefact behind them count (unless provisional is chosen), every sub-outcome has equal weight, and positions are mid-rank percentiles. Clients see their own percentile, rank, and the pool's median and spread, never other clients' names or values. The admin sees the named league table.
-- **Comparability.** Cohorts choose different scopes, so the overall index is indicative; pillar and sub-outcome positions are like for like. A sub-outcome position needs at least three cohorts that scored it.
+- **Benchmarking.** The pool is the latest saved snapshot per cohort. Only scores with an artefact behind them count (unless provisional is chosen), every practice has equal weight, and positions are mid-rank percentiles. Clients see their own percentile, rank, and the pool's median and spread, never other clients' names or values. The admin sees the named league table.
+- **Comparability.** Cohorts choose different scopes, so the overall index is indicative; pillar and practice positions are like for like. A practice position needs at least three cohorts that scored it.
 
 ## Layout
 
